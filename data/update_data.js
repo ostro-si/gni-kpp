@@ -29,7 +29,7 @@ async function processSpreadSheetValues() {
     return retObj
   })
 
-  fs.writeFile('./static/data/persons.json', JSON.stringify(jsonArray), {}, (err) => {
+  fs.writeFile('./lib/data/persons.json', JSON.stringify(jsonArray), {}, (err) => {
     if (err)
       console.log(err);
     else {

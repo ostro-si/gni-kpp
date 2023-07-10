@@ -5,30 +5,31 @@
 	import { page } from '$app/stores';
 	import logo from '$lib/images/icon-network.svg';
 	import github from '$lib/images/github.svg';
+	import LocalizedLink from './LocalizedLink.svelte';
 </script>
 
 <header>
 	<div class="corner">
-		<a href="{base}/">
+		<LocalizedLink href="">
 			<img src={logo} alt="Home" />
-		</a>
+		</LocalizedLink>
 	</div>
 	<nav>
 		<ul>
 			<li aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
-				<a href="{base}/about">About</a>
+				<LocalizedLink href="about">About</LocalizedLink>
 			</li>
 			<li aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
-				<a href="{base}/about">Search</a>
+				<LocalizedLink href="about">Search</LocalizedLink>
 			</li>
 		</ul>
 		<h3>{$t('common.app_title')}</h3>
 		<ul>
 			<li aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
-				<a href="{base}/about">Stories</a>
+				<LocalizedLink href="about">Stories</LocalizedLink>
 			</li>
 			<li aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
-				<a href="{base}/about">Asset tracker</a>
+				<LocalizedLink href="about">Asset Tracker</LocalizedLink>
 			</li>
 		</ul>
 	</nav>
