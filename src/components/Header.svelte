@@ -1,4 +1,6 @@
 <script>
+	import { t } from '$lib/translations';
+
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import logo from '$lib/images/icon-network.svg';
@@ -20,7 +22,7 @@
 				<a href="{base}/about">Search</a>
 			</li>
 		</ul>
-		<h3>Project GNI</h3>
+		<h3>{$t('common.app_title')}</h3>
 		<ul>
 			<li aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
 				<a href="{base}/about">Stories</a>
