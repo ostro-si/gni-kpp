@@ -1,4 +1,11 @@
 {
- "app_title": "Slovenian title",
- "app_slogan": "Slovenian slogan"
+ "app_title": "Projekt GNI",
+ "header": {
+  "about": "O nas",
+  "search": "Iskanje",
+  "the_project": "O projektu",
+  "methodology": "Metodologija",
+  "stories": "Zgodbe",
+  "asset_tracker": "Detektor premoženja"
+ }
 }

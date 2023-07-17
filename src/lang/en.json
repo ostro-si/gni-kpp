@@ -1,4 +1,11 @@
 {
- "app_title": "English title",
- "app_slogan": "English slogan"
+ "app_title": "Project GNI",
+ "header": {
+  "about": "Test",
+  "search": "Search",
+  "the_project": "The Project",
+  "methodology": "Methodology",
+  "stories": "Stories",
+  "asset_tracker": "Asset Tracker"
+ }
 }

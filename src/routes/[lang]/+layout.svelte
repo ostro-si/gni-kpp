@@ -17,6 +17,15 @@
 	</footer>
 </div>
 
+<svelte:head>
+	<!-- <html lang="en" /> -->
+	<!-- <link rel="stylesheet" href="fonts/material-icons.css" /> -->
+	<!-- <link rel="stylesheet" href="fonts/roboto.css" />
+	<link rel="stylesheet" href="fonts/roboto-mono.css" />
+	<link rel="stylesheet" href="mdc.typography.14.0.0.css" /> -->
+	<link rel="stylesheet" href="/smui.css" />
+</svelte:head>
+
 <style>
 	.app {
 		display: flex;
