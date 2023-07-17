@@ -1,7 +1,10 @@
 <script>
-	import Counter from '../../components/Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+import NetworkDiagram from '../../components/NetworkDiagram/NetworkDiagram.svelte'
+
+import people from '$lib/data/persons.json';
+
+console.log(people)
+
 </script>
 
 <svelte:head>
@@ -9,44 +12,8 @@
 	<meta name="description" content="GNI KPP" />
 </svelte:head>
 
-<section>
-	<h1>
-		GNI KPP Project
-	</h1>
-
-	<h2>
-		Lorem ipsum
-	</h2>
-
-	<Counter />
-</section>
+<NetworkDiagram data={people} />
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
+	
 </style>
