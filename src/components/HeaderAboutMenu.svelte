@@ -50,7 +50,7 @@
       <LocalizedLink href="/about">{$t('common.header.the_project')}</LocalizedLink>
      </Item>
      <Item>
-      <LocalizedLink href="/methodology">{$t('common.header.methodology')}</LocalizedLink>
+      <LocalizedLink href="/about">{$t('common.header.methodology')}</LocalizedLink>
      </Item>
     </List>
   </Menu>

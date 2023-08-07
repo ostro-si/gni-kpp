@@ -1,6 +1,8 @@
 <script>
 	import Header from '../../components/Header.svelte';
 	import './styles.css';
+	import { base } from '$app/paths';
+
 
 
 </script>
@@ -22,7 +24,7 @@
 	<!-- <link rel="stylesheet" href="fonts/roboto.css" />
 	<link rel="stylesheet" href="fonts/roboto-mono.css" />
 	<link rel="stylesheet" href="mdc.typography.14.0.0.css" /> -->
-	<link rel="stylesheet" href="/smui.css" />
+	<link rel="stylesheet" href="{base}/smui.css" />
 </svelte:head>
 
 <style>

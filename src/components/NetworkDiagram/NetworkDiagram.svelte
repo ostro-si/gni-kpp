@@ -3,7 +3,8 @@
 
  import Points from './Points.svelte';
 
- export let data;
+ export let people;
+ export let connections;
 //  export let yearRange;
 
 //  const rKey = 'teilnehmende_angemeldet'
@@ -42,7 +43,7 @@
 <div class='chart-container'>
  <LayerCake
    padding={{bottom: 15}}
-   data={data}
+   data={people}
    let:width
  >
    <Svg>
@@ -51,6 +52,7 @@
        xStrength={0.95}
        yStrength={0.075}
        getTitle={d => d[titleKey]}
+       {connections}
      />
    </Svg>
  </LayerCake> 

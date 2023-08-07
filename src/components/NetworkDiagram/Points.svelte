@@ -4,14 +4,18 @@
  -->
  <script>
   import { getContext } from 'svelte';
-  import { forceSimulation, forceX, forceY, forceCollide, forceCenter, forceManyBody } from 'd3-force';
+  import { forceSimulation, forceX, forceY, forceCollide, forceCenter, forceLink, forceManyBody } from 'd3-force';
   import Point from './Point.svelte';
 
   const { data, xGet, width, height, zGet, xScale, yRange, xRange, rGet } = getContext('LayerCake');
 
+  export let connections;
+
   const nodes = $data.map((d) => ({ ...d }));
+  const links = connections.map((d) => ({ ...d }));
 
   console.log(nodes)
+
 
   /** @type {Number} [xStrength=0.95] - The value passed into the `.strength` method on `forceX`. See [the documentation](https://github.com/d3/d3-force#x_strength). */
   export let xStrength = 0.95;
@@ -24,7 +28,8 @@
     // .force('y', forceY().y($height).strength(yStrength))
     // .force("charge", forceManyBody())
     .force("center", forceCenter($width / 2, $height / 2))
-    .force('collide', forceCollide().radius((d) => 5))
+    .force('collide', forceCollide().radius((d => isNaN(d.connectionCount) ? 2 : d.connectionCount/20)))
+    .force('link', forceLink(links).id((d) => d.id))
     // .force('boundary', () => {
     //   nodes.forEach((node) => {
     //     const radius = 5;
@@ -52,8 +57,19 @@
     <Point
       x='{node.x}'
       y='{node.y}'
-      r='{5}'
+      r='{isNaN(node.connectionCount) ? 2 : node.connectionCount/20}'
       id={node.id}
     />
   {/each}
+
+  {#each links as link}
+    <g stroke='#999' stroke-opacity='0.6'>
+      <line x1='{link.source.x}' y1='{(link.source.y)}' 
+            x2='{link.target.x}' y2='{(link.target.y)}'
+            transform='translate(0 {$height}) scale(1 -1)'>
+            <title>{link.source.id}</title>
+      </line>
+    </g>
+	{/each}
+
 </g>

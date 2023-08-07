@@ -1,8 +1,19 @@
 <script>
+ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  export let data;
 </script>
 
-<div>{data.name}</div>
-<div>{data.position}</div>
-<div>{data.institution}</div>
-<div>{data.party}</div>
+<ProfileHeader
+ title={data.name}
+ subheading={data.position}
+ details={[
+  {
+   label: "Party",
+   value: data.party
+  },
+  {
+   label: "Institution",
+   value: data.institution
+  }
+ ]}
+/>

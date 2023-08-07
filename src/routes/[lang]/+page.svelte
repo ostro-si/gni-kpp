@@ -1,9 +1,10 @@
 <script>
 import NetworkDiagram from '../../components/NetworkDiagram/NetworkDiagram.svelte'
 
-import people from '$lib/data/persons.json';
+import people from '$lib/data/people.json';
+import connections from '$lib/data/links.json';
 
-console.log(people)
+// console.log(people)
 
 </script>
 
@@ -12,7 +13,7 @@ console.log(people)
 	<meta name="description" content="GNI KPP" />
 </svelte:head>
 
-<NetworkDiagram data={people} />
+<NetworkDiagram {people} {connections} />
 
 <style>
 	
