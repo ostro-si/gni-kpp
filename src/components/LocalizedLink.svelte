@@ -8,4 +8,4 @@
  export let forceLocale;
 </script>
 
-<Button href="{base}/{forceLocale || $locale}{href}" on:click={onClick}><slot></slot></Button>
+<a href="{base}/{forceLocale || $locale}{href}" on:click={onClick}><slot></slot></a>

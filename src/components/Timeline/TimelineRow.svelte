@@ -3,10 +3,11 @@
  import TimelineItem from './TimelineItem.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import { min } from 'd3-array'
-	import { slugify } from '../../utils';
+import { slugify } from '../../utils';
 
- export let institution;
+ export let title;
  export let positions;
+ export let getItemLink;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
@@ -20,9 +21,9 @@
  class="container"
  style:transform={`translate(${startX}px, 0)`}
 >
- <a href={`/institutions/${slugify(institution)}`}>
-  <h5 class="institution">{institution}</h5>
- </a>
+ <LocalizedLink href={getItemLink(positions[0])}>
+  <h5 class="title">{title}</h5>
+ </LocalizedLink>
  <div class="positions">
   {#each positions as item}
    <TimelineItem {item} refX={startX} />
@@ -45,7 +46,7 @@
   background-color: blue;
  }
 
- .institution, .position {
+ .title, .position {
   white-space: nowrap;
   margin: 0;
   padding: 0;

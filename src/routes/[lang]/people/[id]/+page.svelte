@@ -1,6 +1,7 @@
 <script>
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
+ import { slugify } from '../../../../utils';
  export let data;
 
  // $: console.log(data)
@@ -21,4 +22,9 @@
  ]}
 />
 
-<Timeline items={data.cv} />
+<Timeline 
+ items={data.cv}
+ sectionGroupingVar="part_of_cv"
+ rowGroupingVar="institution"
+ getItemLink={({ institution }) => `/institutions/${slugify(institution)}`}
+/>

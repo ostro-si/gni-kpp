@@ -4,7 +4,7 @@ import {
 } from './googleSheetsService.js';
 import fs from 'fs'
 
-import { groupBy } from './util.js';
+import { groupBy, slugify } from './util.js';
 import { start } from 'repl';
 
 // const spreadsheetId = process.argv[2];
@@ -157,9 +157,16 @@ async function main() {
   // console.log(Object.keys)
   // console.log(Object.keys(byInstitution).length)
 
+
+  const keyedInstitutions = {}
+
+  Object.entries(cvByInstitution).forEach(([instituion, entries]) => {
+    keyedInstitutions[slugify(instituion)] = entries;
+  })
+
   writeFile('./src/lib/data/people.json', people);
   writeFile('./src/lib/data/links.json', links);
-  writeFile('./src/lib/data/institutions.json', cvByInstitution);
+  writeFile('./src/lib/data/institutions.json', keyedInstitutions);
   writeFile('./src/lib/data/cv.json', allCV);
 }
 

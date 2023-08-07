@@ -9,26 +9,30 @@
 
 <div class="ProfileHeader">
  <div class="ProfileHeader__main">
-  <div class="ProfileHeader__image">
+  <!-- <div class="ProfileHeader__image">
    <img src="https://en.wikipedia.org/wiki/Robert_Golob#/media/File:Robert_Golob_-_52114942369_(cropped).jpg"/>
-  </div>
+  </div> -->
   <div class="ProfileHeader__title">
    <h5>{title}</h5>
-   <h5>{subheading}</h5>
+   {#if subheading}
+    <h5>{subheading}</h5>
+   {/if}
   </div>
  </div>
- <div class="ProfileHeader__secondary">
-  {#each details as { label, value}}
-   <div class="ProfileHeader__detail">
-    <div class="ProfileHeader__detail__label">
-     {label}
+ {#if details}
+  <div class="ProfileHeader__secondary">
+   {#each details as { label, value}}
+    <div class="ProfileHeader__detail">
+     <div class="ProfileHeader__detail__label">
+      {label}
+     </div>
+     <div class="ProfileHeader__detail__value">
+      {value}
+     </div>
     </div>
-    <div class="ProfileHeader__detail__value">
-     {value}
-    </div>
-   </div>
-  {/each}
- </div>
+   {/each}
+  </div>
+ {/if}
 </div>
 
 <style lang="scss">

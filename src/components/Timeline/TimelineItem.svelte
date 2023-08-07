@@ -15,11 +15,13 @@
 <div class="item" style:left={`${startX - refX}px`}>
   <h6 class="position">{item.position}</h6>
   <div class="bar"></div>
-  <div class="connections">
-   {#each item.connections as connection}
-    <div class="connection"></div>
-   {/each}
-  </div>
+  {#if item.connections}
+    <div class="connections">
+    {#each item.connections as connection}
+      <div class="connection"></div>
+    {/each}
+    </div>
+  {/if}
 </div>
 
 <style>
