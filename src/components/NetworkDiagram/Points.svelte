@@ -67,7 +67,7 @@
       <line x1='{link.source.x}' y1='{(link.source.y)}' 
             x2='{link.target.x}' y2='{(link.target.y)}'
             transform='translate(0 {$height}) scale(1 -1)'>
-            <title>{link.source.id}</title>
+        
       </line>
     </g>
 	{/each}

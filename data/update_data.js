@@ -133,16 +133,26 @@ async function main() {
 
   Object.entries(cvByPerson).map(([personId, cvItems]) => {
     let connectionCount = 0
+    let connectionIds = []
     allCV[personId] = cvItems.map((cvItem) => {
       const connections = findConnections(cvItem);
-      links = [...links, ...connections.map(c => ({ source: personId, target: c.person_id}))]
+      // console.log('------------------')
+      // console.log(personId)
+      // console.log(connections.map(c => c.person_id))
+      connectionIds = [...connectionIds, ...connections.map(c => c.person_id)]
       connectionCount += connections.length;
       return ({
         ...cvItem,
         connections
       });
     })
-    // console.log(allConnections)
+    // console.log([...new Set(connectionIds)].length)
+
+    links = links.concat([...new Set(connectionIds)].filter(id => { console.log('id', id, personId, +id > +personId); return +id > +personId }).map(id => ({source: personId, target: id})))
+
+    console.log(links.length)
+      
+    
 
     people[personId].connectionCount = connectionCount;
   })

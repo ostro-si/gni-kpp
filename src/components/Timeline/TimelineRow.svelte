@@ -46,7 +46,13 @@ import { slugify } from '../../utils';
   background-color: blue;
  }
 
- .title, .position {
+ .title {
+  margin: 0;
+  padding: 0;
+  max-width: 200px;
+ }
+
+ .position {
   white-space: nowrap;
   margin: 0;
   padding: 0;
