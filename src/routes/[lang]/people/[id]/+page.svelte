@@ -1,6 +1,9 @@
 <script>
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
+ import Timeline from '../../../../components/Timeline/Timeline.svelte';
  export let data;
+
+ // $: console.log(data)
 </script>
 
 <ProfileHeader
@@ -17,3 +20,5 @@
   }
  ]}
 />
+
+<Timeline items={data.cv} />

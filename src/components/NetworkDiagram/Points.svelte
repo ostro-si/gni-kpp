@@ -14,7 +14,7 @@
   const nodes = $data.map((d) => ({ ...d }));
   const links = connections.map((d) => ({ ...d }));
 
-  console.log(nodes)
+  // console.log(nodes)
 
 
   /** @type {Number} [xStrength=0.95] - The value passed into the `.strength` method on `forceX`. See [the documentation](https://github.com/d3/d3-force#x_strength). */
