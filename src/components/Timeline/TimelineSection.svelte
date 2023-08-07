@@ -1,18 +1,17 @@
 <script>
- import TimelineItem from "./TimelineItem.svelte";
- export let title;
+ import TimelineRow from "./TimelineRow.svelte";
+ import { groupBy } from "../../utils";
  export let items;
 
  console.log(items)
 
-
+ const byInstitution = groupBy(items, 'institution')
 
 </script>
 
 <div>
- <h5>{title}</h5>
- {#each items as item}
-  <TimelineItem {item} />
+ {#each Object.entries(byInstitution) as [institution, positions]}
+  <TimelineRow {institution} {positions} />
  {/each}
 </div>
 

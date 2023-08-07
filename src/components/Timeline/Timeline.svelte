@@ -18,30 +18,32 @@
 
 </script>
 
-<div class='chart-container'>
- <LayerCake
-   data={flattened}
-   x="year"
-   xDomain={[null, new Date().getFullYear()]}
-   let:width
-  >
-   <Svg>
-    <AxisX />
-    
-   </Svg>
-   <Html>
-    {#each Object.entries(sections) as [title, sectionItems]}
-      <TimelineSection {title} items={sectionItems} />
-    {/each}
-   </Html>
-  </LayerCake> 
-
- 
-</div>
+{#each Object.entries(sections) as [title, sectionItems]}
+  <h5 class="section-title">{title}</h5>
+  <div class='chart-container' style:height={`${[...new Set(sectionItems.map((item) => item.institution))].length*45}px`}>
+    <LayerCake
+      data={flattened}
+      x="year"
+      xDomain={[null, new Date().getFullYear()]}
+      let:width
+      >
+      <Svg>
+        <AxisX />
+      </Svg>
+      <Html>
+        <TimelineSection items={sectionItems} />
+      </Html>
+    </LayerCake> 
+  </div>
+{/each}
 
 <style>
+  .section-title {
+    margin: 20px 0;
+  }
  .chart-container {
   width: 100%;
-  height: 700px;
+  margin: 5px 0;
+  /* height: 200px; */
  }
 </style>

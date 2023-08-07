@@ -2,6 +2,7 @@
  import { getContext } from 'svelte';
 
  export let item;
+ export let refX;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
@@ -11,34 +12,31 @@
  console.log(item)
 </script>
 
-<div 
- class="container"
- style:transform={`translate(${startX}px, 0)`}
- style:width={`${endX - startX}px`}
->
- <h5 class="institution">{item.institution}</h5>
- <h6 class="position">{item.position}</h6>
- <div class="bar"></div>
- <div class="connections">
-  {#each item.connections as connection}
-   <div class="connection"></div>
-  {/each}
- </div>
- <!-- {item.start_year}
- {item.end_year} -->
+<div class="item" style:left={`${startX - refX}px`}>
+  <h6 class="position">{item.position}</h6>
+  <div class="bar"></div>
+  <div class="connections">
+   {#each item.connections as connection}
+    <div class="connection"></div>
+   {/each}
+  </div>
 </div>
 
 <style>
- .container {
-  overflow: visible;
+
+ .item {
+  position: absolute;
+  top: 0;
  }
+
  .bar {
   content: "";
   width: 100%;
   min-width: 10px;
-  height: 5px;
+  height: 8px;
   border-radius: 20px;
-  background-color: blue;
+  background-color: #4600BE;
+  border: 0.5px solid white;
  }
 
  .institution, .position {
@@ -57,5 +55,6 @@
   width: 10px;
   border-radius: 50px;
   background-color: #3CBEAA;
+  border: 0.5px solid white;
  }
 </style>
