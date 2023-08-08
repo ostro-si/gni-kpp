@@ -12,6 +12,7 @@
  export let x;
  export let y;
  export let r;
+	export let fill;
 	export let onMouseover;
 	export let onMouseout;
 
@@ -37,7 +38,7 @@
  cx={$tX}
  cy={$tY}
  r={r}
- fill={hovered ? 'orange' : '#B361F3'}
+ fill={hovered ? 'orange' : fill}
  stroke='{stroke}'
  stroke-width='{strokeWidth}'
 	on:mouseover={() => {onMouseover(id); hovered = true}}

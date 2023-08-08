@@ -11,9 +11,11 @@
  import { select } from 'd3-selection';
  import Point from './Point.svelte';
 
- const { data, width, height } = getContext('LayerCake');
+ const { data, width, height, rGet, zGet, zDomain } = getContext('LayerCake');
 
- export let manyBodyStrength = -50;
+ console.log($zDomain)
+
+ export let manyBodyStrength = -1.5;
 
  const initialNodes = $data.nodes.map((d) => ({ ...d }))
  const initialLinks = $data.links.map((d) => ({ ...d }))
@@ -32,64 +34,36 @@
    select(el).call(d);
  }
 
- let nodes = []
+ const simulation = forceSimulation(initialNodes)
+
+ let nodes = [];
  let links = []
 
- $: simulation = forceSimulation(initialNodes)
-    // .force('x', forceX().x(d => $xGet(d)).strength(xStrength))
-    // .force('y', forceY().y($height).strength(yStrength))
-    // .force("charge", forceManyBody())
-    .force("center", forceCenter($width / 2, $height / 2))
-    .force('charge', forceManyBody().strength(-1))
+ simulation.on("tick", () => {
+   nodes = simulation.nodes()
+  //  links = initialLinks
+ })
 
-    .force('collide', forceCollide().radius((d => isNaN(d.connectionCount) ? 2 : d.connectionCount/20)))
-    // .force('link', forceLink(links).id((d) => d.id))
-    // .force('boundary', () => {
-    //   nodes.forEach((node) => {
-    //     const radius = 5;
-    //     const y = Math.max(radius, Math.min(Math.max(...$yRange) - radius * 2, node.y));
-    //     node.y = y;
+ $: {
+  console.log('running simulation')
+  simulation
+    // .force("link", forceLink(links).id(d => d.id).strength(0.2))
+    .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
+    .force('charge', forceManyBody().strength(manyBodyStrength))
+    .force('center', forceCenter($width / 2, $height / 2).strength(1))
+  //  .force("boundary", () => {
+  //     nodes.forEach((node) => {
+  //       const radius = 5;
+  //       const y = Math.max(radius, Math.min(Math.max(...$yRange) - offsetY - radius * 2, node.y));
+  //       node.y = y;
 
-    //     const x = Math.min($width, node.x);
-    //     node.x = x
-    //   });
-    // })
-    // .on("tick", () => {
-    //   // nodes = simulation.nodes()
-    //   links = initialLinks
-    // })
-    .stop();
-
-  $: {
-    for ( let i = 0,
-      n = Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay()));
-      i < n;
-      ++i ) {
-      simulation.tick();
-    }
-  }
-
- // $: console.log(links)
-
- // let nodes = [];
- // let links = [];
-
- // simulation.on("tick", () => {
- //   nodes = simulation.nodes()
- //   links = initialLinks
- // })
-
- // $: {
- //  console.log($width, $height)
- //   simulation
- //     .force("link", forceLink(links).id(d => d.id))
- //     // .force('collide', forceCollide().radius((d => isNaN(d.connectionCount) ? 2 : d.connectionCount/20)).strength(0.2))
-
- //     .force('charge', forceManyBody().strength(manyBodyStrength))
- //     .force('center', forceCenter($width / 2, $height / 2).strength(1))
- //     .alpha(0.8)
- //     .restart()
- // }
+  //       const x = Math.min($width - offsetXBoundary, node.x);
+  //       node.x = x
+  //     });
+  //   })
+    .alpha(0.8)
+    .restart()
+}
 
  let hovered;
 
@@ -101,18 +75,24 @@
   hovered = null;
  }
 
- $: console.log('hovered', hovered, links)
+ $: console.log(nodes)
 
  $: {
-  // if (hovered) {
+  // console.log('hovered', hovered, links, initialLinks)  // if (hovered) {
    links = initialLinks
     .filter(({ source, target }) => source === hovered || target === hovered)
     .map(({ source, target }) => ({
      sourceNode: simulation.nodes().find(d => d.id === source),
      targetNode: simulation.nodes().find(d => d.id === target)
     }))
+
+  // console.log(links)
   }
+  // simulation
+  //   .force("link", forceLink(links).id(d => d.id))
  // }
+
+ $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
 </script>
 
 {#each links as link}
@@ -123,13 +103,14 @@
     x2='{link.targetNode.x}'
     y1='{link.sourceNode.y}'
     y2='{link.targetNode.y}'
-    stroke="black"/>
+    stroke="#c3c3c3"/>
   {/if}
 {/each}
-{#each simulation.nodes() as point}
+{#each nodes as point (point.id)}
  <Point
    class='node'
-   r={isNaN(point.connectionCount) ? 5 : point.connectionCount/20}
+   r={$rGet(point)}
+   fill={!hovered || !!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id) ? $zGet(point) : '#c3c3c3'}
    x='{point.x}'
    y='{point.y}'
    id={point.id}

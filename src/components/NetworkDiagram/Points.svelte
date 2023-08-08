@@ -26,10 +26,10 @@
   $: simulation = forceSimulation(nodes)
     // .force('x', forceX().x(d => $xGet(d)).strength(xStrength))
     // .force('y', forceY().y($height).strength(yStrength))
-    // .force("charge", forceManyBody())
+    .force("charge", forceManyBody().strength(-5))
     .force("center", forceCenter($width / 2, $height / 2))
     .force('collide', forceCollide().radius((d => isNaN(d.connectionCount) ? 2 : d.connectionCount/20)))
-    .force('link', forceLink(links).id((d) => d.id))
+    // .force('link', forceLink(links).id((d) => d.id))
     // .force('boundary', () => {
     //   nodes.forEach((node) => {
     //     const radius = 5;

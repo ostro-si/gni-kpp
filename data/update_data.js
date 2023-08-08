@@ -69,7 +69,7 @@ const cleanDates = (prefix, day, month, year) => {
 }
 
 async function main() {
-  const people = await processSpreadSheetValues('persons_test')
+  let people = await processSpreadSheetValues('persons_test')
   const cv = await processSpreadSheetValues('cv_test')
 
   const cv_filtered = cv
@@ -141,6 +141,7 @@ async function main() {
       // console.log(connections.map(c => c.person_id))
       connectionIds = [...connectionIds, ...connections.map(c => c.person_id)]
       connectionCount += connections.length;
+
       return ({
         ...cvItem,
         connections
@@ -148,14 +149,17 @@ async function main() {
     })
     // console.log([...new Set(connectionIds)].length)
 
-    links = links.concat([...new Set(connectionIds)].filter(id => { console.log('id', id, personId, +id > +personId); return +id > +personId }).map(id => ({source: personId, target: id})))
+    links = links.concat([...new Set(connectionIds)].filter(id => { return +id > +personId }).map(id => ({source: personId, target: id})))
 
-    console.log(links.length)
-      
+    // console.log(people[personId], personId, connectionCount)
     
+    // if (people[personId]) {
+    people.find(({id}) => id === personId).connectionCount = connectionCount;
 
-    people[personId].connectionCount = connectionCount;
+    // }
   })
+
+  people = people.map(({ position, ...rest }) => ({ position: position.trim(),...rest }))
 
   // console.log(allCV)
 
