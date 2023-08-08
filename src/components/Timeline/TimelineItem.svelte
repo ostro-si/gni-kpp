@@ -46,10 +46,12 @@
   margin: 0;
   padding: 2px 0;
   font-weight: normal;
+  font-size: 10px;
  }
 
  .connections {
   display: flex;
+  min-height: 15px;
  }
 
  .connection {

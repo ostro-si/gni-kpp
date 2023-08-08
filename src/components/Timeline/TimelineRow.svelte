@@ -36,6 +36,7 @@ import { slugify } from '../../utils';
 <style>
  .container {
   overflow: visible;
+  padding: 5px 0;
  }
  .bar {
   content: "";
@@ -52,6 +53,7 @@ import { slugify } from '../../utils';
   max-width: 200px;
   font-weight: 600;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
  }
 
  .positions {

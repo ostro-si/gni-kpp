@@ -69,7 +69,7 @@
       {/if}
       <text
         x={isBandwidth ? ($xScale.bandwidth() / 2 + xTick) : xTick}
-        y={yTick}
+        y={-$height}
         dx=""
         dy=""
         text-anchor={textAnchor(i)}>{formatTick(tick)}</text
@@ -94,7 +94,10 @@
   }
 
   .tick text {
-    fill: #666;
+    fill: #808080;
+    font-family: Noe Display;
+    font-weight: 700;
+    font-size: 10px;
   }
 
   .tick .tick-mark,
