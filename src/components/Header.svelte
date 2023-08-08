@@ -22,13 +22,12 @@
 			<img src={logo} alt="Home" />
 		</LocalizedLink>
 		<HeaderAboutMenu />
-
 		<div aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
 			<LocalizedLink href="/about">{$t('common.header.search')}</LocalizedLink>
 		</div>
 	</div>
 	
-	<h3>{$t('common.app_title')}</h3>
+	<h3 class="header__title">{$t('common.app_title')}</h3>
 	<div class="header__right">
 		<div aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
 			<LocalizedLink href="/about">{$t('common.header.stories')}</LocalizedLink>
@@ -55,11 +54,20 @@
 		justify-content: space-between;
 		background-color: #d0d2d3;
 		padding: 1px 10px;
-
+		
 		&__left, &__right {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 		}
+
+		&__title {
+			font-family: Noe Display;
+		}
+	}
+
+	:global(.mdc-button__label) {
+		color: #000;
+		text-transform: capitalize;
 	}
 </style>

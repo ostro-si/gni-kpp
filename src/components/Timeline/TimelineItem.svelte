@@ -41,10 +41,11 @@
   border: 0.5px solid white;
  }
 
- .institution, .position {
+ .position {
   white-space: nowrap;
   margin: 0;
-  padding: 0;
+  padding: 2px 0;
+  font-weight: normal;
  }
 
  .connections {

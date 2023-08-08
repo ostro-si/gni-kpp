@@ -21,7 +21,7 @@ import { slugify } from '../../utils';
  class="container"
  style:transform={`translate(${startX}px, 0)`}
 >
- <LocalizedLink href={getItemLink(positions[0])}>
+ <LocalizedLink component={"a"} href={getItemLink(positions[0])}>
   <h5 class="title">{title}</h5>
  </LocalizedLink>
  <div class="positions">
@@ -50,29 +50,17 @@ import { slugify } from '../../utils';
   margin: 0;
   padding: 0;
   max-width: 200px;
- }
-
- .position {
-  white-space: nowrap;
-  margin: 0;
-  padding: 0;
- }
-
- .connections {
-  display: flex;
- }
-
- .connection {
-  content: "";
-  height: 10px;
-  width: 10px;
-  border-radius: 50px;
-  background-color: #3CBEAA;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
  }
 
  .positions {
   position: relative;
   min-height: 30px;
   padding: 2px 0;
+ }
+
+ :global(a) {
+  color: #000;
  }
 </style>
