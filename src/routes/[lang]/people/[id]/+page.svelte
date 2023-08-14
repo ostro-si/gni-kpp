@@ -10,6 +10,7 @@
 <ProfileHeader
  title={data.name}
  subheading={data.position}
+ imageLink={data.image_link}
  details={[
   {
    label: "Party",

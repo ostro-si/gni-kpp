@@ -47,6 +47,8 @@
  }
 
  .data-container {
-  padding-top: 10px;
+  padding-top: 5px;
+  margin-top: 5px;
+  /* border-top: 1px solid #E6E6EB; */
  }
 </style>

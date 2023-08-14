@@ -11,32 +11,47 @@ import { slugify } from '../../utils';
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
+ let hovered = false;
+
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
 
- console.log(startX)
+ $: console.log(hovered)
 </script>
 
-<div 
- class="container"
- style:transform={`translate(${startX}px, 0)`}
->
- <LocalizedLink component={"a"} href={getItemLink(positions[0])}>
-  <h5 class="title">{title}</h5>
- </LocalizedLink>
- <div class="positions">
-  {#each positions as item}
-   <TimelineItem {item} refX={startX} />
-  {/each}
-</div>
- <!-- {item.start_year}
- {item.end_year} -->
+<div class="outer-container">
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div 
+    class="container"
+    style:transform={`translate(${startX}px, 0)`}
+    on:mouseover={() => hovered = true}
+    on:focus={() => hovered = true}
+    on:mouseleave={() => hovered = false}
+  >
+  <LocalizedLink component={"a"} href={getItemLink(positions[0])}>
+    <h5 class="title">{title}</h5>
+  </LocalizedLink>
+  <div class="positions">
+      {#each positions as item}
+      <TimelineItem {item} {hovered} refX={startX} />
+      {/each}
+    </div>
+  <!-- {item.start_year}
+  {item.end_year} -->
+  </div>
 </div>
 
 <style>
+  .outer-container {
+    border: 0.5px solid #E6E6EB;
+    border-left: none;
+    border-right: none;
+  }
+
  .container {
   overflow: visible;
   padding: 5px 0;
+  
  }
  .bar {
   content: "";
@@ -58,7 +73,7 @@ import { slugify } from '../../utils';
 
  .positions {
   position: relative;
-  min-height: 30px;
+  min-height: 35px;
   padding: 2px 0;
  }
 

@@ -31,5 +31,8 @@
 <style>
   .section-title {
     margin: 20px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: grey;
   }
 </style>
