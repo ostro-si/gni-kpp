@@ -21,7 +21,7 @@ const config = {
             base: process.env.NODE_ENV === 'production' ? '/gni-kpp' : '',
         },
         prerender: {
-            handleHttpError: 'warn'
+            handleHttpError: 'warn',
         }
     }
 };

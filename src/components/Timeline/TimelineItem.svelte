@@ -9,15 +9,15 @@
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
  $: startX = item.start_year ? $xScale(item.start_year) : $xRange[0]
- $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : $xRange[1]
+ $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : 0
 
 
-//  console.log(item)
+ console.log(item, refX)
 </script>
 
-<div class="item" style:left={`${startX - refX}px`}>
+<div class="item" style:left={`${startX - refX}px`} style:width={`${endX - startX}px`}>
   <h6 class="position">{item.position}</h6>
-  <div class="bar"></div>
+  <div class="bar" ></div>
   <div class="years" class:hidden={!hovered} in:fade>
     {#if item.start_year}
       <div>{item.start_year}</div>

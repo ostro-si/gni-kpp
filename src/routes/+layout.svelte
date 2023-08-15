@@ -1,5 +1,5 @@
 <script>
-	import Header from '../../components/Header.svelte';
+	import Header from '../components/Header.svelte';
 	import './styles.css';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
@@ -11,26 +11,24 @@
 					a = (a << 5) - a + b.charCodeAt(0)
 					return a & a
 			}, 0)
-			
-	$: console.log($page.data)
 
+		$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== 3556498
+			
 </script>
 
-
-
-	{#if hash(password) === 3556498}
-	<div class="app">
-		<Header />
-		<main>
-			<slot />
-		</main>
-		<footer>
-		</footer>
-	</div>
-	{:else}
+	{#if passwordProtected}
 		<div>
 			<label for="password">Password:</label>
 			<input id="password" bind:value={password} type="password" />
+		</div>
+	{:else}
+		<div class="app">
+			<Header />
+			<main>
+				<slot />
+			</main>
+			<footer>
+			</footer>
 		</div>
 	{/if}
 	
