@@ -2,21 +2,40 @@
 	import Header from '../../components/Header.svelte';
 	import './styles.css';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
 
 
+	let password = ''
+	const hash = s =>
+			s.split('').reduce((a, b) => {
+					a = (a << 5) - a + b.charCodeAt(0)
+					return a & a
+			}, 0)
+			
+	$: console.log($page.data)
 
 </script>
 
-<div class="app">
-	<Header />
 
-	<main>
-		<slot />
-	</main>
 
-	<footer>
-	</footer>
-</div>
+	{#if hash(password) === 3556498}
+	<div class="app">
+		<Header />
+		<main>
+			<slot />
+		</main>
+		<footer>
+		</footer>
+	</div>
+	{:else}
+		<div>
+			<label for="password">Password:</label>
+			<input id="password" bind:value={password} type="password" />
+		</div>
+	{/if}
+	
+
+	
 
 <svelte:head>
 	<!-- <html lang="en" /> -->
@@ -61,5 +80,12 @@
 		footer {
 			padding: 12px 0;
 		}
+	}
+
+	label {
+    font-weight: bold;
+	}
+	input[type='password'] {
+			width: 200px;
 	}
 </style>

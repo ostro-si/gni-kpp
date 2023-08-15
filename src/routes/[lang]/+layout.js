@@ -1,17 +1,19 @@
 import { setLocale, setRoute } from '$lib/translations';
+import { base } from '$app/paths';
 
 export const prerender = true
 
-/** @type { import('@sveltejs/kit').Load } */
 export const load = async ({ url }) => {
   const { pathname } = url;
+  const pathnameClean = pathname.replace(base, '');
 
-  const lang = `${pathname.match(/\w+?(?=\/|$)/) || ''}`;
+  const locale = `${pathnameClean.match(/\w+?(?=\/|$)/) || ''}`;
 
-  const route = pathname.replace(new RegExp(`^/${lang}`), '');
+  const route = pathnameClean.replace(new RegExp(`^/${locale}`), '');
 
-  await setLocale(lang);
+
+  await setLocale(locale);
   await setRoute(route);
 
-  return { route, lang };
+  return { route, locale };
 };
