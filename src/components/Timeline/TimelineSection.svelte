@@ -9,13 +9,13 @@
  export let data;
  export let getItemLink;
 
- console.log(items)
+//  console.log(items)
 
  const byRow = groupBy(items, rowGroupingVar)
 
  let w;
  let h;
- $: console.log(w, h)
+//  $: console.log(w, h)
 
 </script>
 

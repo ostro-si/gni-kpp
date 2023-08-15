@@ -75,7 +75,7 @@
   hovered = null;
  }
 
- $: console.log(nodes)
+//  $: console.log(nodes)
 
  $: {
   // console.log('hovered', hovered, links, initialLinks)  // if (hovered) {
@@ -92,7 +92,7 @@
   //   .force("link", forceLink(links).id(d => d.id))
  // }
 
- $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
+//  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
 </script>
 
 {#each links as link}

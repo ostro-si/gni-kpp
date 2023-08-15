@@ -12,7 +12,7 @@
  $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : $xRange[1]
 
 
- console.log(item)
+//  console.log(item)
 </script>
 
 <div class="item" style:left={`${startX - refX}px`}>

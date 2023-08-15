@@ -15,7 +15,7 @@
   .filter(d => !!d.year)
  
 
- $: console.log(items)
+//  $: console.log(items)
 
 </script>
 

@@ -1,7 +1,6 @@
 import people from '$lib/data/people.json';
 import cv from '$lib/data/cv.json';
 
-// export const prerender = "auto";
 
 export async function load({ params }) {
  const { id } = params;

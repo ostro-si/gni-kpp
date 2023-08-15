@@ -16,7 +16,7 @@ import { slugify } from '../../utils';
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
 
- $: console.log(hovered)
+//  $: console.log(hovered)
 </script>
 
 <div class="outer-container">

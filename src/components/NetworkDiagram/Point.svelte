@@ -40,7 +40,7 @@
  stroke-width='{strokeWidth}'
 	on:mouseover={() => hovered = true}
 	on:mouseout={() => hovered = false}
-	on:click={() => goto(`${base}/${$locale}/people/${id}`)}
+	on:click={() => goto(`${base}/people/${id}`)}
 />
 
 <style lang="scss">
