@@ -84,12 +84,15 @@ async function main() {
         ...end
       })
     })
+    .filter(({ start_year, end_year }) => !!start_year && !!end_year)
+
+  console.log(`Found ${cv_filtered.length} cv entries with person_id and start and end years`)
 
   const cvByPerson = groupBy(cv_filtered, 'person_id');
   const cvByInstitution = groupBy(cv_filtered, 'institution');
 
 
-  const findConnections = ({ id, institution, department, start_day, start_month, start_year, end_day, end_month, end_year }) => {
+  const findConnections = ({ id, person_id, institution, department, start_day, start_month, start_year, end_day, end_month, end_year }) => {
     const institutionConnections = cvByInstitution[institution];
 
     if (!institutionConnections || !start_year || !end_year) {
@@ -100,7 +103,7 @@ async function main() {
 
     return institutionConnections.filter((d) => {
       // check years
-      if (id === d.id) {
+      if (id === d.id || person_id === d.person_id) {
         return false;
       }
 
@@ -134,13 +137,21 @@ async function main() {
   Object.entries(cvByPerson).map(([personId, cvItems]) => {
     let connectionCount = 0
     let connectionIds = []
+    
     allCV[personId] = cvItems.map((cvItem) => {
+      console.log(cvItem)
       const connections = findConnections(cvItem);
       // console.log('------------------')
       // console.log(personId)
       // console.log(connections.map(c => c.person_id))
       connectionIds = [...connectionIds, ...connections.map(c => c.person_id)]
-      connectionCount += connections.length;
+
+      // if (personId === '157') {
+      //   console.log({
+      //     ...cvItem,
+      //     connections
+      //   });
+      // }
 
       return ({
         ...cvItem,
@@ -149,12 +160,15 @@ async function main() {
     })
     // console.log([...new Set(connectionIds)].length)
 
-    links = links.concat([...new Set(connectionIds)].filter(id => { return +id > +personId }).map(id => ({source: personId, target: id})))
+    const uniqueConnectionIds = [...new Set(connectionIds)]
+
+    links = links.concat(uniqueConnectionIds.filter(id => { return +id > +personId }).map(id => ({source: personId, target: id})))
 
     // console.log(people[personId], personId, connectionCount)
     
     // if (people[personId]) {
-    people.find(({id}) => id === personId).connectionCount = connectionCount;
+    
+    people.find(({id}) => id === personId).connectionCount = uniqueConnectionIds.length;
 
     // }
   })

@@ -19,7 +19,7 @@
    {/if}
   </div>
  </div>
- {#if details}
+ <!-- {#if details}
   <div class="ProfileHeader__secondary">
    {#each details as { label, value}}
     <div class="ProfileHeader__detail">
@@ -32,7 +32,7 @@
     </div>
    {/each}
   </div>
- {/if}
+ {/if} -->
 </div>
 
 <style lang="scss">
