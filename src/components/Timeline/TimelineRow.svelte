@@ -1,10 +1,10 @@
 <script>
  import { getContext } from 'svelte';
  import TimelineItem from './TimelineItem.svelte';
- import TimelineConnectionExpanded from './TimelineConnectionExpanded.svelte';
+ import TimelineConnectionRowExpanded from './TimelineConnectionRowExpanded.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import { min } from 'd3-array'
-import { slugify } from '../../utils';
+ import { groupBy } from '../../utils';
 
  export let title;
  export let positions;
@@ -13,22 +13,32 @@ import { slugify } from '../../utils';
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
  let hovered = false;
-
+  let connections;
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
- $: connections = positions.map(({ connections }) => connections).flat().filter(c => !!c)
+ $: {
+  const connectionsRaw = positions
+    .map(({ connections }) => connections)
+    .flat()
+    .filter(c => !!c)
+  
+  connections = groupBy(connectionsRaw, 'person_id')
+ }
 
  $: console.log(connections)
+
 </script>
 
-<div class="outer-container">
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div 
-    class="container"
-    style:transform={`translate(${startX}px, 0)`}
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+
+<div class="outer-container"
     on:mouseover={() => hovered = true}
     on:focus={() => hovered = true}
     on:mouseleave={() => hovered = false}
+>
+  <div 
+    class="container"
+    style:transform={`translate(${startX}px, 0)`}
   >
   <LocalizedLink component={"a"} href={getItemLink(positions[0])}>
     <h5 class="title">{title}</h5>
@@ -39,9 +49,11 @@ import { slugify } from '../../utils';
     {/each}
   </div>
   {#if hovered}
-    <div class="connectionons-expanded" style:min-height={`${connections.length*12}px`}>
-      {#each connections as connection, i}
-        <TimelineConnectionExpanded {...connection} refX={startX} {i} />
+    <div class="connections-expanded" 
+      style:min-height={`${Object.values(connections).length*12}px`}
+    >
+      {#each Object.entries(connections) as [id, items], i}
+        <TimelineConnectionRowExpanded {id} {items} refX={startX} {i} />
       {/each}
     </div>
   {/if}
@@ -58,7 +70,6 @@ import { slugify } from '../../utils';
  .container {
   overflow: visible;
   padding: 5px 0;
-  
  }
  .bar {
   content: "";
@@ -88,8 +99,9 @@ import { slugify } from '../../utils';
   color: #000;
  }
 
- .connectionons-expanded {
+ .connections-expanded {
   position: relative;
+  left: 0;
   z-index: 1000;
   background: white;
   min-width: 100%;

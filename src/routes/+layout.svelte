@@ -12,12 +12,12 @@
 					return a & a
 			}, 0)
 
-		$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== 3556498
+		$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== -1258221729
 			
 </script>
 
 	{#if passwordProtected}
-		<div>
+		<div class="password-container">
 			<label for="password">Password:</label>
 			<input id="password" bind:value={password} type="password" />
 		</div>
@@ -86,5 +86,9 @@
 	}
 	input[type='password'] {
 			width: 200px;
+	}
+
+	.password-container {
+		margin: 20px;
 	}
 </style>
