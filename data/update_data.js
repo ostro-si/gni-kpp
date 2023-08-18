@@ -128,7 +128,7 @@ async function main() {
       //   return false
       // }
       return true;
-    }).map(({ person_id, start_year, end_year, institution }) => ({ person_id, start_year, end_year, institution }))
+    }).map(({ person_id, person_name, start_year, end_year, institution }) => ({ person_id, person_name, start_year, end_year, institution }))
   }
 
   let links = [];

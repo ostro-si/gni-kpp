@@ -1,6 +1,7 @@
 <script>
  import { getContext } from 'svelte';
  import TimelineItem from './TimelineItem.svelte';
+ import TimelineConnectionExpanded from './TimelineConnectionExpanded.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import { min } from 'd3-array'
 import { slugify } from '../../utils';
@@ -15,8 +16,9 @@ import { slugify } from '../../utils';
 
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
+ $: connections = positions.map(({ connections }) => connections).flat().filter(c => !!c)
 
-//  $: console.log(hovered)
+ $: console.log(connections)
 </script>
 
 <div class="outer-container">
@@ -32,13 +34,18 @@ import { slugify } from '../../utils';
     <h5 class="title">{title}</h5>
   </LocalizedLink>
   <div class="positions">
-      {#each positions as item}
+    {#each positions as item}
       <TimelineItem {item} {hovered} refX={startX} />
+    {/each}
+  </div>
+  {#if hovered}
+    <div class="connectionons-expanded" style:min-height={`${connections.length*12}px`}>
+      {#each connections as connection, i}
+        <TimelineConnectionExpanded {...connection} refX={startX} {i} />
       {/each}
     </div>
-  <!-- {item.start_year}
-  {item.end_year} -->
-  </div>
+  {/if}
+</div>
 </div>
 
 <style>
@@ -79,5 +86,12 @@ import { slugify } from '../../utils';
 
  :global(a) {
   color: #000;
+ }
+
+ .connectionons-expanded {
+  position: relative;
+  z-index: 1000;
+  background: white;
+  min-width: 100%;
  }
 </style>

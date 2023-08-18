@@ -1,6 +1,7 @@
 <script>
  import { getContext } from 'svelte';
  import { fade } from 'svelte/transition';
+ import TimelineConnectionExpanded from './TimelineConnectionExpanded.svelte';
 
  export let item;
  export let refX;
@@ -15,34 +16,34 @@
  $: startX = item.start_year ? $xScale(item.start_year) : $xRange[0]
  $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : 0
 
-
- console.log(item)
-
  $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
-
- $: console.log(numConnectionsToShow);
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
   <h6 class="position">{item.position}</h6>
-  <div class="bar" style:width={`${endX - startX}px`}></div>
-  <div class="years" class:hidden={!hovered} in:fade>
-    {#if item.start_year}
-      <div>{item.start_year}</div>
-    {/if}
-    {#if item.end_year && item.end_year !== item.start_year}
-      <div>{item.end_year}</div>
-    {/if}
-  </div>
-  {#if item.connections}
-    <div class="connections">
-    {#each item.connections.slice(0, numConnectionsToShow) as connection}
-      <div class="connection"></div>
-    {/each}
-    {#if item.connections.length > numConnectionsToShow}
-      <div class="connection-more">{`+${item.connections.length - numConnectionsToShow}`}</div>
-    {/if}
+  <div class="bar-container" style:width={`${endX - startX}px`}>
+    <div class="bar"></div>
+    <div class="years" class:hidden={!hovered} in:fade>
+      {#if item.start_year}
+        <div>{item.start_year}</div>
+      {/if}
+      {#if item.end_year && item.end_year !== item.start_year}
+        <div>{item.end_year}</div>
+      {/if}
     </div>
+  </div>
+  
+  {#if item.connections && !hovered}
+    <div class="connections-outer-container">
+      <div class="connections">
+        {#each item.connections.slice(0, numConnectionsToShow) as connection}
+          <div class="connection"></div>
+        {/each}
+        {#if item.connections.length > numConnectionsToShow}
+          <div class="connection-more">{`+${item.connections.length - numConnectionsToShow}`}</div>
+        {/if}
+      </div>
+  </div>
   {/if}
 </div>
 
@@ -83,6 +84,10 @@
   background: white;
  }
 
+ .connections-outer-container {
+  position: relative;
+ }
+
  .connections {
   display: flex;
   flex-wrap: nowrap;
@@ -105,8 +110,23 @@
   
  }
  .connection-more {
-  font-size: 10px;
+  font-size: 9px;
   color: #3CBEAA;
-  font-weight: bold;
+  font-weight: 500;
+  /* padding: 1px; */
+  /* border: 1px solid #3CBEAA;
+  border-radius: 50px; */
+}
+
+.connections-expanded {
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 100;
+
+  &__item {
+    /* position: absolute; */
+  }
 }
 </style>
