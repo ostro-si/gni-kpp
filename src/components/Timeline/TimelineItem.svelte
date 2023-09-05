@@ -24,7 +24,7 @@
 //  $: console.log(item)
 </script>
 
-<div class="item" style:left={`${startX - refX}px`} style:top={`${yOffset * 24}px`} bind:clientWidth={w}>
+<div class="item" style:left={`${startX - refX}px`} style:top={`${yOffset * 30}px`} bind:clientWidth={w}>
   <h6 class="position">{item.position_si}</h6>
   <div class="bar-container" style:width={`${endX - startX}px`}>
     <div class="bar"></div>

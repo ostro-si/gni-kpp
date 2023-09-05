@@ -13,7 +13,7 @@
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
  let hovered = false;
-let connections;
+ let connections;
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
  $: {
@@ -39,7 +39,8 @@ let connections;
  const placePosition = (position) => {
     if (positionRows.length > 0) {
       const lastRow = positionRows[positionRows.length - 1]
-      if (position.start_year >= lastRow[lastRow.length - 1].end_year) {
+      const lastElementPlaced = lastRow[lastRow.length - 1];
+      if (lastElementPlaced.start_year !== lastElementPlaced.end_year && position.start_year >= lastElementPlaced.end_year) {
         lastRow.push(position)
         return;
       }
@@ -76,9 +77,10 @@ let connections;
     </div>
   </div>
 
-  {#if hovered}
+  {#if Object.keys(connections).length > 0 && hovered}
     <div class="connections-expanded" 
       style:min-height={`${Object.values(connections).length*12}px`}
+      style:transform={`translateY(${(positionRows.length-1)*24}px)`}
     >
       {#each Object.entries(connections) as [id, items], i}
         <TimelineConnectionRowExpanded {id} {items} refX={0} {i} />
