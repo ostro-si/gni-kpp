@@ -13,7 +13,7 @@
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
  let hovered = false;
-  let connections;
+let connections;
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
  $: {
@@ -32,32 +32,35 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 
 <div class="outer-container"
-    on:mouseover={() => hovered = true}
-    on:focus={() => hovered = true}
-    on:mouseleave={() => hovered = false}
+  style:z-index={hovered ? 100 : 0}
+  on:mouseover={() => hovered = true}
+  on:focus={() => hovered = true}
+  on:mouseleave={() => hovered = false}
+  
 >
   <div 
     class="container"
     style:transform={`translate(${startX}px, 0)`}
   >
-  <LocalizedLink component={"a"} href={getItemLink(positions[0])}>
-    <h5 class="title">{title}</h5>
-  </LocalizedLink>
-  <div class="positions">
-    {#each positions as item}
-      <TimelineItem {item} {hovered} refX={startX} />
-    {/each}
+    <LocalizedLink component={"a"} href={getItemLink(positions[0])}>
+      <h5 class="title">{title}</h5>
+    </LocalizedLink>
+    <div class="positions">
+      {#each positions as item}
+        <TimelineItem {item} {hovered} refX={startX} />
+      {/each}
+    </div>
   </div>
+
   {#if hovered}
     <div class="connections-expanded" 
       style:min-height={`${Object.values(connections).length*12}px`}
     >
       {#each Object.entries(connections) as [id, items], i}
-        <TimelineConnectionRowExpanded {id} {items} refX={startX} {i} />
+        <TimelineConnectionRowExpanded {id} {items} refX={0} {i} />
       {/each}
     </div>
   {/if}
-</div>
 </div>
 
 <style>
@@ -65,6 +68,7 @@
     border: 0.5px solid #E6E6EB;
     border-left: none;
     border-right: none;
+    position: relative;
   }
 
  .container {
@@ -100,10 +104,12 @@
  }
 
  .connections-expanded {
-  position: relative;
+  position: absolute;
   left: 0;
   z-index: 1000;
   background: white;
   min-width: 100%;
+  padding: 5px;
+  /* box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); */
  }
 </style>

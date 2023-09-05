@@ -65,6 +65,8 @@
    // color: white;
    font-size: 9px;
    white-space: nowrap;
+   background: white;
+   padding: 0 1px;
   }
  }
 </style>

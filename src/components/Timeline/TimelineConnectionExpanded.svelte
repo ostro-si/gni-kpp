@@ -53,6 +53,7 @@
    // color: white;
    font-size: 9px;
    white-space: nowrap;
+   background: white;
   }
  }
 </style>
