@@ -2,6 +2,7 @@
  import { getContext } from 'svelte';
  import TimelineItem from './TimelineItem.svelte';
  import TimelineConnectionRowExpanded from './TimelineConnectionRowExpanded.svelte';
+ import TimelineRowTitle from './TimelineRowTitle.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import { min } from 'd3-array'
  import { groupBy } from '../../utils';
@@ -65,9 +66,7 @@
     class="container"
     style:transform={`translate(${startX}px, 0)`}
   >
-    <LocalizedLink component={"a"} href={getItemLink(positions[0])}>
-      <h5 class="title">{title}</h5>
-    </LocalizedLink>
+    <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} />
     <div class="positions">
       {#each positionRows as items, i}
         {#each items as item}

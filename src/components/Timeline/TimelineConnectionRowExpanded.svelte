@@ -13,8 +13,6 @@
 
 
  const minStartVal = min(items, i => i.start_year);
-
- $: console.log('min staert vall', minStartVal)
  
  $: startX = minStartVal ? $xScale(minStartVal) : $xRange[0]
  // $: endX = end_year ? $xScale(Math.min(end_year, new Date().getFullYear())) : 0
