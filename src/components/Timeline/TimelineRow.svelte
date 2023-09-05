@@ -28,33 +28,26 @@ let connections;
  let positionRows = [];
 
  const calculatePositionOffsets = () => {
-  positions.forEach(position => {
-    placePosition(position)
-  })
+  positions
+    .sort((a, b) => a.start_year < b.start_year ? -1 : 1)
+    .forEach(position => {
+      placePosition(position)
+    })
   positionRows = positionRows;
-  console.log('calculating position offsets', positions)
  }
 
  const placePosition = (position) => {
-  // const startX = position.start_year ? $xScale(position.start_year) : $xRange[0];
-  // const endX = position.end_year ? $xScale(Math.min(position.end_year, new Date().getFullYear())) : 0;
-
-  for (let row of positionRows) {
-    if (position.start_year >= row[row.length - 1].end_year) {
-      console.log('could place!', row)
-      row.push(position)
-      return;
+    if (positionRows.length > 0) {
+      const lastRow = positionRows[positionRows.length - 1]
+      if (position.start_year >= lastRow[lastRow.length - 1].end_year) {
+        lastRow.push(position)
+        return;
+      }
     }
-  }
-  // console.log(position, startX, endX)
   positionRows.push([position]);
  }
 
  $: positions, calculatePositionOffsets()
-
- $: console.log(positionRows)
-
-//  $: console.log(positions)
 
 </script>
 
@@ -65,7 +58,7 @@ let connections;
   on:mouseover={() => hovered = true}
   on:focus={() => hovered = true}
   on:mouseleave={() => hovered = false}
-  
+  style:height={`${positionRows.length*30 + 30}px`}
 >
   <div 
     class="container"
@@ -118,7 +111,7 @@ let connections;
  .title {
   margin: 0;
   padding: 0;
-  max-width: 200px;
+  /* max-width: 200px; */
   font-weight: 600;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
