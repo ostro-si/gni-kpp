@@ -52,11 +52,12 @@
 	.header {
 		display: flex;
 		justify-content: space-between;
-		background-color: #d0d2d3;
+		background-color: #00001E;
 		padding: 1px 10px;
 		position: fixed;
 		width: 100%;
 		z-index: 100;
+		color: white;
 		
 		&__left, &__right {
 			display: flex;
@@ -70,7 +71,7 @@
 	}
 
 	:global(.mdc-button__label) {
-		color: #000;
+		color: #fff;
 		text-transform: capitalize;
 	}
 </style>
