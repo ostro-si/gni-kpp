@@ -25,7 +25,36 @@ let connections;
   connections = groupBy(connectionsRaw, 'person_id')
  }
 
-//  $: console.log(connections)
+ let positionRows = [];
+
+ const calculatePositionOffsets = () => {
+  positions.forEach(position => {
+    placePosition(position)
+  })
+  positionRows = positionRows;
+  console.log('calculating position offsets', positions)
+ }
+
+ const placePosition = (position) => {
+  // const startX = position.start_year ? $xScale(position.start_year) : $xRange[0];
+  // const endX = position.end_year ? $xScale(Math.min(position.end_year, new Date().getFullYear())) : 0;
+
+  for (let row of positionRows) {
+    if (position.start_year >= row[row.length - 1].end_year) {
+      console.log('could place!', row)
+      row.push(position)
+      return;
+    }
+  }
+  // console.log(position, startX, endX)
+  positionRows.push([position]);
+ }
+
+ $: positions, calculatePositionOffsets()
+
+ $: console.log(positionRows)
+
+//  $: console.log(positions)
 
 </script>
 
@@ -46,8 +75,10 @@ let connections;
       <h5 class="title">{title}</h5>
     </LocalizedLink>
     <div class="positions">
-      {#each positions as item}
-        <TimelineItem {item} {hovered} refX={startX} />
+      {#each positionRows as items, i}
+        {#each items as item}
+          <TimelineItem {item} {hovered} refX={startX} yOffset={i} />
+        {/each}
       {/each}
     </div>
   </div>

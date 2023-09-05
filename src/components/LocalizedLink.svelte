@@ -3,9 +3,9 @@
 	import { base } from '$app/paths';
 	import Button, { Label } from '@smui/button'
 
-	export let onClick;
+	export let onClick = undefined;
  export let href;
- export let forceLocale;
+ export let forceLocale = false;
 	export let component = 'button';
 
 	$: fullHref = `${base}/${forceLocale || $locale}${href}`;

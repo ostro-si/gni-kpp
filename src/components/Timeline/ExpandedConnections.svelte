@@ -14,7 +14,7 @@
 
  const minStartVal = min(items, i => i.start_year);
 
- $: console.log('min staert vall', minStartVal)
+ $: console.log(minStartVal)
  
  $: startX = minStartVal ? $xScale(minStartVal) : $xRange[0]
  // $: endX = end_year ? $xScale(Math.min(end_year, new Date().getFullYear())) : 0
@@ -22,24 +22,33 @@
  // console.log(person_id, refX)
 </script>
 
-<LocalizedLink component={"a"} href={`/people/${id}`}>
- <div
-  class="item"
-  style:top={`${i*12 + 2}px`}
-  style:left={`${startX - refX}px`}
- >
-  {#each items as item}
-   <TimelineConnectionExpanded {...item} />
-  {/each}
-  <div class="item__label">{items[0].person_name}</div>
- </div>
-</LocalizedLink>
+<div class="connections-expanded" 
+  style:min-height={`${connections.length*12}px`}
+>
+{#each connections as connection}
+ <TimelineConnectionRowExpanded {id} {items} refX={startX} {i} />
+{/each}
+<!-- 
+ <LocalizedLink component={"a"} href={`/people/${id}`}>
+  <div
+   class="item"
+   style:top={`${i*12 + 2}px`}
+   style:left={`${startX - refX}px`}
+  >
+   {#each items as item}
+    <TimelineConnectionExpanded {...item} />
+   {/each}
+   <div class="item__label">{items[0].person_name}</div>
+  </div>
+ </LocalizedLink> -->
+</div>
 
 
 <style lang="scss">
  .item {
   position: absolute;
   cursor: pointer;
+  background: white;
 
   &:hover {
    opacity: 0.7;
