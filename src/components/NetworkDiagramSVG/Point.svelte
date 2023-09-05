@@ -38,7 +38,7 @@
  cx={$tX}
  cy={$tY}
  r={r}
- fill={hovered ? 'orange' : fill}
+	fill={`url(#${id})`}
  stroke='{stroke}'
  stroke-width='{strokeWidth}'
 	on:mouseover={() => {onMouseover(id); hovered = true}}

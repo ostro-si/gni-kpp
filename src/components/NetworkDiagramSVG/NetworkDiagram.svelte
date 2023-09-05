@@ -13,6 +13,8 @@ import { scaleOrdinal, scaleBand } from 'd3-scale';
  export let connections;
 
 	const seriesColors = ['#4600BE', '#3CBEAA', '#28A0D2', '#b2c1ff'];
+
+	$: console.log(people)
 </script>
 
 <style>
@@ -33,7 +35,14 @@ import { scaleOrdinal, scaleBand } from 'd3-scale';
    zRange={seriesColors}
 	>
 		<Svg>
-			<NodeLink/>
+			<svelte:fragment slot="defs">
+				{#each people as { id, image_link }}
+					<pattern id={id} x="0" y="0" height = "100%" width = "100%" patternContentUnits = "objectBoundingBox" xmlns="http://www.w3.org/2000/svg">
+							<image x="0" y="0" preserveAspectRatio = "none" width = "1" height = "1" xlink:href={image_link}></image>
+					</pattern>
+				{/each} 
+			</svelte:fragment>
+			<NodeLink />
 		</Svg>
 	</LayerCake>
 </div>
