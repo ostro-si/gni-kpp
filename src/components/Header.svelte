@@ -54,6 +54,9 @@
 		justify-content: space-between;
 		background-color: #d0d2d3;
 		padding: 1px 10px;
+		position: fixed;
+		width: 100%;
+		z-index: 100;
 		
 		&__left, &__right {
 			display: flex;

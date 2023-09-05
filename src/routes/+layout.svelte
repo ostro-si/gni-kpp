@@ -58,9 +58,10 @@
 		padding: 1rem;
 		width: 100%;
 		max-width: 64rem;
-		margin: 0 auto;
+		margin: 60px auto 0;
 		box-sizing: border-box;
 		overflow-x: hidden;
+
 	}
 
 	footer {
