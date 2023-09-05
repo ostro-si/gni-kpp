@@ -10,6 +10,7 @@
  export let title;
  export let positions;
  export let getItemLink;
+ export let getItemImage = () => null;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
@@ -66,7 +67,7 @@
     class="container"
     style:transform={`translate(${startX}px, 0)`}
   >
-    <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} />
+    <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} image={getItemImage(positions[0])} />
     <div class="positions">
       {#each positionRows as items, i}
         {#each items as item}

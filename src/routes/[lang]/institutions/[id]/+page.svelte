@@ -14,4 +14,8 @@
  items={data.affiliations}
  rowGroupingVar="person_name"
  getItemLink={({ person_id }) => `/people/${person_id}`}
+ getItemImage={({ person_id }) => {
+  console.log('featching ', person_id);
+  return data.associatedPeople.find(({ id }) => id === person_id)?.image_link
+ }}
 />

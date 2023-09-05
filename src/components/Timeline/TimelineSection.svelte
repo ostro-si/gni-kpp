@@ -8,6 +8,7 @@
  export let rowGroupingVar;
  export let data;
  export let getItemLink;
+ export let getItemImage;
 
 //  console.log(items)
 
@@ -32,7 +33,7 @@
    <Html>
     <div class="data-container" bind:clientHeight={h}>
      {#each Object.entries(byRow) as [title, positions]}
-      <TimelineRow {title} {positions} {getItemLink} />
+      <TimelineRow {title} {positions} {getItemLink} {getItemImage} />
      {/each}
     </div>
    </Html>

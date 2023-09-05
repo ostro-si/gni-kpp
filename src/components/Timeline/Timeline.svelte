@@ -7,6 +7,7 @@
  export let sectionGroupingVar;
  export let rowGroupingVar;
  export let getItemLink;
+ export let getItemImage;
 
  $: sections = groupBy(items, sectionGroupingVar)
  $: flattened = items
@@ -22,10 +23,10 @@
 {#if sectionGroupingVar}
   {#each Object.entries(sections) as [title, sectionItems]}
     <h5 class="section-title">{title}</h5>
-    <TimelineSection data={flattened} items={sectionItems} {rowGroupingVar} {getItemLink} />
+    <TimelineSection data={flattened} items={sectionItems} {rowGroupingVar} {getItemLink} {getItemImage} />
   {/each}
 {:else}
-  <TimelineSection data={flattened} items={items} {rowGroupingVar} {getItemLink} />
+  <TimelineSection data={flattened} items={items} {rowGroupingVar} {getItemLink} {getItemImage} />
 {/if}
 
 <style>

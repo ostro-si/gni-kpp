@@ -5,7 +5,7 @@ import cv from '$lib/data/cv.json';
 export async function load({ params }) {
  const { id } = params;
 
- const bio = people.filter(d => d.id === id)[0];
+ const bio = people.find(d => d.id === id);
  return ({ ...bio, cv: cv[id]})
 }
 
