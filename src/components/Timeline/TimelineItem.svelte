@@ -17,10 +17,14 @@
  $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : 0
 
  $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
+
+ $: uniqueConnections = item.connections ? [...new Set(item.connections.map(c => c.person_id))] : []
+
+//  $: console.log(item)
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
-  <h6 class="position">{item.position}</h6>
+  <h6 class="position">{item.position_si}</h6>
   <div class="bar-container" style:width={`${endX - startX}px`}>
     <div class="bar"></div>
     <div class="years" class:hidden={!hovered} in:fade>
@@ -33,14 +37,14 @@
     </div>
   </div>
   
-  {#if item.connections && !hovered}
+  {#if uniqueConnections && !hovered}
     <div class="connections-outer-container">
       <div class="connections">
-        {#each item.connections.slice(0, numConnectionsToShow) as connection}
+        {#each uniqueConnections.slice(0, numConnectionsToShow) as connection}
           <div class="connection"></div>
         {/each}
-        {#if item.connections.length > numConnectionsToShow}
-          <div class="connection-more">{`+${item.connections.length - numConnectionsToShow}`}</div>
+        {#if uniqueConnections.length > numConnectionsToShow}
+          <div class="connection-more">{`+${uniqueConnections.length - numConnectionsToShow}`}</div>
         {/if}
       </div>
   </div>

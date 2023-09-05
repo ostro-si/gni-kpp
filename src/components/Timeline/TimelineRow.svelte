@@ -25,7 +25,7 @@
   connections = groupBy(connectionsRaw, 'person_id')
  }
 
- $: console.log(connections)
+//  $: console.log(connections)
 
 </script>
 

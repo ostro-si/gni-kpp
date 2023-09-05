@@ -15,7 +15,7 @@
 
  console.log($zDomain)
 
- export let manyBodyStrength = -1.5;
+ export let manyBodyStrength = -7;
 
  const initialNodes = $data.nodes.map((d) => ({ ...d }))
  const initialLinks = $data.links.map((d) => ({ ...d }))
@@ -75,15 +75,16 @@
   hovered = null;
  }
 
-//  $: console.log(nodes)
+ $: console.log(links)
 
  $: {
   // console.log('hovered', hovered, links, initialLinks)  // if (hovered) {
    links = initialLinks
     .filter(({ source, target }) => source === hovered || target === hovered)
-    .map(({ source, target }) => ({
-     sourceNode: simulation.nodes().find(d => d.id === source),
-     targetNode: simulation.nodes().find(d => d.id === target)
+    .map(({ source, target }, i) => ({
+      id: i,
+      sourceNode: simulation.nodes().find(d => d.id === source),
+      targetNode: simulation.nodes().find(d => d.id === target)
     }))
 
   // console.log(links)
@@ -97,13 +98,26 @@
 
 {#each links as link}
  {#if link.sourceNode && link.targetNode}
-  <line
+  <path
     class='link'
-    x1='{link.sourceNode.x}'
-    x2='{link.targetNode.x}'
-    y1='{link.sourceNode.y}'
-    y2='{link.targetNode.y}'
-    stroke="#c3c3c3"/>
+    d={`M${link.sourceNode.x} ${link.sourceNode.y}, L${link.targetNode.x} ${link.targetNode.y}`}
+    stroke="#c3c3c3"
+    id={`link-${link.id}`}
+  />
+  <text
+    style="text-anchor:middle; font: 8px sans-serif;"
+    dy="-1">
+
+    <!-- DEFINE A TEXT PATH FOLLOWING THE PATH DEFINED ABOVE. -->
+    <!-- USE STARTOFFSET TO CENTER TEXT. -->
+    <textPath
+      xlink:href={`#link-${link.id}`}
+      startOffset="50%"
+      class="link-label"
+    >
+      {link.sourceNode.institution_si}
+    </textPath>
+  </text>
   {/if}
 {/each}
 {#each nodes as point (point.id)}
@@ -118,3 +132,8 @@
    {onMouseout}
  />
 {/each}
+
+<style>
+  .link-label {
+  }
+</style>

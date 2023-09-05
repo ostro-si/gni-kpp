@@ -26,6 +26,6 @@
 <Timeline 
  items={data.cv}
  sectionGroupingVar="part_of_cv"
- rowGroupingVar="institution"
- getItemLink={({ institution }) => `/institutions/${slugify(institution)}`}
+ rowGroupingVar="institution_si"
+ getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
 />

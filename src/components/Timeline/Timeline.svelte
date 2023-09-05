@@ -8,8 +8,8 @@
  export let rowGroupingVar;
  export let getItemLink;
 
- const sections = groupBy(items, sectionGroupingVar)
- const flattened = items
+ $: sections = groupBy(items, sectionGroupingVar)
+ $: flattened = items
   .map(({ start_year, end_year }) => ([{ year: start_year }, { year: end_year }]))
   .flat()
   .filter(d => !!d.year)

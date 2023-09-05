@@ -69,8 +69,8 @@ const cleanDates = (prefix, day, month, year) => {
 }
 
 async function main() {
-  let people = await processSpreadSheetValues('persons_test')
-  const cv = await processSpreadSheetValues('cv_test')
+  let people = await processSpreadSheetValues('persons_live')
+  const cv = await processSpreadSheetValues('cv_live')
 
   const cv_filtered = cv
     .filter(({ person_id }) => !!person_id)
@@ -89,11 +89,11 @@ async function main() {
   console.log(`Found ${cv_filtered.length} cv entries with person_id and start and end years`)
 
   const cvByPerson = groupBy(cv_filtered, 'person_id');
-  const cvByInstitution = groupBy(cv_filtered, 'institution');
+  const cvByInstitution = groupBy(cv_filtered, 'institution_si');
 
 
-  const findConnections = ({ id, person_id, institution, department, start_day, start_month, start_year, end_day, end_month, end_year }) => {
-    const institutionConnections = cvByInstitution[institution];
+  const findConnections = ({ id, person_id, institution_si, department, start_day, start_month, start_year, end_day, end_month, end_year }) => {
+    const institutionConnections = cvByInstitution[institution_si];
 
     if (!institutionConnections || !start_year || !end_year) {
       return []
@@ -128,7 +128,7 @@ async function main() {
       //   return false
       // }
       return true;
-    }).map(({ person_id, person_name, start_year, end_year, institution }) => ({ person_id, person_name, start_year, end_year, institution }))
+    }).map(({ person_id, person_name, start_year, end_year, institution_si }) => ({ person_id, person_name, start_year, end_year, institution: institution_si }))
   }
 
   let links = [];
@@ -173,7 +173,7 @@ async function main() {
     // }
   })
 
-  people = people.map(({ position, ...rest }) => ({ position: position.trim(),...rest }))
+  people = people.map(({ position, ...rest }) => ({ position: position.trim(), ...rest }))
 
   // console.log(allCV)
 

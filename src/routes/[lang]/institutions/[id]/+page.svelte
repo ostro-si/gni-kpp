@@ -7,7 +7,7 @@
 </script>
 
 <ProfileHeader
- title={data.affiliations?.[0]?.institution}
+ title={data.affiliations?.[0]?.institution_si}
 />
 
 <Timeline 
