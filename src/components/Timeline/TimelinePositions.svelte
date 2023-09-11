@@ -2,6 +2,7 @@
 import { getContext } from 'svelte';
 
  import TimelineItem from './TimelineItem.svelte';
+ import TimelineConnectionsExpanded from './TimelineConnectionsExpanded.svelte';
  import { arrayUniqueById, getColor } from '../../utils';
  
  export let positions;
@@ -13,18 +14,25 @@ import { getContext } from 'svelte';
  const { data, xGet, width, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
  let labelWidth;
+ let connectionsWidth;
  let label;
-//  $: height = hovered ? 20 : 10;
-$: height = 20
+ $: height = hovered ? 20 : 10;
 
- let uniqueConnections;
+//  $: tT
+// $: height = 10
+
+let uniqueConnections;
 
 $: {
   const uniquePositionLabels = [...new Set(positions.map(({ position_si }) => position_si ))];
   label = uniquePositionLabels.join(' / ')
 
   let allConnections = []
-  positions.forEach(({ connections }) => allConnections = [...allConnections, ...connections])
+  positions.forEach(({ connections }) => {
+    if (connections?.length) {
+      allConnections = [...allConnections, ...connections]
+    }
+  })
 
   uniqueConnections = allConnections?.length ? arrayUniqueById(allConnections, 'person_id') : null
   // console.log(hasConnections)
@@ -32,9 +40,10 @@ $: {
 } 
 $: startX = $xScale(positions[0].start_year)
 // $: leftShift = (labelWidth && ((startX - refX) + labelWidth) > $width) ? $width - ((startX - refX) + labelWidth) : 0
-$: leftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX + labelWidth): 0
+$: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX + labelWidth): 0
+$: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
 
-// $: console.log(labelWidth, startX, refX, leftShift)
+// $: console.log(connectionsWidth, startX, refX, connectionsLeftShift)
 
 // $: 
 
@@ -43,7 +52,7 @@ $: leftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX
 </script>
   <div class="label"
     bind:clientWidth={labelWidth} 
-    style:left={`${startX - refX + leftShift}px`}
+    style:left={`${startX - refX + labelLeftShift}px`}
   >
     <span>{label}</span>
   </div>
@@ -53,7 +62,7 @@ $: leftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX
     {/each}
   </div>
   {#if uniqueConnections}
-    <div class="connections-outer-container" style:left={`${startX - refX}px`}>
+    <div class="connections-outer-container" bind:clientWidth={connectionsWidth} style:left={`${startX - refX + connectionsLeftShift}px`}>
       <div class="connections">
         {#each uniqueConnections as connection (connection.person_id)}
           <div class="connection" style={`background-image: url('${connection.image_link}'); border-color: ${getColor(connection.position)}`}></div>
@@ -62,7 +71,11 @@ $: leftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX
           <div class="connection-more">{`+${uniqueConnections.length - numConnectionsToShow}`}</div>
         {/if} -->
       </div>
-  </div>
+    </div>
+
+    {#if hovered}
+      <TimelineConnectionsExpanded {refX} connections={uniqueConnections} />
+    {/if}
   {/if}
  
 <style lang='scss'>
@@ -78,10 +91,12 @@ $: leftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX
 
   .bars {
     position: relative;
+    transition: min-height 200ms ease-in;
   }
 
   .connections-outer-container {
     position: relative;
+    display: inline-block;
   }
 
  .connections {

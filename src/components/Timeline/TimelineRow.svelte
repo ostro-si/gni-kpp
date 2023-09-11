@@ -71,12 +71,10 @@
     <div class="positions">
       {#each positionRows as positions, i}
         <TimelinePositions {positions} {hovered} refX={startX} />
-        <!-- {#each items as item}
-          <TimelineItem {item} {hovered} refX={startX} yOffset={i} />
-        {/each} -->
       {/each}
     </div>
   </div>
+  
 <!-- 
   {#if Object.keys(connections).length > 0 && hovered}
     <div class="connections-expanded" 
