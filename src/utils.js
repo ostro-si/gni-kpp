@@ -50,7 +50,8 @@ export const getTimeSince = dateString => {
 }
 
 
-export const arrayUniqueById = arr => {
-  const map = new Map(arr.map(o => [o.id,o]));
+export const arrayUniqueById = (arr, key) => {
+
+  const map = new Map(arr.map(o => [o[key],o]));
   return [...map.values()];
 }
