@@ -5,7 +5,7 @@
  import { slugify, getColor, getDateYear, getTimeSince } from '../../../../utils';
  export let data;
 
- $: console.log(data)
+ // $: console.log(data)
 </script>
 
 <ProfileHeader

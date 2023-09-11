@@ -4,7 +4,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  export let data;
 
- $: console.log(data)
+ // $: console.log(data)
 </script>
 
 <ProfileHeader
@@ -18,6 +18,8 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  getItemLink={({ person_id }) => `/people/${person_id}`}
  getItemLabel={({ person_id }) => {
   const person = data.associatedPeople.find(({ id }) => id === person_id)
+
+  // console.log('here', person_id, person)
   return person
  }}
 />

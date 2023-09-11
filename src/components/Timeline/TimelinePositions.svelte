@@ -7,7 +7,7 @@ import { getContext } from 'svelte';
  export let hovered;
  export let refX;
 
- $: console.log(positions)
+//  $: console.log(positions)
 
  const { data, xGet, width, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
@@ -19,8 +19,9 @@ $: {
   const uniquePositionLabels = [...new Set(positions.map(({ position_si }) => position_si ))];
   label = uniquePositionLabels.join(' / ')
 
-  // height
-
+  const hasConnections = positions.find(({ connections }) => connections && connections.length !== 0)
+  // console.log(hasConnections)
+  height = hasConnections ? 45 : 20
 } 
 $: startX = $xScale(positions[0].start_year)
 // $: leftShift = (labelWidth && ((startX - refX) + labelWidth) > $width) ? $width - ((startX - refX) + labelWidth) : 0
@@ -52,7 +53,7 @@ $: leftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX
     font-weight: normal;
     font-size: 10px;
     position: relative;
-    display: inline-flex;
+    display: table-row-group;
   }
 
   .bars {

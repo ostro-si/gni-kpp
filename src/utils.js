@@ -24,7 +24,7 @@ export const colors = {
 }
 
 export const getColor = (key) => {
-  console.log(key, colors['minister'])
+  // console.log(key, colors['minister'])
   return colors[key];
 }
 
@@ -41,7 +41,6 @@ export const getTimeSince = dateString => {
   const days = Math.floor(difference / 86400000)
   const years = days/365
 
-  console.log(days, years);
 
   if (years < 1) {
     return `${days} days`

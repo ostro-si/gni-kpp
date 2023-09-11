@@ -52,14 +52,13 @@
 
  $: positions, calculatePositionOffsets()
 
-//  $: console.log(positionRows)
+//  $: console.log(positionRows, getItemLabel)
 
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 
 <div class="outer-container"
-  style:z-index={hovered ? 100 : 0}
   on:mouseover={() => hovered = true}
   on:focus={() => hovered = true}
   on:mouseleave={() => hovered = false}
@@ -78,7 +77,7 @@
       {/each}
     </div>
   </div>
-
+<!-- 
   {#if Object.keys(connections).length > 0 && hovered}
     <div class="connections-expanded" 
       style:min-height={`${Object.values(connections).length*12}px`}
@@ -88,7 +87,7 @@
         <TimelineConnectionRowExpanded {id} {items} refX={0} {i} />
       {/each}
     </div>
-  {/if}
+  {/if} -->
 </div>
 
 <style>
@@ -123,8 +122,8 @@
 
  .positions {
   position: relative;
-  min-height: 35px;
-  padding: 2px 0;
+  /* min-height: 35px; */
+  /* padding: 2px 0; */
  }
 
  :global(a) {
@@ -134,7 +133,7 @@
  .connections-expanded {
   position: absolute;
   left: 0;
-  z-index: 1000;
+  /* z-index: 1000; */
   /* background: white; */
   min-width: 100%;
   padding: 5px;

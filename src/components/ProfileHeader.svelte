@@ -8,7 +8,7 @@
  export let background;
  export let small;
 
- $: console.log(background, small)
+//  $: console.log(background, small)
  
 </script>
 

@@ -24,7 +24,7 @@
 // const uniques = [...map.values()];
 // 
 
- $: uniqueConnections = item.connections.length ? arrayUniqueById(item.connections) : null
+ $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections) : null
 // $: uni
 
 //  $: console.log(item.connections, uniqueConnections)
@@ -44,18 +44,18 @@
     </div>
   </div>
   
-  <!-- {#if uniqueConnections && !hovered}
+  {#if uniqueConnections}
     <div class="connections-outer-container">
       <div class="connections">
-        {#each uniqueConnections.slice(0, numConnectionsToShow) as connection (connection.person_id)}
+        {#each uniqueConnections as connection (connection.person_id)}
           <div class="connection" style={`background-image: url('${connection.image_link}'); border-color: ${getColor(connection.position)}`}></div>
         {/each}
-        {#if uniqueConnections.length > numConnectionsToShow}
+        <!-- {#if uniqueConnections.length > numConnectionsToShow}
           <div class="connection-more">{`+${uniqueConnections.length - numConnectionsToShow}`}</div>
-        {/if}
+        {/if} -->
       </div>
   </div>
-  {/if} -->
+  {/if}
 </div>
 
 <style lang="scss">
@@ -83,14 +83,14 @@
   justify-content: space-between;
 
   &.hidden {
-    visibility: hidden;
+    display: none;
   }
  }
 
  .position {
   white-space: nowrap;
   margin: 0;
-  padding: 2px 0;
+  // padding: 2px 0;
   font-weight: normal;
   font-size: 10px;
   // background: white;
@@ -134,7 +134,7 @@
   top: 0;
   left: 0;
   background-color: white;
-  z-index: 100;
+  // z-index: 100;
 
   &__item {
     /* position: absolute; */
