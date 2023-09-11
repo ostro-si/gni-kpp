@@ -128,7 +128,7 @@ async function main() {
       //   return false
       // }
       return true;
-    }).map(({ person_id, person_name, start_year, end_year, institution_si }) => ({ person_id, person_name, start_year, end_year, institution: institution_si }))
+    }).map(({ person_id, person_name, start_year, end_year, institution_si, image_link }) => ({ person_id, person_name, start_year, end_year, institution: institution_si, image_link }))
   }
 
   let links = [];
@@ -139,8 +139,15 @@ async function main() {
     let connectionIds = []
     
     allCV[personId] = cvItems.map((cvItem) => {
-      console.log(cvItem)
-      const connections = findConnections(cvItem);
+      // console.log(cvItem)
+      let connections = findConnections(cvItem);
+      connections = connections.map(({ person_id, ...rest }) => {
+        const personData = people.find(({ id }) => id === person_id);
+        // console.log(people.find(({ id }) => id === person_id), image_link);
+        return ({ person_id, ...rest, image_link: personData.image_link, position: personData.position})
+      })
+
+      console.log(connections)
       // console.log('------------------')
       // console.log(personId)
       // console.log(connections.map(c => c.person_id))

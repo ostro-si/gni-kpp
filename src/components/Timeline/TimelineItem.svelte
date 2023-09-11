@@ -1,6 +1,7 @@
 <script>
  import { getContext } from 'svelte';
  import { fade } from 'svelte/transition';
+ import { arrayUniqueById, getColor } from '../../utils'
  import TimelineConnectionExpanded from './TimelineConnectionExpanded.svelte';
 
  export let item;
@@ -19,9 +20,14 @@
 
  $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
 
- $: uniqueConnections = item.connections ? [...new Set(item.connections.map(c => c.person_id))] : []
+//  const map = new Map(item.c.map(pos => [pos.id, pos]));
+// const uniques = [...map.values()];
+// 
 
-//  $: console.log(item)
+ $: uniqueConnections = item.connections ? arrayUniqueById(item.connections) : []
+// $: uni
+
+ $: console.log(item.connections, uniqueConnections)
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} style:top={`${yOffset * 30}px`} bind:clientWidth={w}>
@@ -42,7 +48,7 @@
     <div class="connections-outer-container">
       <div class="connections">
         {#each uniqueConnections.slice(0, numConnectionsToShow) as connection}
-          <div class="connection"></div>
+          <div class="connection" style={`background-image: url('${connection.image_link}'); border-color: ${getColor(connection.position)}`}></div>
         {/each}
         {#if uniqueConnections.length > numConnectionsToShow}
           <div class="connection-more">{`+${uniqueConnections.length - numConnectionsToShow}`}</div>
@@ -52,7 +58,7 @@
   {/if}
 </div>
 
-<style>
+<style lang="scss">
 
  .item {
   position: absolute;
@@ -65,12 +71,12 @@
   min-width: 20px;
   height: 10px;
   border-radius: 20px;
-  background-color: #4600BE;
+  background-color: $black;
   border: 0.5px solid white;
  }
 
  .years {
-  color: #4600BE;
+  color: $black;
   font-size: 8px;
   display: flex;
   justify-content: space-between;
@@ -99,19 +105,18 @@
   min-height: 15px;
   padding: 3px 0;
   overflow: hidden;
-
  }
 
  .connection {
   content: "";
-  height: 10px;
-  width: 10px;
-  min-width: 10px;
+  height: 20px;
+  width: 20px;
+  min-width: 20px;
   border-radius: 50px;
-  background-color: #3CBEAA;
-  border: 0.5px solid white;
+  // background-color: #3CBEAA;
+  border: 2px solid;
   margin-right: 1px;
-
+  background-size: cover;
   
  }
  .connection-more {

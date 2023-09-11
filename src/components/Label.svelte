@@ -1,14 +1,15 @@
 <script>
  export let imageLink;
-	export let title;
+ export let title;
  export let subheading;
+ export let border;
  
 </script>
 
 
 <div class="container">
  {#if imageLink}
-  <div class="image" style={`background-image: url('${imageLink}')`}></div>
+  <div class="image" style={`background-image: url('${imageLink}'); border-color: ${border}`}></div>
  {/if}
  <div class="title">
   <h5 class="title__heading">{title}</h5>
@@ -33,6 +34,7 @@
    border-radius: 50px;
    background-size: cover;
    background-color: #c3c3c3;
+   border: 2px solid;
  }
 
  .title {

@@ -48,5 +48,10 @@ export const getTimeSince = dateString => {
   }
 
   return `${Math.floor(years)} years and ${days%365} days`
+}
 
+
+export const arrayUniqueById = arr => {
+  const map = new Map(arr.map(o => [o.id,o]));
+  return [...map.values()];
 }
