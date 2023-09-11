@@ -18,16 +18,16 @@
  $: startX = item.start_year ? $xScale(item.start_year) : $xRange[0]
  $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : 0
 
- $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
+//  $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
 
 //  const map = new Map(item.c.map(pos => [pos.id, pos]));
 // const uniques = [...map.values()];
 // 
 
- $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections) : null
+//  $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections, 'person_id') : null
 // $: uni
 
-//  $: console.log(item.connections, uniqueConnections)
+//  $: console.log(uniqueConnections, item.connections)
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
@@ -44,18 +44,18 @@
     </div>
   </div>
   
-  {#if uniqueConnections}
+  <!-- {#if uniqueConnections}
     <div class="connections-outer-container">
       <div class="connections">
-        {#each uniqueConnections as connection (connection.person_id)}
+        {#each uniqueConnections.slice(0, numConnectionsToShow) as connection (connection.person_id)}
           <div class="connection" style={`background-image: url('${connection.image_link}'); border-color: ${getColor(connection.position)}`}></div>
         {/each}
-        <!-- {#if uniqueConnections.length > numConnectionsToShow}
+        {#if uniqueConnections.length > numConnectionsToShow}
           <div class="connection-more">{`+${uniqueConnections.length - numConnectionsToShow}`}</div>
-        {/if} -->
+        {/if}
       </div>
   </div>
-  {/if}
+  {/if} -->
 </div>
 
 <style lang="scss">
