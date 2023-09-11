@@ -1,39 +1,35 @@
 <script>
+	import '../app.scss';
+	import '../app.scss';
 	import Header from '../components/Header.svelte';
 	import './styles.css';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 
+	let password = '';
+	const hash = (s) =>
+		s.split('').reduce((a, b) => {
+			a = (a << 5) - a + b.charCodeAt(0);
+			return a & a;
+		}, 0);
 
-	let password = ''
-	const hash = s =>
-			s.split('').reduce((a, b) => {
-					a = (a << 5) - a + b.charCodeAt(0)
-					return a & a
-			}, 0)
-
-		$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== -1258221729
-			
+	$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== -1258221729;
 </script>
 
-	{#if passwordProtected}
-		<div class="password-container">
-			<label for="password">Password:</label>
-			<input id="password" bind:value={password} type="password" />
-		</div>
-	{:else}
-		<div class="app">
-			<Header />
-			<main>
-				<slot />
-			</main>
-			<footer>
-			</footer>
-		</div>
-	{/if}
-	
-
-	
+{#if passwordProtected}
+	<div class="password-container">
+		<label for="password">Password:</label>
+		<input id="password" bind:value={password} type="password" />
+	</div>
+{:else}
+	<div class="app">
+		<Header />
+		<main>
+			<slot />
+		</main>
+		<footer />
+	</div>
+{/if}
 
 <svelte:head>
 	<!-- <html lang="en" /> -->
@@ -55,13 +51,12 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		/* padding: 1rem; */
 		width: 100%;
-		max-width: 64rem;
-		margin: 60px auto 0;
+		margin-top: 61px;
+		/* margin: 60px auto 0; */
 		box-sizing: border-box;
 		overflow-x: hidden;
-
 	}
 
 	footer {
@@ -83,10 +78,10 @@
 	}
 
 	label {
-    font-weight: bold;
+		font-weight: bold;
 	}
 	input[type='password'] {
-			width: 200px;
+		width: 200px;
 	}
 
 	.password-container {
