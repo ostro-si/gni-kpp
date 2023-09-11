@@ -5,6 +5,7 @@
  export let image_link;
  export let position;
  export let name;
+	export let small
 
  
 </script>
@@ -14,5 +15,6 @@
  imageLink={image_link}
  border={getColor(position)}
  title={name}
+	{small}
 />
 

@@ -2,12 +2,13 @@
 	import { t } from '$lib/translations';
 
  export let imageLink;
-	export let title;
+ export let title;
  export let subheading;
  export let details;
  export let background;
+ export let small;
 
- $: console.log(background)
+ $: console.log(background, small)
  
 </script>
 

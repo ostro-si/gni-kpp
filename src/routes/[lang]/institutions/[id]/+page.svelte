@@ -9,6 +9,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
 
 <ProfileHeader
  title={data.affiliations?.[0]?.institution_si}
+ background='#E6E6EB'
 />
 
 <Timeline 
@@ -16,7 +17,6 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  rowGroupingVar="person_name"
  getItemLink={({ person_id }) => `/people/${person_id}`}
  getItemLabel={({ person_id }) => {
-  console.log('featching ', person_id);
   const person = data.associatedPeople.find(({ id }) => id === person_id)
   return person
  }}

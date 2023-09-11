@@ -2,7 +2,7 @@
 
  import { getContext } from 'svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
-	import PersonLabel from '../PersonLabel.svelte';
+ import PersonLabel from '../PersonLabel.svelte';
 
  export let title;
  export let href;
@@ -22,7 +22,7 @@
 <LocalizedLink component={"a"} {href}>
   <div class="container" bind:clientWidth={w} style:transform={`translateX(${leftShift}px)`}>
     {#if component}
-      <PersonLabel {...component} />
+      <PersonLabel {...component} small={true} />
     {:else}
       <h5 class="title">{title}</h5>
     {/if}

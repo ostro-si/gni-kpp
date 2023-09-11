@@ -3,11 +3,11 @@
  export let title;
  export let subheading;
  export let border;
- 
+ export let small;
 </script>
 
 
-<div class="container">
+<div class="container" class:small={small}>
  {#if imageLink}
   <div class="image" style={`background-image: url('${imageLink}'); border-color: ${border}`}></div>
  {/if}
@@ -26,6 +26,10 @@
   align-items: center;
   gap: 10px;
   // justify-content: space-between;
+
+  &.small {
+    gap: 5px;
+  }
  }
 
  .image {
@@ -35,14 +39,28 @@
    background-size: cover;
    background-color: #c3c3c3;
    border: 2px solid;
+
+   .small & {
+    height: 20px;
+    width: 20px;
+   }
  }
 
  .title {
   margin: 15px 0;
 
+  .small & {
+    font-size: 12px;
+    margin: 0;
+  }
+
   &__heading {
    margin-top: 0;
    margin-bottom: 5px;
+
+   .small & {
+      margin: 0;
+    }
   }
   &__subheading {
    font-weight: normal;
