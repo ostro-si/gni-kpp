@@ -24,14 +24,14 @@
 // const uniques = [...map.values()];
 // 
 
- $: uniqueConnections = item.connections ? arrayUniqueById(item.connections) : []
+ $: uniqueConnections = item.connections.length ? arrayUniqueById(item.connections) : null
 // $: uni
 
- $: console.log(item.connections, uniqueConnections)
+//  $: console.log(item.connections, uniqueConnections)
 </script>
 
-<div class="item" style:left={`${startX - refX}px`} style:top={`${yOffset * 30}px`} bind:clientWidth={w}>
-  <h6 class="position">{item.position_si}</h6>
+<div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
+  <!-- <h6 class="position">{item.position_si}</h6> -->
   <div class="bar-container" style:width={`${endX - startX}px`}>
     <div class="bar"></div>
     <div class="years" class:hidden={!hovered} in:fade>
@@ -44,10 +44,10 @@
     </div>
   </div>
   
-  {#if uniqueConnections && !hovered}
+  <!-- {#if uniqueConnections && !hovered}
     <div class="connections-outer-container">
       <div class="connections">
-        {#each uniqueConnections.slice(0, numConnectionsToShow) as connection}
+        {#each uniqueConnections.slice(0, numConnectionsToShow) as connection (connection.person_id)}
           <div class="connection" style={`background-image: url('${connection.image_link}'); border-color: ${getColor(connection.position)}`}></div>
         {/each}
         {#if uniqueConnections.length > numConnectionsToShow}
@@ -55,12 +55,13 @@
         {/if}
       </div>
   </div>
-  {/if}
+  {/if} -->
 </div>
 
 <style lang="scss">
 
  .item {
+  // display: inline-flex;
   position: absolute;
   top: 0;
  }
@@ -82,7 +83,7 @@
   justify-content: space-between;
 
   &.hidden {
-    display: none;
+    visibility: hidden;
   }
  }
 
@@ -92,7 +93,7 @@
   padding: 2px 0;
   font-weight: normal;
   font-size: 10px;
-  background: white;
+  // background: white;
  }
 
  .connections-outer-container {

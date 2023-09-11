@@ -1,6 +1,6 @@
 <script>
  import { getContext } from 'svelte';
- import TimelineItem from './TimelineItem.svelte';
+ import TimelinePositions from './TimelinePositions.svelte';
  import TimelineConnectionRowExpanded from './TimelineConnectionRowExpanded.svelte';
  import TimelineRowTitle from './TimelineRowTitle.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
@@ -52,6 +52,8 @@
 
  $: positions, calculatePositionOffsets()
 
+//  $: console.log(positionRows)
+
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -61,7 +63,6 @@
   on:mouseover={() => hovered = true}
   on:focus={() => hovered = true}
   on:mouseleave={() => hovered = false}
-  style:height={`${positionRows.length*30 + 30}px`}
 >
   <div 
     class="container"
@@ -69,10 +70,11 @@
   >
     <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} component={getItemLabel(positions[0])} />
     <div class="positions">
-      {#each positionRows as items, i}
-        {#each items as item}
+      {#each positionRows as positions, i}
+        <TimelinePositions {positions} {hovered} refX={startX} />
+        <!-- {#each items as item}
           <TimelineItem {item} {hovered} refX={startX} yOffset={i} />
-        {/each}
+        {/each} -->
       {/each}
     </div>
   </div>
@@ -133,7 +135,7 @@
   position: absolute;
   left: 0;
   z-index: 1000;
-  background: white;
+  /* background: white; */
   min-width: 100%;
   padding: 5px;
   /* box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); */

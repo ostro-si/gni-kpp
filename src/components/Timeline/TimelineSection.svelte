@@ -8,13 +8,12 @@
  export let rowGroupingVar;
  export let data;
  export let getItemLink;
- export let getItemLabel;
+ export let getItemImage;
 
 //  console.log(items)
 
  const byRow = groupBy(items, rowGroupingVar)
 
- let w;
  let h;
 //  $: console.log(w, h)
 
@@ -33,7 +32,7 @@
    <Html>
     <div class="data-container" bind:clientHeight={h}>
      {#each Object.entries(byRow) as [title, positions]}
-      <TimelineRow {title} {positions} {getItemLink} {getItemLabel} />
+      <TimelineRow {title} {positions} {getItemLink} {getItemImage} />
      {/each}
     </div>
    </Html>
@@ -50,6 +49,8 @@
  .data-container {
   padding-top: 5px;
   margin-top: 5px;
+  overflow: hidden;
+
   /* border-top: 1px solid #E6E6EB; */
  }
 </style>
