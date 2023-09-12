@@ -8,7 +8,7 @@ export async function load({ params }) {
  const bio = people.find(d => d.id === id);
  // const associatedPeople = bio
 
- console.log(cv[id], bio)
+ // console.log(cv[id], bio)
  return ({ ...bio, cv: cv[id]})
 }
 

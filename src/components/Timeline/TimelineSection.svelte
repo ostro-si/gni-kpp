@@ -31,8 +31,8 @@
    </Svg>
    <Html>
     <div class="data-container" bind:clientHeight={h}>
-     {#each Object.entries(byRow) as [title, positions]}
-      <TimelineRow {title} {positions} {getItemLink} {getItemLabel} />
+     {#each Object.entries(byRow) as [title, positions],i}
+      <TimelineRow {title} {positions} {getItemLink} {getItemLabel} {i}/>
      {/each}
     </div>
    </Html>
@@ -49,7 +49,7 @@
  .data-container {
   padding-top: 5px;
   margin-top: 5px;
-  overflow: hidden;
+  /* overflow: hidden; */
 
   /* border-top: 1px solid #E6E6EB; */
  }

@@ -2,7 +2,7 @@
 import { getContext } from 'svelte';
 
  import TimelineItem from './TimelineItem.svelte';
- import TimelineConnectionsExpanded from './TimelineConnectionsExpanded.svelte';
+ import TimelineConnectionsExpanded from './TimelineConnectionsContainer.svelte';
  import { arrayUniqueById, getColor } from '../../utils';
  
  export let positions;
@@ -16,7 +16,8 @@ import { getContext } from 'svelte';
  let labelWidth;
  let connectionsWidth;
  let label;
- $: height = hovered ? 20 : 10;
+ let height;
+//  $: height = hovered ? 20 : 10;
 
 //  $: tT
 // $: height = 10
@@ -35,8 +36,9 @@ $: {
   })
 
   uniqueConnections = allConnections?.length ? arrayUniqueById(allConnections, 'person_id') : null
+  
   // console.log(hasConnections)
-  // height = uniqueConnections?.length > 0 ? 45 : 20
+  height = uniqueConnections?.length > 0 ? 10 : 20
 } 
 $: startX = $xScale(positions[0].start_year)
 // $: leftShift = (labelWidth && ((startX - refX) + labelWidth) > $width) ? $width - ((startX - refX) + labelWidth) : 0
@@ -64,18 +66,16 @@ $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $wi
   {#if uniqueConnections}
     <div class="connections-outer-container" bind:clientWidth={connectionsWidth} style:left={`${startX - refX + connectionsLeftShift}px`}>
       <div class="connections">
-        {#each uniqueConnections as connection (connection.person_id)}
-          <div class="connection" style={`background-image: url('${connection.image_link}'); border-color: ${getColor(connection.position)}`}></div>
-        {/each}
+        <!-- {#if !hovered} -->
+          {#each uniqueConnections as connection (connection.person_id)}
+            <div class="connection" style={`background-color: ${getColor(connection.position)}; background-image: url('${connection.image_link}'); border-color: ${getColor(connection.position)}; visibility: ${hovered ? 'hidden' : 'visible'}`}></div>
+          {/each}
+        <!-- {/if} -->
         <!-- {#if uniqueConnections.length > numConnectionsToShow}
           <div class="connection-more">{`+${uniqueConnections.length - numConnectionsToShow}`}</div>
         {/if} -->
       </div>
     </div>
-
-    {#if hovered}
-      <TimelineConnectionsExpanded {refX} connections={uniqueConnections} />
-    {/if}
   {/if}
  
 <style lang='scss'>
@@ -102,7 +102,7 @@ $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $wi
  .connections {
   display: flex;
   flex-wrap: nowrap;
-  min-height: 15px;
+  min-height: 26px;
   padding: 3px 0;
   overflow: hidden;
  }
@@ -113,7 +113,7 @@ $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $wi
   width: 20px;
   min-width: 20px;
   border-radius: 50px;
-  background-color: #3CBEAA;
+  // background-color: #3CBEAA;
   border: 2px solid;
   margin-right: 1px;
   background-size: cover;

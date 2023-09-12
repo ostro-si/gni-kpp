@@ -4,8 +4,6 @@
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  import { slugify, getColor, getDateYear, getTimeSince } from '../../../../utils';
  export let data;
-
- // $: console.log(data)
 </script>
 
 <ProfileHeader
@@ -33,9 +31,11 @@
  ]}
 />
 
-<Timeline 
- items={data.cv}
- sectionGroupingVar="part_of_cv"
- rowGroupingVar="institution_si"
- getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
-/>
+{#key data.id}
+ <Timeline 
+  items={data.cv}
+  sectionGroupingVar="part_of_cv"
+  rowGroupingVar="institution_si"
+  getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
+ />
+{/key}

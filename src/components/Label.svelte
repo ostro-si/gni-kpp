@@ -41,8 +41,8 @@
    border: 2px solid;
 
    .small & {
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
    }
  }
 
@@ -57,6 +57,7 @@
   &__heading {
    margin-top: 0;
    margin-bottom: 5px;
+   white-space: nowrap;
 
    .small & {
       margin: 0;

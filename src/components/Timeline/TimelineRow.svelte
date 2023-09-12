@@ -1,7 +1,7 @@
 <script>
  import { getContext } from 'svelte';
  import TimelinePositions from './TimelinePositions.svelte';
- import TimelineConnectionRowExpanded from './TimelineConnectionRowExpanded.svelte';
+ import TimelineConnectionsContainer from './TimelineConnectionsContainer.svelte';
  import TimelineRowTitle from './TimelineRowTitle.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import { min } from 'd3-array'
@@ -11,9 +11,11 @@
  export let positions;
  export let getItemLink;
  export let getItemLabel = () => null;
+ export let i;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
+//  let hovered = i === 2 && title === "Univerza v Ljubljani, Fakulteta za družbene vede";
  let hovered = false;
  let connections;
 
@@ -58,10 +60,13 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 
+
 <div class="outer-container"
   on:mouseover={() => hovered = true}
   on:focus={() => hovered = true}
   on:mouseleave={() => hovered = false}
+
+  style:z-index={hovered ? 10 : 1}
 >
   <div 
     class="container"
@@ -73,19 +78,12 @@
         <TimelinePositions {positions} {hovered} refX={startX} />
       {/each}
     </div>
+    {#if hovered}
+      <div id="expanded-anchor">
+        <TimelineConnectionsContainer refX={startX} {connections} />
+      </div>
+    {/if}
   </div>
-  
-<!-- 
-  {#if Object.keys(connections).length > 0 && hovered}
-    <div class="connections-expanded" 
-      style:min-height={`${Object.values(connections).length*12}px`}
-      style:transform={`translateY(${(positionRows.length-1)*24}px)`}
-    >
-      {#each Object.entries(connections) as [id, items], i}
-        <TimelineConnectionRowExpanded {id} {items} refX={0} {i} />
-      {/each}
-    </div>
-  {/if} -->
 </div>
 
 <style>

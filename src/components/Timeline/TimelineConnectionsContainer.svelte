@@ -1,0 +1,62 @@
+<script>
+ import { getContext } from 'svelte';
+ import LocalizedLink from '../LocalizedLink.svelte';
+ import Portal from "svelte-portal";
+ import TimelineConnectionRowExpanded from './TimelineConnectionRowExpanded.svelte';
+
+
+ export let connections;
+ export let refX;
+
+ let w, h;
+ let xTransforms = [];
+ let xEnds = [];
+
+ $: minXTransform = Math.min(...xTransforms);
+ $: maxXEnds = Math.max(...xEnds);
+
+//  $: console.log(xTransforms, xEnds)
+
+ 
+
+ // const { xScale, xRange } = getContext('LayerCake');
+
+
+ // $: startX = start_year ? $xScale(start_year) : $xRange[0]
+//  $: endX = connections.map()
+
+//  console.log('portal!', connections)
+</script>
+
+
+<Portal target="#expanded-anchor">
+ <div class="connections-expanded" bind:clientHeight={h}>
+    {#each Object.entries(connections) as [id, items], i}
+      <TimelineConnectionRowExpanded {id} {items} {refX} {i} bind:xTransform={xTransforms[i]} bind:xEnd={xEnds[i]} />
+     <!-- <TimelineConnectionExpanded {...connection} {i} {refX} /> -->
+   {/each}
+ </div>
+ <div class="background" 
+  style:transform={`translate(${minXTransform - 4}px, -15px)`}
+  style:width={`${maxXEnds}px`}
+  style:height={`${h + 5}px`}
+ />
+</Portal>
+
+
+<style lang="scss">
+ .connections-expanded {
+  position: absolute;
+  transform: translateY(-15px);
+  background-color: white;
+  // padding: 20px;
+  // padding-top: 20px;
+  z-index: 6;
+ }
+ .background {
+  position: absolute;
+  background-color: white;
+  z-index: 5;
+
+ }
+</style>

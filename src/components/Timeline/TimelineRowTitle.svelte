@@ -14,8 +14,6 @@
  let w;
  $: leftShift = (w && startX + w > $width) ? $width - (startX + w) : 0
 
- $: console.log(component)
-
 </script>
 
 

@@ -1,6 +1,7 @@
 <script>
  import AxisX from '../AxisX.svelte';
  import TimelineSection from './TimelineSection.svelte';
+ import { fade } from 'svelte/transition';
  import { groupBy } from '../../utils'
 
  export let items;
@@ -15,12 +16,8 @@
   .flat()
   .filter(d => !!d.year)
  
-
-//  $: console.log(items)
-
 </script>
-
-<div class="timeline-container">
+<div class="timeline-container" transition:fade>
   {#if sectionGroupingVar}
     {#each Object.entries(sections) as [title, sectionItems]}
       <h5 class="section-title">{title}</h5>

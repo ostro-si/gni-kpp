@@ -1,11 +1,14 @@
 <script>
  import { getContext } from 'svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
+	import { getColor } from '../../utils';
 
  export let start_year;
  export let end_year;
  export let refX;
+ export let position;
  export let person_id
+ export let i;
 
  const { xScale, xRange } = getContext('LayerCake');
 
@@ -19,6 +22,7 @@
 <div
  class="item__bar"
  style:width={`${endX - startX}px`}
+ style:background-color={getColor(position)}
 />
  
 
@@ -34,18 +38,18 @@
 
   &__bar {
    position: absolute;
-   left: 0;
-   top: 0;
+   // left: 0;
+   top: 5px;
    width: 10px;
    height: 10px;
    min-width: 10px;
    content: "";  
-   background-color: #3CBEAA;
+   // background-color: #3CBEAA;
    border-radius: 20px;
   }
 
   &__label {
-   position: absolute;
+   // position: absolute;
    right: 5px;
    top: 0;
    // text-align: right;
