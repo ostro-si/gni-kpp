@@ -20,9 +20,9 @@ import { groupBy } from '../../utils';
 	<meta name="description" content="GNI KPP" />
 </svelte:head>
 
-<!-- <NetworkDiagram {people} {connections} /> -->
+<NetworkDiagram {people} {connections} />
 
-<Directory {people} />
+<!-- <Directory {people} /> -->
 
 <style>
 	

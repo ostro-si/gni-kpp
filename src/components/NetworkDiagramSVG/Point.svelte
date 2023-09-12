@@ -12,12 +12,13 @@
  export let x;
  export let y;
  export let r;
-	export let fill;
+	export let hovered;
+	export let stroke;
 	export let onMouseover;
 	export let onMouseout;
 
- const strokeWidth = 1;
- const stroke = '#fff';
+ const strokeWidth = 2;
+ // const stroke = '#fff';
  const tweenParameters = {
 			duration: 400,
 			easing: cubicOut,
@@ -25,11 +26,13 @@
 
 	const tX = tweened(x, tweenParameters);
  const tY = tweened(y, tweenParameters);
+	const tR = tweened(r, tweenParameters);
 
-	let hovered = false;
+	// let hovered = false;
 
  $: $tX = x;
  $: $tY = y;
+	$: $tR = hovered ? r : 3;
 </script>
 
 <circle
@@ -37,9 +40,9 @@
  transition:fade
  cx={$tX}
  cy={$tY}
- r={r}
-	fill={`url(#${id})`}
- stroke='{stroke}'
+ r={$tR}
+	fill={hovered ? `url(#${id})` : "#c3c3c3"}
+ stroke={hovered ? stroke : "none"}
  stroke-width='{strokeWidth}'
 	on:mouseover={() => {onMouseover(id); hovered = true}}
 	on:mouseout={() => {onMouseout(); hovered = false}}

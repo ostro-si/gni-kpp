@@ -10,15 +10,18 @@
  import { drag } from 'd3-drag'
  import { select } from 'd3-selection';
  import Point from './Point.svelte';
+	import { getColor } from '../../utils';
 
  const { data, width, height, rGet, zGet, zDomain } = getContext('LayerCake');
 
- console.log($zDomain)
+//  console.log($zdata.nodes)
 
  export let manyBodyStrength = -7;
 
  const initialNodes = $data.nodes.map((d) => ({ ...d }))
  const initialLinks = $data.links.map((d) => ({ ...d }))
+
+ console.log(initialNodes)
 
  // const simulation = forceSimulation(initialNodes)
  const dragger = (el, node) => {
@@ -104,12 +107,10 @@
     stroke="#c3c3c3"
     id={`link-${link.id}`}
   />
-  <text
+  <!-- <text
     style="text-anchor:middle; font: 8px sans-serif;"
     dy="-1">
 
-    <!-- DEFINE A TEXT PATH FOLLOWING THE PATH DEFINED ABOVE. -->
-    <!-- USE STARTOFFSET TO CENTER TEXT. -->
     <textPath
       xlink:href={`#link-${link.id}`}
       startOffset="50%"
@@ -117,14 +118,15 @@
     >
       {link.sourceNode.institution_si}
     </textPath>
-  </text>
+  </text> -->
   {/if}
 {/each}
 {#each nodes as point (point.id)}
  <Point
    class='node'
    r={$rGet(point)}
-   fill={!hovered || !!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id) ? $zGet(point) : '#c3c3c3'}
+   hovered={!hovered || !!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id)}
+   stroke={getColor(point.position)}
    x='{point.x}'
    y='{point.y}'
    id={point.id}
