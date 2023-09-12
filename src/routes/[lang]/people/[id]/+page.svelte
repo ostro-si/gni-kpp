@@ -2,6 +2,7 @@
  import { t } from '$lib/translations';
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
+ import TimelineMobile from '../../../../components/TimelineMobile/TimelineMobile.svelte';
  import { slugify, getColor, getDateYear, getTimeSince } from '../../../../utils';
  export let data;
 </script>
@@ -38,4 +39,7 @@
   rowGroupingVar="institution_si"
   getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
  />
+ <!-- <TimelineMobile
+  items={data.cv}
+ /> -->
 {/key}

@@ -8,17 +8,18 @@
  export let href;
  export let startX;
  export let component;
+ export let titleLeftShift
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
  let w;
- $: leftShift = (w && startX + w > $width) ? $width - (startX + w) : 0
+ $: titleLeftShift = (w && startX + w > $width) ? $width - (startX + w) : 0
 
 </script>
 
 
 <LocalizedLink component={"a"} {href}>
-  <div class="container" bind:clientWidth={w} style:transform={`translateX(${leftShift}px)`}>
+  <div class="container" bind:clientWidth={w} style:transform={`translateX(${titleLeftShift}px)`}>
     {#if component}
       <PersonLabel {...component} small={true} />
     {:else}
@@ -26,6 +27,7 @@
     {/if}
   </div>
 </LocalizedLink>
+
 
 <style>
   .container {

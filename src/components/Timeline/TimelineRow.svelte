@@ -5,7 +5,7 @@
  import TimelineRowTitle from './TimelineRowTitle.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import { min } from 'd3-array'
- import { groupBy } from '../../utils';
+ import { groupBy, getColor } from '../../utils';
 
  export let title;
  export let positions;
@@ -18,6 +18,9 @@
 //  let hovered = i === 2 && title === "Univerza v Ljubljani, Fakulteta za družbene vede";
  let hovered = false;
  let connections;
+ let connectionsWidth;
+ let titleLeftShift;
+
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
  $: {
@@ -54,7 +57,10 @@
 
  $: positions, calculatePositionOffsets()
 
-//  $: console.log(positionRows, getItemLabel)
+ $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
+
+
+ $: console.log(connectionsWidth, connectionsLeftShift)
 
 </script>
 
@@ -71,7 +77,19 @@
     class="container"
     style:transform={`translate(${startX}px, 0)`}
   >
-    <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} component={getItemLabel(positions[0])} />
+    <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} component={getItemLabel(positions[0])} bind:titleLeftShift />
+    {#if Object.keys(connections).length}
+      <div class="connections-outer-container">
+        <div class="connections" bind:clientWidth={connectionsWidth} style:left={`${connectionsLeftShift || titleLeftShift}px`}>
+          {#each Object.entries(connections) as [id, items], i (id)}
+            <div 
+              class="connection"
+              style={`background-color: ${getColor(items[0].position)}; background-image: url('${items[0].image_link}'); border-color: ${getColor(items[0].position)}; visibility: ${hovered ? 'hidden' : 'visible'}`}
+            />
+          {/each}
+        </div>
+      </div>
+    {/if}
     <div class="positions">
       {#each positionRows as positions, i}
         <TimelinePositions {positions} {hovered} refX={startX} />
@@ -85,7 +103,7 @@
   </div>
 </div>
 
-<style>
+<style lang="scss">
   .outer-container {
     border: 0.5px solid #E6E6EB;
     border-left: none;
@@ -125,6 +143,11 @@
   color: #000;
  }
 
+ .connections-outer-container {
+    // position: relative;
+    // display: inline-block;
+  }
+
  .connections-expanded {
   position: absolute;
   left: 0;
@@ -133,5 +156,26 @@
   min-width: 100%;
   padding: 5px;
   /* box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); */
+ }
+
+ .connections {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  min-height: 26px;
+  padding: 3px 0;
+  overflow: hidden;
+
+ }
+
+ .connection {
+  content: "";
+  height: 20px;
+  width: 20px;
+  min-width: 20px;
+  border-radius: 50px;
+  // background-color: #3CBEAA;
+  border: 2px solid;
+  margin-right: 1px;
+  background-size: cover;
  }
 </style>
