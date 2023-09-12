@@ -89,7 +89,7 @@
 
   line,
   .tick line {
-    stroke: #E6E6EB;
+    stroke: #EEE;
     stroke-dasharray: 2;
   }
 

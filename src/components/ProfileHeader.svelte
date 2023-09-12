@@ -59,18 +59,31 @@
    max-width: $max-width;
    margin: 0 auto;
    width: 100%;
+
+   @media (max-width: 550px) {
+    flex-direction: column;
+    gap: 20px;
+  }
   }
 
   &__main, &__secondary {
    display: flex;
    justify-content: space-between;
    align-items: center;
+
+   @media (max-width: 550px) {
+    justify-content: flex-start;
+  }
   }
 
   &__secondary {
    gap: 15px;
    align-items: normal;
    align-self: center;
+   @media (max-width: 550px) {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
   }
 
   &__image {

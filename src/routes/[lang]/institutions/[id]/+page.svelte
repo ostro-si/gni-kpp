@@ -18,8 +18,6 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  getItemLink={({ person_id }) => `/people/${person_id}`}
  getItemLabel={({ person_id }) => {
   const person = data.associatedPeople.find(({ id }) => id === person_id)
-
-  // console.log('here', person_id, person)
   return person
  }}
 />

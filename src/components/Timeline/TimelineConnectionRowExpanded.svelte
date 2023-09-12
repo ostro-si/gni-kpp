@@ -45,14 +45,13 @@
   <div
    class="item"
    style:transform={`translateX(${startX - refX - labelWidth - 4}px)`}
-   transition:fade={{duration: 1000}}
   >
-   <div class="label" bind:clientWidth={labelWidth} transition:fade>
+   <div class="label" bind:clientWidth={labelWidth}>
     <PersonLabel name={personDetails.person_name} image_link={personDetails.image_link} position={personDetails.position} small />
     <!-- {items[0].start_year}
     {items[0].end_year} -->
    </div>
-   <div class="bars" transition:fade={{duration: 1000}}>
+   <div class="bars">
     {#each items as item}
      <TimelineConnectionExpanded {...item} />
     {/each}

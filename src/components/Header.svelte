@@ -7,7 +7,6 @@
 	import Menu from '@smui/menu';
 	import List, { Item, Separator, Text } from '@smui/list';
 	
-
 	import HeaderAboutMenu from './HeaderAboutMenu.svelte';
 	import logo from '$lib/images/icon-network.svg';
 	import languageEn from '$lib/images/language-en.svg';
@@ -17,7 +16,7 @@
 </script>
 
 <header class="header">
-	<div class="header__left">
+	<div class="header__left mobile-hide">
 		<LocalizedLink href="/">
 			<img src={logo} alt="Home" />
 		</LocalizedLink>
@@ -28,7 +27,7 @@
 	</div>
 	
 	<h3 class="header__title">{$t('common.app_title')}</h3>
-	<div class="header__right">
+	<div class="header__right mobile-hide">
 		<div aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
 			<LocalizedLink href="/about">{$t('common.header.stories')}</LocalizedLink>
 		</div>

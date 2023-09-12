@@ -48,9 +48,9 @@
 </div>
 
 <style lang="scss">
-  .accordion-container {
-    padding: 22px 0;
-  }
+  // .accordion-container {
+  //   // padding: 10px 0;
+  // }
   :global(.smui-paper__content) {
     padding: 0 !important;
 	}

@@ -17,7 +17,7 @@
   .filter(d => !!d.year)
  
 </script>
-<div class="timeline-container" transition:fade>
+<div class="timeline-container" in:fade>
   {#if sectionGroupingVar}
     {#each Object.entries(sections) as [title, sectionItems]}
       <h5 class="section-title">{title}</h5>

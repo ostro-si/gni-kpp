@@ -5,12 +5,16 @@ $mobile: 550px;
 
 .mobile-hide {
  @media (max-width: $mobile) {
-  display: none;
+  display: none !important;
  }
 }
 
 .mobile-show {
  @media (min-width: $mobile) {
-  display: none;
+  display: none !important;
  }
 }
+
+// @mixin mobile {
+//  @include content;
+// }
