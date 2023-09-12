@@ -31,7 +31,7 @@
 <style lang="scss">
   .timeline-container {
     max-width: $max-width;
-    width: 100%;
+    width: calc(100% - 40px);
     margin: 0 auto;
     padding: 20px;
   }

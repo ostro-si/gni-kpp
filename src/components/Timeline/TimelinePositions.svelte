@@ -91,6 +91,7 @@ $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $wi
 
   .bars {
     position: relative;
+    top: 1px;
     transition: min-height 200ms ease-in;
   }
 
@@ -117,6 +118,5 @@ $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $wi
   border: 2px solid;
   margin-right: 1px;
   background-size: cover;
-  
  }
 </style>

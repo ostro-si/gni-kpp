@@ -1,2 +1,16 @@
 /* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
 /* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
+
+$mobile: 550px;
+
+.mobile-hide {
+ @media (max-width: $mobile) {
+  display: none;
+ }
+}
+
+.mobile-show {
+ @media (min-width: $mobile) {
+  display: none;
+ }
+}

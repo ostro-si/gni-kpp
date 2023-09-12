@@ -39,7 +39,7 @@
  <div class="background" 
   style:transform={`translate(${minXTransform - 4}px, -15px)`}
   style:width={`${maxXEnds}px`}
-  style:height={`${h + 5}px`}
+  style:height={`${h + 8}px`}
  />
 </Portal>
 

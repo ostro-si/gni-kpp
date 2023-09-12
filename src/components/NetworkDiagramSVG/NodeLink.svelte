@@ -16,7 +16,7 @@
 
 //  console.log($zdata.nodes)
 
- export let manyBodyStrength = -7;
+ export let manyBodyStrength = -15;
 
  const initialNodes = $data.nodes.map((d) => ({ ...d }))
  const initialLinks = $data.links.map((d) => ({ ...d }))
