@@ -31,7 +31,7 @@
 
 <Portal target="#expanded-anchor">
  <div class="connections-expanded" bind:clientHeight={h}>
-    {#each Object.entries(connections) as [id, items], i}
+    {#each Object.entries(connections) as [id, items], i (id)}
       <TimelineConnectionRowExpanded {id} {items} {refX} {i} bind:xTransform={xTransforms[i]} bind:xEnd={xEnds[i]} />
      <!-- <TimelineConnectionExpanded {...connection} {i} {refX} /> -->
    {/each}

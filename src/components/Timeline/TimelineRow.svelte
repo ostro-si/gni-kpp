@@ -65,7 +65,6 @@
   on:mouseover={() => hovered = true}
   on:focus={() => hovered = true}
   on:mouseleave={() => hovered = false}
-
   style:z-index={hovered ? 10 : 1}
 >
   <div 

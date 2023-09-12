@@ -17,6 +17,7 @@
  const { xScale, xRange } = getContext('LayerCake');
 
  let labelWidth;
+ let loaded
 
 
  const minStartVal = min(items, i => i.start_year);
@@ -32,29 +33,33 @@
  $: xEnd = startX + (endX - startX);
  // console.log(person_id, refX)
 
- onMount(() => {
-  console.log('mounted', id)
- })
+ // onMount(() => {
+  // onMount(() => loaded = true);
+
+ //  console.log('mounted', id)
+ // })
 </script>
 
-<LocalizedLink component={"a"} href={`/people/${id}`}>
- <div
-  class="item"
-  style:transform={`translateX(${startX - refX - labelWidth - 4}px)`}
-  transition:fade
- >
-  <div class="label" bind:clientWidth={labelWidth} transition:fade>
-   <PersonLabel name={personDetails.person_name} image_link={personDetails.image_link} position={personDetails.position} small />
-   <!-- {items[0].start_year}
-   {items[0].end_year} -->
+<!-- {#if loaded === true} -->
+ <LocalizedLink component={"a"} href={`/people/${id}`}>
+  <div
+   class="item"
+   style:transform={`translateX(${startX - refX - labelWidth - 4}px)`}
+   transition:fade={{duration: 1000}}
+  >
+   <div class="label" bind:clientWidth={labelWidth} transition:fade>
+    <PersonLabel name={personDetails.person_name} image_link={personDetails.image_link} position={personDetails.position} small />
+    <!-- {items[0].start_year}
+    {items[0].end_year} -->
+   </div>
+   <div class="bars" transition:fade={{duration: 1000}}>
+    {#each items as item}
+     <TimelineConnectionExpanded {...item} />
+    {/each}
+   </div>
   </div>
-  <div class="bars" transition:fade={{duration: 1000}}>
-   {#each items as item}
-    <TimelineConnectionExpanded {...item} />
-   {/each}
-  </div>
- </div>
-</LocalizedLink>
+ </LocalizedLink>
+<!-- {/if} -->
 
 
 <style lang="scss">
