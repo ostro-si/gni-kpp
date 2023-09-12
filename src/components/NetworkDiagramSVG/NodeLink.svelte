@@ -125,11 +125,13 @@
  <Point
    class='node'
    r={$rGet(point)}
-   hovered={!hovered || !!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id)}
+   allActive={!hovered}
+   hovered={!!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id)}
    stroke={getColor(point.position)}
    x='{point.x}'
    y='{point.y}'
    id={point.id}
+   label={point.name}
    {onMouseover}
    {onMouseout}
  />
