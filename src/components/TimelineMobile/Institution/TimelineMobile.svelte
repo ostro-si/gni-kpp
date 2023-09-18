@@ -4,11 +4,11 @@
 	import PersonLabel from "../../PersonLabel.svelte";
   import { min } from 'd3-array';
   import Scrolly from "../Scrolly.svelte";
+  import downArrow from '$lib/images/icon-network.svg';
+
  export let items;
 
  const yearMax = new Date().getFullYear();
-
- console.log(items, yearMax)
 
 let byYear = {};
 let currYear;
@@ -16,9 +16,6 @@ let minYear;
 let scrollSectionIndex;
 
  $: {
-  // const startYear = min(items, d => d.start_year)
-  // const endYear = max(items, d => d.end_year)
-
   items.forEach(item => {
     for (let year = +item.start_year; year <= Math.min(+item.end_year, yearMax); year++) {
       if (year in byYear) {
@@ -28,18 +25,11 @@ let scrollSectionIndex;
       }
     }
   })
-
-  console.log(byYear)
-
   minYear =+ min(Object.keys(byYear))
-
-  // sorted = items.sort((a, b) => a.start_year < b.start_year ? -1 : 1)
  }
 
  $: currYear = minYear + scrollSectionIndex
  $: currYearItems = byYear[currYear]
-
- $: console.log(currYear, minYear)
 
 </script>
 <div class="scroll-tracker">
@@ -51,49 +41,49 @@ let scrollSectionIndex;
     {/each}
   </Scrolly>
 </div>
+<img class="icon" src={downArrow} alt="down" />
+
 <div class="container"> 
-  <div class="inner-container">
-    <div class="left-scroll">
-      {#each Object.keys(byYear) as year, i (year)}
-        <div class="year"
-          class:selected={+year === currYear}
-          style:top={`${(year - currYear)*40}px`}
-          style:opacity={1 - Math.abs(currYear - year)*0.3}
-        >
-          {year}
+  <div class="left-scroll">
+    {#each Object.keys(byYear) as year, i (year)}
+      <div class="year"
+        class:selected={+year === currYear}
+        style:top={`${(year - currYear)*10}vh`}
+        style:opacity={1 - Math.abs(currYear - year)*0.2}
+      >
+        {year}
+      </div>
+    {/each}
+  </div> 
+  
+  <div class="right-scroll">   
+    <!-- {#each Object.entries(byYear) as [year, items] (year)}
+      <div class="item" style:top={`${(year - currYear)*50}vh`} class:selected={+year === currYear}>
+          {#each arrayUniqueById(items, 'person_id') as { image_link, person_id, person_name, curr_position } (person_id)}
+            <PersonLabel clickable position={curr_position} id={person_id} name={person_name} {image_link} small />
+          {/each}
+      </div>
+    {/each} -->
+    {#if currYearItems}
+      {#key currYear}
+        <div class="item">
+          {#each arrayUniqueById(currYearItems, 'person_id') as { image_link, person_id, person_name, position_si, curr_position } (person_id)}
+            <div class="person_label">
+              <PersonLabel
+                clickable
+                position={curr_position}
+                subheading={position_si}
+                id={person_id}
+                name={person_name}
+                {image_link}
+                small
+                coloredText
+              />
+            </div>
+          {/each}
         </div>
-      {/each}
-    </div> 
-    
-    <div class="right-scroll">   
-      <!-- {#each Object.entries(byYear) as [year, items] (year)}
-        <div class="item" style:top={`${(year - currYear)*50}vh`} class:selected={+year === currYear}>
-            {#each arrayUniqueById(items, 'person_id') as { image_link, person_id, person_name, curr_position } (person_id)}
-              <PersonLabel clickable position={curr_position} id={person_id} name={person_name} {image_link} small />
-            {/each}
-        </div>
-      {/each} -->
-      {#if currYearItems}
-        {#key currYear}
-          <div class="item">
-            {#each arrayUniqueById(currYearItems, 'person_id') as { image_link, person_id, person_name, position_si, curr_position } (person_id)}
-              <div class="person_label">
-                <PersonLabel
-                  clickable
-                  position={curr_position}
-                  subheading={position_si}
-                  id={person_id}
-                  name={person_name}
-                  {image_link}
-                  small
-                  coloredText
-                />
-              </div>
-            {/each}
-          </div>
-        {/key}
-      {/if}
-    </div>
+      {/key}
+    {/if}
   </div>
 </div>
 
@@ -104,6 +94,11 @@ let scrollSectionIndex;
   position: fixed;
   top: 50%;
   width: 100%;
+ }
+
+ .icon {
+  position: fixed;
+  top: 200px;
  }
 
 //  .inner-container {
@@ -125,10 +120,12 @@ let scrollSectionIndex;
  .year {
   padding: 20px 10px;
   position: absolute;
-  transition: top 70ms ease-in-out;
+  font-size: 12px;
+  transition: all 70ms ease-in-out;
 
   &.selected {
     font-weight: bold;
+    font-size: 18px;
   }
  }
 
@@ -137,7 +134,7 @@ let scrollSectionIndex;
 	}
 
   .person_label {
-    margin: 5px 0;
+    margin: 10px 0;
   }
 
   // .item {
