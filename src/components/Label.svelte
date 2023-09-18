@@ -4,6 +4,7 @@
  export let subheading;
  export let border;
  export let small;
+ export let coloredText;
 </script>
 
 
@@ -11,12 +12,14 @@
  {#if imageLink}
   <div class="image" style={`background-image: url('${imageLink}'); border-color: ${border}`}></div>
  {/if}
- <div class="title">
-  <h5 class="title__heading">{title}</h5>
-  {#if subheading}
-   <h5 class="title__subheading">{subheading}</h5>
+ {#if title || subheading}
+  <div class="title">
+    <h5 class="title__heading" style:color={coloredText ? border : 'inherit'}>{title}</h5>
+    {#if subheading}
+    <h5 class="title__subheading">{subheading}</h5>
+    {/if}
+  </div>
   {/if}
- </div>
 </div>
 
 

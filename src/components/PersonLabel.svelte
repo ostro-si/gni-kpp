@@ -7,8 +7,10 @@
  export let position;
 	export let id;
  export let name;
+	export let subheading;
 	export let small
 	export let clickable
+	export let coloredText
 
  
 </script>
@@ -19,7 +21,9 @@
 			imageLink={image_link}
 			border={getColor(position)}
 			title={name}
+			{subheading}
 			{small}
+			{coloredText}
 		/>
 </LocalizedLink>
 {:else}
@@ -27,7 +31,9 @@
 		imageLink={image_link}
 		border={getColor(position)}
 		title={name}
+		{subheading}
 		{small}
+		{coloredText}
 	/>
 {/if}
 

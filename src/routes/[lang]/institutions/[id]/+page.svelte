@@ -2,6 +2,7 @@
  import PersonLabel from '../../../../components/PersonLabel.svelte';
 import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
+	import TimelineMobile from '../../../../components/TimelineMobile/Institution/TimelineMobile.svelte';
  export let data;
 
  // $: console.log(data)
@@ -12,7 +13,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  background='#E6E6EB'
 />
 
-<Timeline 
+<!-- <Timeline 
  items={data.affiliations}
  rowGroupingVar="person_name"
  getItemLink={({ person_id }) => `/people/${person_id}`}
@@ -20,4 +21,8 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
   const person = data.associatedPeople.find(({ id }) => id === person_id)
   return person
  }}
+/> -->
+
+<TimelineMobile
+ items={data.affiliations}
 />

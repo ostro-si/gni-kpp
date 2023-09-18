@@ -196,7 +196,15 @@ async function main() {
   const keyedInstitutions = {}
 
   Object.entries(cvByInstitution).forEach(([instituion, entries]) => {
-    keyedInstitutions[slugify(instituion)] = entries;
+    keyedInstitutions[slugify(instituion)] = entries.map(({ person_id, ...rest }) => {
+      const person = people.find(({ id }) => id === person_id)
+      return ({
+        curr_position: person?.position,
+        image_link: person?.image_link,
+        person_id,
+        ...rest
+      })
+    });
   })
 
   writeFile('./src/lib/data/people.json', people);

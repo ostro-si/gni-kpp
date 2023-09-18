@@ -79,7 +79,7 @@
   >
     <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} component={getItemLabel(positions[0])} bind:titleLeftShift />
     {#if Object.keys(connections).length}
-      <div class="connections-outer-container">
+      <div class="connections-outer-container" class:collapsed={hovered}>
         <div class="connections" bind:clientWidth={connectionsWidth} style:left={`${connectionsLeftShift || titleLeftShift}px`}>
           {#each Object.entries(connections) as [id, items], i (id)}
             <div 
@@ -95,6 +95,9 @@
         <TimelinePositions {positions} {hovered} refX={startX} />
       {/each}
     </div>
+    {#if Object.keys(connections).length}
+      <div class="expanded-placeholder" class:expanded={hovered}></div>
+    {/if}
     {#if hovered}
       <div id="expanded-anchor">
         <TimelineConnectionsContainer refX={startX} {connections} />
@@ -144,8 +147,28 @@
  }
 
  .connections-outer-container {
+  // overflow-y: hidden;
+  // overflow-x: visible;
+  transition: max-height 200ms ease-in;
+  max-height: 1000px;
+  height: 25px;
+  width: 100%;
+
+  &.collapsed {
+    max-height: 0;
+  }
     // position: relative;
     // display: inline-block;
+  }
+
+  .expanded-placeholder {
+    height: 1000px;
+    max-height: 0;
+    transition: max-height 200ms ease-in;
+
+    &.expanded {
+      max-height: 20px;
+    }
   }
 
  .connections-expanded {
