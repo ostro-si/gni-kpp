@@ -21,7 +21,7 @@
  export let manyBodyStrength = -15;
 
  const initialNodes = $data.nodes.map((d) => ({ ...d }))
- const initialLinks = $data.links.map((d) => ({ ...d }))
+ const initialLinks = $data.links.map((d) => ({ ...d, visible: false }))
  let simulation;
 
  console.log(initialNodes)
@@ -49,7 +49,7 @@
 
   simulation.on("tick", () => {
     nodes = simulation.nodes()
-    links = initialLinks
+    // links = links
   })
  }
 
@@ -101,30 +101,29 @@ const selectingForce = () => {
  let hovered;
  let selected;
 
-
- 
-
  const recenterSimulation = () => {
   console.log('recentering')
   if (simulation) {
     simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
-
   }
  }
 
  const selectItem = () => {
   if (selected) {
     console.log('selecting');
-    links = initialLinks
-      .filter(({ source, target }) => source === selected || target === selected)
+    // links = links.map()
+    //   .filter(({ source, target }) => source === selected || target === selected)
 
     console.log(links)
+    setLinkVisibility()
+
+    const filteredLinks = links.filter(({ visible }) => !!visible)
 
     runInitialSimulation()
 
     simulation
       // .force('select', selectingForce())
-      .force("link", forceLink(links).id(d => d.id).strength(0.3).distance(100))
+      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(100))
       // .force('charge', forceManyBody().strength(-20))
       .alpha(0.4)
       .restart()
@@ -134,18 +133,23 @@ const selectingForce = () => {
   }
  }
 
-//  const hoverItem = () => {
-//   if (hovered) {
-//     links = initialLinks
-//       .filter(({ source, target }) => source === selected || target === selected)
-//   } else {
-//     links = initialLinks
-//   }
-//  }
+ const setLinkVisibility = () => {
+  console.log('hovering', hovered, selected)
+  if (hovered || selected) {
+    links = initialLinks.map(({ source, target, visible, ...rest }) => ({ 
+      visible: (source === hovered || target === hovered || source === selected || target === selected),
+      source,
+      target,
+      ...rest
+    }))
+  } else {
+    links = initialLinks
+  }
+ }
 
  $: $width, $height, recenterSimulation()
  $: selected, selectItem()
-//  $: hovered, hoverItem()
+ $: hovered, setLinkVisibility()
 
 //  $: {
 //   console.log('running simulation')
@@ -179,7 +183,7 @@ const selectingForce = () => {
   selected = id;
  }
 
- $: console.log(links)
+//  $: console.log(links)
 
 //  $: {
   // console.log('hovered', hovered, links, initialLinks)  // if (hovered) {
@@ -200,11 +204,12 @@ const selectingForce = () => {
 //  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
 </script>
 
-{#each links as { index, source, target }}
+{#each links as { index, source, target, visible }}
   <Link
     id={index}
-    sourceNode={source}
-    targetNode={target}
+    {visible}
+    sourceNode={nodes.find(({ id }) => source === id)}
+    targetNode={nodes.find(({ id }) => target === id)}
   />
 
  <!-- {#if link.sourceNode && link.targetNode} -->

@@ -3,10 +3,11 @@
   export let sourceNode;
   export let targetNode;
   export let id;
+  export let visible;
 </script>
 
 
-{#if sourceNode && targetNode}
+{#if visible && sourceNode && targetNode}
  <path
    class='link'
    d={`M${sourceNode.x} ${sourceNode.y}, L${targetNode.x} ${targetNode.y}`}
