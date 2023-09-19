@@ -38,37 +38,53 @@
  }
 
  const simulation = forceSimulation(initialNodes)
+    .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
+    .force('charge', forceManyBody().strength(manyBodyStrength))
+    .alpha(0.8)
+    .restart()
 
  let nodes = [];
  let links = []
+ let hovered;
+ let selected;
+
 
  simulation.on("tick", () => {
    nodes = simulation.nodes()
   //  links = initialLinks
  })
 
- $: {
-  console.log('running simulation')
-  simulation
-    // .force("link", forceLink(links).id(d => d.id).strength(0.2))
-    .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
-    .force('charge', forceManyBody().strength(manyBodyStrength))
-    .force('center', forceCenter($width / 2, $height / 2).strength(1))
-  //  .force("boundary", () => {
-  //     nodes.forEach((node) => {
-  //       const radius = 5;
-  //       const y = Math.max(radius, Math.min(Math.max(...$yRange) - offsetY - radius * 2, node.y));
-  //       node.y = y;
+ const recenterSimulation = () => {
+  console.log('recentering')
+  simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
+ }
 
-  //       const x = Math.min($width - offsetXBoundary, node.x);
-  //       node.x = x
-  //     });
-  //   })
-    .alpha(0.8)
-    .restart()
-}
+ const selectItem = () => {
 
- let hovered;
+ }
+
+ $: $width, $height, recenterSimulation()
+ $: selected, selectItem()
+
+//  $: {
+//   console.log('running simulation')
+//   simulation
+//     // .force("link", forceLink(links).id(d => d.id).strength(0.2))
+   
+//   //  .force("boundary", () => {
+//   //     nodes.forEach((node) => {
+//   //       const radius = 5;
+//   //       const y = Math.max(radius, Math.min(Math.max(...$yRange) - offsetY - radius * 2, node.y));
+//   //       node.y = y;
+
+//   //       const x = Math.min($width - offsetXBoundary, node.x);
+//   //       node.x = x
+//   //     });
+//   //   })
+//     .alpha(0.8)
+//     .restart()
+// }
+
 
  const onMouseover = id => {
   hovered = id;
@@ -76,6 +92,10 @@
 
  const onMouseout = () => {
   hovered = null;
+ }
+
+ const onClick = id => {
+  selected = id;
  }
 
  $: console.log(links)
@@ -127,6 +147,7 @@
    r={$rGet(point)}
    allActive={!hovered}
    hovered={!!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id)}
+   selected={selected === point.id}
    stroke={getColor(point.position)}
    x='{point.x}'
    y='{point.y}'
@@ -134,6 +155,7 @@
    label={point.name}
    {onMouseover}
    {onMouseout}
+   {onClick}
  />
 {/each}
 

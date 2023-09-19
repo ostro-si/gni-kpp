@@ -1,5 +1,7 @@
 <script>
-	import { t } from '$lib/translations';
+import { t } from '$lib/translations';
+import { platform } from "./MediaQuerySsr.svelte";
+
 
  export let imageLink;
  export let title;
@@ -9,10 +11,18 @@
  export let small;
 
 //  $: console.log(background, small)
+
+let scrollY;
+let h;
+
+$: collapsed = scrollY !== 0;
+
+$: console.log($platform)
  
 </script>
+<svelte:window bind:scrollY={scrollY} />
 
-<div class="ProfileHeader" style="--background-color: {background}">
+<div class="ProfileHeader" style="--background-color: {background}" class:collapsed={collapsed} class:mobile={$platform === 'mobile'} bind:clientHeight={h}>
  <div class="inner-container">
   <div class="ProfileHeader__main">
    {#if imageLink}
@@ -47,11 +57,22 @@
  {/if}
  </div>
 </div>
+<div class="content-spacer" style:height={`${h}px`} /> 
 
 <style lang="scss">
+  $transition-duration: 50ms;
+
  .ProfileHeader {
   background-color: var(--background-color);
   padding: 20px;
+  position: fixed;
+  width: 100%;
+  transition: padding $transition-duration linear;
+  z-index: 1000;
+
+  &.collapsed {
+    padding: 0 20px;
+  }
 
   .inner-container {
    display: flex;
@@ -81,9 +102,13 @@
    align-items: normal;
    align-self: center;
    @media (max-width: 550px) {
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .collapsed & {
+        display: none;
+      }
+    }
   }
 
   &__image {
@@ -94,12 +119,25 @@
     background-size: cover;
     background-color: #c3c3c3;
     margin-right: 20px;
+    transition: all $transition-duration linear;
+
    // }
+
+   .collapsed & {
+    height: 35px;
+    width: 35px;
+    margin-right: 10px;
+   }
   }
 
   &__title {
    margin: 15px 0;
    font-size: 20px;
+   transition: font-size $transition-duration linear;
+
+   .collapsed & {
+    font-size: 14px;
+   }
 
    &__heading {
     margin-top: 0;
@@ -117,6 +155,13 @@
    flex-grow: 1;
    flex-basis: 0;
    min-width: 130px;
+   transition: font-size $transition-duration linear;
+   overflow-y: hidden;
+
+
+   .collapsed & {
+    font-size: 12px;
+   }
 
    &__label {
     font-weight: 600;

@@ -14,9 +14,11 @@
  export let r;
 	export let allActive;
 	export let hovered;
+	export let selected;
 	export let stroke;
 	export let onMouseover;
 	export let onMouseout;
+	export let onClick;
 	export let label;
 
  const strokeWidth = 2;
@@ -44,13 +46,15 @@
  cy={$tY}
  r={$tR}
 	fill={allActive || hovered ? `url(#${id})` : "#c3c3c3"}
- stroke={allActive || hovered ? stroke : "none"}
+ stroke={selected ? "#ffb700" : (allActive || hovered ? stroke : "none")}
  stroke-width='{strokeWidth}'
 	on:mouseover={() => {onMouseover(id)}}
 	on:mouseout={() => {onMouseout()}}
-	on:click={() => goto(`${base}/${$locale}/people/${id}`)}
+	on:click={() => {onClick(id)}}
 />
-{#if hovered}
+<!-- on:click={() => goto(`${base}/${$locale}/people/${id}`)} -->
+
+{#if hovered || selected}
 	<text
 		in:fade
 		class="label"
