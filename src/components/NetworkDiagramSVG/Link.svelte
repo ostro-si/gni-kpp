@@ -4,6 +4,7 @@
   export let targetNode;
   export let id;
   export let visible;
+  export let showLabel
 
   let path;
   $: {
@@ -26,6 +27,7 @@
    stroke="#c3c3c3"
    id={`link-${id}`}
   />
+  {#if showLabel}
   <text
     style="text-anchor:middle; font: 8px sans-serif;"
     dy="-3"
@@ -38,6 +40,7 @@
       {sourceNode.institution_si}
     </textPath>
   </text>
+ {/if}
 {/if}
 
   

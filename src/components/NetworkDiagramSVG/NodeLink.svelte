@@ -20,8 +20,9 @@
 
  export let manyBodyStrength = -15;
 
- const initialNodes = $data.nodes.map((d) => ({ ...d }))
+//  const initialNodes = $data.nodes.map((d) => ({ ...d }))
  const initialLinks = $data.links.map((d, i) => ({ ...d, visible: false, id: i }))
+ let initialSimulation;
  let simulation;
 
  // const simulation = forceSimulation(initialNodes)
@@ -39,9 +40,12 @@
  }
 
  const runInitialSimulation = () => {
+  let initialNodes = $data.nodes.map((d) => ({ ...d }))
   simulation = forceSimulation(initialNodes)
     .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
+    .force('center', forceCenter($width / 2, $height / 2).strength(1))
     .force('charge', forceManyBody().strength(manyBodyStrength))
+    .force("boundary", forceBoundary())
     .alpha(0.8)
     .restart()
 
@@ -49,27 +53,34 @@
     nodes = simulation.nodes()
     // links = links
   })
+
  }
 
 //  onMount(() => runInitialSimulation())
 
  
 
-//  const boundingForce = () =>  { 
-//   nodes.forEach(n => {
-//     node.
-//   })
-//   for (let i = 0, n = nodes_data.length; i < n; ++i) {
-//     curr_node = nodes_data[i];
-//     curr_node.x = Math.max(radius, Math.min(width - radius, curr_node.x));
-//     curr_node.y = Math.max(radius, Math.min(height - radius, curr_node.y));
-//   }
-// }
+const forceBoundary = () => {
+  nodes.forEach((node) => {
+    const radius = $rGet(node);
+    const y = Math.max(radius + 50, Math.min($height - 50 - radius, node.y));
+    node.y = y;
+
+    const x = Math.max(radius + 50, Math.min($width - 50 - radius, node.x));
+    node.x = x
+  });
+
+  nodes = nodes
+}
 
 const selectingForce = () => {
   nodes.forEach((node) => {
-    if (node.id === selected) {
+    if (selected?.[0] === node.id) {
       node.x = 100;
+      return;
+    } 
+    if (selected?.[1] === node.id) {
+      node.x = $width - 100;
       return;
     } 
     // const isLinked = links.find(({sourceNode, targetNode}) => targetNode.id === node.id || sourceNode.id === node.id)
@@ -81,6 +92,8 @@ const selectingForce = () => {
 
     // node.x = 300;
   })
+
+  // nodes = nodes;
   // const selectedNode = nodes.find(({ id }) => {
   //   return id === selected;
   // })
@@ -107,12 +120,12 @@ const selectingForce = () => {
  }
 
  const selectItem = () => {
-  if (selected && simulation) {
+  if (selected.length && simulation) {
     console.log('selecting');
     // links = links.map()
     //   .filter(({ source, target }) => source === selected || target === selected)
 
-    console.log(links)
+    // console.log(links)
     setLinkVisibility()
 
     const filteredLinks = links.filter(({ visible }) => !!visible)
@@ -120,12 +133,13 @@ const selectingForce = () => {
     // runInitialSimulation()
 
     simulation
-      // .force('select', selectingForce())
-      // .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
-      // .force('charge', forceManyBody().strength(manyBodyStrength))
+      .force('select', selectingForce())
+      .force('collide', forceCollide().radius(d => $rGet(d)).strength(1))
+      .force('charge', forceManyBody().strength(-20))
       .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(250))
+      .force("boundary", forceBoundary())
       // .force('charge', forceManyBody().strength(-20))
-      .alpha(0.4)
+      .alpha(0.8)
       .restart()
     
   } else {
@@ -138,6 +152,7 @@ const selectingForce = () => {
   if (hovered || selected.length) {
     links = initialLinks.map(({ source, target, visible, ...rest }) => ({ 
       visible: (source === hovered || target === hovered || selected.includes(source) || selected.includes(target)),
+      showLabel: selected.includes(source) || selected.includes(target),
       source,
       target,
       ...rest
@@ -191,7 +206,7 @@ const selectingForce = () => {
   }
  }
 
- $: console.log(links)
+//  $: console.log(links)
 
 //  $: {
   // console.log('hovered', hovered, links, initialLinks)  // if (hovered) {
@@ -212,9 +227,10 @@ const selectingForce = () => {
 //  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
 </script>
 
-{#each links as { index, source, target, visible, id } (id)}
+{#each links as { index, source, target, visible, id, showLabel } (id)}
   <Link
     {id}
+    {showLabel}
     {visible}
     sourceNode={nodes.find(({ id }) => source === id)}
     targetNode={nodes.find(({ id }) => target === id)}

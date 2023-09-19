@@ -52,7 +52,7 @@
 	on:mouseout={() => {onMouseout()}}
 	on:click={() => {onClick(id)}}
 />
-<!-- on:click={() => goto(`${base}/${$locale}/people/${id}`)} -->
+
 
 {#if hovered || selected}
 	<text
@@ -66,6 +66,18 @@
 	</text>
 {/if}
 
+{#if selected}
+<text
+		class="label link"
+		x={$tX}
+		y={$tY + $tR + 30}
+		fill={"#ffb700"}
+		on:click={() => goto(`${base}/${$locale}/people/${id}`)}
+	>
+		View CV
+	</text>
+{/if}
+
 <style lang="scss">
 	.Point {
 		cursor: pointer;
@@ -76,6 +88,16 @@
 		font-size: 8px;
 		font-weight: 600;
 		background: white;
+	}
+
+	.link {
+		cursor: pointer;
+		transition: all 100ms ease-in-out;
+		
+
+		&:hover {
+			opacity: 0.6
+		}
 	}
 
 
