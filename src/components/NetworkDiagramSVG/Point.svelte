@@ -60,6 +60,7 @@
 		class="label"
 		x={$tX}
 		y={$tY + $tR + 12}
+		fill={selected ? "#ffb700" : stroke}
 	>
 			{label}
 	</text>
@@ -73,7 +74,7 @@
 	.label {
 		text-anchor: middle;
 		font-size: 8px;
-		font-weight: 500;
+		font-weight: 600;
 		background: white;
 	}
 

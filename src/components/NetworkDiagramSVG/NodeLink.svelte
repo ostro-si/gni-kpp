@@ -21,7 +21,7 @@
  export let manyBodyStrength = -15;
 
  const initialNodes = $data.nodes.map((d) => ({ ...d }))
- const initialLinks = $data.links.map((d) => ({ ...d, visible: false }))
+ const initialLinks = $data.links.map((d, i) => ({ ...d, visible: false, id: i }))
  let simulation;
 
  // const simulation = forceSimulation(initialNodes)
@@ -107,7 +107,7 @@ const selectingForce = () => {
  }
 
  const selectItem = () => {
-  if (selected) {
+  if (selected && simulation) {
     console.log('selecting');
     // links = links.map()
     //   .filter(({ source, target }) => source === selected || target === selected)
@@ -117,11 +117,13 @@ const selectingForce = () => {
 
     const filteredLinks = links.filter(({ visible }) => !!visible)
 
-    runInitialSimulation()
+    // runInitialSimulation()
 
     simulation
       // .force('select', selectingForce())
-      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(150))
+      // .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
+      // .force('charge', forceManyBody().strength(manyBodyStrength))
+      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(250))
       // .force('charge', forceManyBody().strength(-20))
       .alpha(0.4)
       .restart()
@@ -189,7 +191,7 @@ const selectingForce = () => {
   }
  }
 
-//  $: console.log(links)
+ $: console.log(links)
 
 //  $: {
   // console.log('hovered', hovered, links, initialLinks)  // if (hovered) {
@@ -210,9 +212,9 @@ const selectingForce = () => {
 //  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
 </script>
 
-{#each links as { index, source, target, visible }}
+{#each links as { index, source, target, visible, id } (id)}
   <Link
-    id={index}
+    {id}
     {visible}
     sourceNode={nodes.find(({ id }) => source === id)}
     targetNode={nodes.find(({ id }) => target === id)}
