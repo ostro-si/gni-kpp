@@ -17,6 +17,7 @@
 		"@formatjs/cli": "^6.1.3",
 		"@neoconfetti/svelte": "^1.0.0",
 		"@smui-extra/accordion": "^7.0.0-beta.15",
+		"@smui-extra/autocomplete": "^7.0.0-beta.15",
 		"@smui/button": "^7.0.0-beta.14",
 		"@smui/icon-button": "^7.0.0-beta.14",
 		"@smui/list": "^7.0.0-beta.14",

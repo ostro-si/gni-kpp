@@ -3,14 +3,21 @@
 	// as seen on:
 	// https://jandot.github.io/posts/nodelink-in-layercake/
 	// https://vis.social/@jandot
+
+	import { onDestroy } from 'svelte';
 	import { LayerCake, Svg } from 'layercake';
 import NodeLink from './NodeLink.svelte';
 import { scaleOrdinal, scaleBand } from 'd3-scale';
+import { selected } from '../../stores'
 
 
 
  export let people;
  export let connections;
+
+	onDestroy(() => {
+		$selected = []
+	})
 
 	const seriesColors = ['#4600BE', '#3CBEAA', '#28A0D2', '#b2c1ff'];
 </script>

@@ -6,12 +6,16 @@
 	import Button, { Label } from '@smui/button'
 	import Menu from '@smui/menu';
 	import List, { Item, Separator, Text } from '@smui/list';
+	import Search from './Search/Search.svelte';
 	
 	import HeaderAboutMenu from './HeaderAboutMenu.svelte';
 	import logo from '$lib/images/icon-network.svg';
 	import languageEn from '$lib/images/language-en.svg';
 	import languageSi from '$lib/images/language-si.svg';
 	import LocalizedLink from './LocalizedLink.svelte';
+
+	let searchOpen = false;
+	const toggleSearch = () => searchOpen = !searchOpen
 
 </script>
 
@@ -21,17 +25,23 @@
 			<img src={logo} alt="Home" />
 		</LocalizedLink>
 		<HeaderAboutMenu />
-		<div aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
-			<LocalizedLink href="/about">{$t('common.header.search')}</LocalizedLink>
+		<div>
+			{#if searchOpen}
+				<Search />
+			{:else}
+				<Button on:click={toggleSearch}>
+					<Label>{$t('common.header.search')}</Label>
+				</Button>
+			{/if}
 		</div>
 	</div>
 	
 	<h3 class="header__title">{$t('common.app_title')}</h3>
 	<div class="header__right mobile-hide">
-		<div aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
+		<div>
 			<LocalizedLink href="/about">{$t('common.header.stories')}</LocalizedLink>
 		</div>
-		<div aria-current={$page.url.pathname === '{base}/about' ? 'page' : undefined}>
+		<div>
 			<LocalizedLink href="/about">{$t('common.header.asset_tracker')}</LocalizedLink>
 		</div>
 		{#if $locale === 'en'}

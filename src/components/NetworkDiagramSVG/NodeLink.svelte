@@ -13,6 +13,7 @@
  import Point from './Point.svelte';
 	import { getColor } from '../../utils';
 	import Link from './Link.svelte';
+  import { selected } from '../../stores'
 
  const { data, width, height, rGet, zGet, zDomain } = getContext('LayerCake');
 
@@ -75,11 +76,11 @@ const forceBoundary = () => {
 
 const selectingForce = () => {
   nodes.forEach((node) => {
-    if (selected?.[0] === node.id) {
+    if ($selected?.[0] === node.id) {
       node.x = 100;
       return;
     } 
-    if (selected?.[1] === node.id) {
+    if ($selected?.[1] === node.id) {
       node.x = $width - 100;
       return;
     } 
@@ -110,7 +111,6 @@ const selectingForce = () => {
  let nodes = [];
  let links = []
  let hovered;
- let selected = [];
 
  const recenterSimulation = () => {
   console.log('recentering')
@@ -120,12 +120,9 @@ const selectingForce = () => {
  }
 
  const selectItem = () => {
-  if (selected.length && simulation) {
+  if ($selected.length && simulation) {
     console.log('selecting');
-    // links = links.map()
-    //   .filter(({ source, target }) => source === selected || target === selected)
-
-    // console.log(links)
+    
     setLinkVisibility()
 
     const filteredLinks = links.filter(({ visible }) => !!visible)
@@ -148,11 +145,10 @@ const selectingForce = () => {
  }
 
  const setLinkVisibility = () => {
-  console.log('hovering', hovered, selected)
-  if (hovered || selected.length) {
+  if (hovered || $selected.length) {
     links = initialLinks.map(({ source, target, visible, ...rest }) => ({ 
-      visible: (source === hovered || target === hovered || selected.includes(source) || selected.includes(target)),
-      showLabel: selected.includes(source) || selected.includes(target),
+      visible: (source === hovered || target === hovered || $selected.includes(source) || $selected.includes(target)),
+      showLabel: $selected.includes(source) || $selected.includes(target),
       source,
       target,
       ...rest
@@ -163,7 +159,7 @@ const selectingForce = () => {
  }
 
  $: $width, $height, recenterSimulation()
- $: selected, selectItem()
+ $: $selected, selectItem()
  $: hovered, setLinkVisibility()
  $: visibleLinks = links.filter(({ visible }) => !!visible)
 
@@ -196,13 +192,13 @@ const selectingForce = () => {
  }
 
  const onClick = id => {
-  if (selected.includes(id)) {
-    selected = selected.filter(sId => sId !== id)
+  if ($selected.includes(id)) {
+    $selected = $selected.filter(sId => sId !== id)
   } else {
-    if (selected.length > 1) {
-      selected.shift()
+    if ($selected.length > 1) {
+      $selected.shift()
     }
-    selected = [...selected, id]
+    $selected = [...$selected, id]
   }
  }
 
@@ -244,9 +240,9 @@ const selectingForce = () => {
  <Point
    class='node'
    r={$rGet(point)}
-   allActive={!hovered && !selected.length}
+   allActive={!hovered && !$selected.length}
    hovered={hovered === point.id || visibleLinks.find(({ source, target }) => source === point.id || target === point.id)}
-   selected={selected.includes(point.id)}
+   selected={$selected.includes(point.id)}
    stroke={getColor(point.position)}
    x='{point.x}'
    y='{point.y}'
