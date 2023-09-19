@@ -131,12 +131,12 @@ async function main() {
     }).map(({ person_id, person_name, start_year, end_year, institution_si, image_link }) => ({ person_id, person_name, start_year, end_year, institution: institution_si, image_link }))
   }
 
-  let links = [];
+  let allLinks = [];
   const allCV = {};
 
   Object.entries(cvByPerson).map(([personId, cvItems]) => {
     let connectionCount = 0
-    let connectionIds = []
+    let allConnections = []
     
     allCV[personId] = cvItems.map((cvItem) => {
       // console.log(cvItem)
@@ -147,11 +147,11 @@ async function main() {
         return ({ person_id, ...rest, image_link: personData.image_link, position: personData.position})
       })
 
-      console.log(connections)
+      // console.log(connections)
       // console.log('------------------')
       // console.log(personId)
       // console.log(connections.map(c => c.person_id))
-      connectionIds = [...connectionIds, ...connections.map(c => c.person_id)]
+      allConnections = [...allConnections, ...connections]
 
       // if (personId === '157') {
       //   console.log({
@@ -167,18 +167,44 @@ async function main() {
     })
     // console.log([...new Set(connectionIds)].length)
 
-    const uniqueConnectionIds = [...new Set(connectionIds)]
+    // console.log(allConnections)
 
-    links = links.concat(uniqueConnectionIds.filter(id => { return +id > +personId }).map(id => ({source: personId, target: id})))
+    let links = {}
+    allConnections.forEach(({ person_id, institution }) => {
+      if (person_id in links) {
+        if (!links[person_id].includes(institution)) {
+          links[person_id].push(institution)
+        }
+       
+      } else {
+        links[person_id] = [institution]
+      }
+    })
+    
+    // console.log(links)
+
+    Object.entries(links).forEach(([id, institutions]) => {
+      if (+id > +personId) {
+        allLinks.push({ source: personId, target: id, institutions })        
+      }
+    }) 
+
+
+
+    // const uniqueConnectionIds = [...new Set(connectionIds)]
+
+    // links = links.concat(uniqueConnectionIds.filter(id => { return +id > +personId }).map(id => ({source: personId, target: id})))
 
     // console.log(people[personId], personId, connectionCount)
     
     // if (people[personId]) {
     
-    people.find(({id}) => id === personId).connectionCount = uniqueConnectionIds.length;
+    people.find(({id}) => id === personId).connectionCount = Object.keys(links).length
 
     // }
   })
+
+  console.log(allLinks)
 
   people = people.map(({ position, ...rest }) => ({ position: position.trim(), ...rest }))
 
@@ -208,7 +234,7 @@ async function main() {
   })
 
   writeFile('./src/lib/data/people.json', people);
-  writeFile('./src/lib/data/links.json', links);
+  writeFile('./src/lib/data/links.json', allLinks);
   writeFile('./src/lib/data/institutions.json', keyedInstitutions);
   writeFile('./src/lib/data/cv.json', allCV);
 }

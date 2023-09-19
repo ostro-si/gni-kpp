@@ -1,8 +1,14 @@
 
  <script>
+  import { slugify } from "../../utils";
+	import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
+  import { locale } from '$lib/translations';
+
   export let sourceNode;
   export let targetNode;
   export let id;
+  export let institutions;
   export let visible;
   export let showLabel
 
@@ -35,9 +41,17 @@
     <textPath
       xlink:href={`#link-${id}`}
       startOffset="50%"
-      class="link-label"
     >
-      {sourceNode.institution_si}
+      {#each institutions as institution}
+        <tspan
+          class="link__label"
+          on:click={() => goto(`${base}/${$locale}/institutions/${slugify(institution)}`)}
+        >
+          {institution}
+        </tspan>
+      {/each}
+      <!-- {institutions[0]}
+      {institutions.length > 1 ? ` + ${institutions.length - 1} others` : ''} -->
     </textPath>
   </text>
  {/if}
@@ -47,6 +61,14 @@
 
 
 <style lang="scss">
+  .link {
+    &__label {
+      cursor: pointer;
 
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
 
 </style>

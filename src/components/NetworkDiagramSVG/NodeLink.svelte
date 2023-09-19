@@ -227,11 +227,12 @@ const selectingForce = () => {
 //  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
 </script>
 
-{#each links as { index, source, target, visible, id, showLabel } (id)}
+{#each links as { index, source, target, visible, id, showLabel, institutions } (id)}
   <Link
     {id}
     {showLabel}
     {visible}
+    {institutions}
     sourceNode={nodes.find(({ id }) => source === id)}
     targetNode={nodes.find(({ id }) => target === id)}
   />

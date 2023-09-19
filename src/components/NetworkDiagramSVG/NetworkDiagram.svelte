@@ -13,8 +13,6 @@ import { scaleOrdinal, scaleBand } from 'd3-scale';
  export let connections;
 
 	const seriesColors = ['#4600BE', '#3CBEAA', '#28A0D2', '#b2c1ff'];
-
-	$: console.log(people)
 </script>
 
 <style>
@@ -29,7 +27,7 @@ import { scaleOrdinal, scaleBand } from 'd3-scale';
 			data={{ nodes: people, links: connections }}
 			flatData={people}
 			r="connectionCount"
-			rRange={[1, 20]}
+			rRange={[5, 20]}
 			z="position"
 			zScale={scaleOrdinal()}
    zRange={seriesColors}
