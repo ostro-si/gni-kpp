@@ -1,5 +1,6 @@
 <script>
- import { getContext } from 'svelte';
+
+ import { getContext, onMount } from 'svelte';
  import {
    forceSimulation,
    forceLink,
@@ -11,6 +12,7 @@
  import { select } from 'd3-selection';
  import Point from './Point.svelte';
 	import { getColor } from '../../utils';
+	import Link from './Link.svelte';
 
  const { data, width, height, rGet, zGet, zDomain } = getContext('LayerCake');
 
@@ -20,6 +22,7 @@
 
  const initialNodes = $data.nodes.map((d) => ({ ...d }))
  const initialLinks = $data.links.map((d) => ({ ...d }))
+ let simulation;
 
  console.log(initialNodes)
 
@@ -37,11 +40,61 @@
    select(el).call(d);
  }
 
- const simulation = forceSimulation(initialNodes)
+ const runInitialSimulation = () => {
+  simulation = forceSimulation(initialNodes)
     .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
     .force('charge', forceManyBody().strength(manyBodyStrength))
     .alpha(0.8)
     .restart()
+
+  simulation.on("tick", () => {
+    nodes = simulation.nodes()
+    links = initialLinks
+  })
+ }
+
+//  onMount(() => runInitialSimulation())
+
+ 
+
+//  const boundingForce = () =>  { 
+//   nodes.forEach(n => {
+//     node.
+//   })
+//   for (let i = 0, n = nodes_data.length; i < n; ++i) {
+//     curr_node = nodes_data[i];
+//     curr_node.x = Math.max(radius, Math.min(width - radius, curr_node.x));
+//     curr_node.y = Math.max(radius, Math.min(height - radius, curr_node.y));
+//   }
+// }
+
+const selectingForce = () => {
+  nodes.forEach((node) => {
+    if (node.id === selected) {
+      node.x = 100;
+      return;
+    } 
+    // const isLinked = links.find(({sourceNode, targetNode}) => targetNode.id === node.id || sourceNode.id === node.id)
+    
+    // if (isLinked) {
+    //   node.x = 200;
+    //   return;
+    // } 
+
+    // node.x = 300;
+  })
+  // const selectedNode = nodes.find(({ id }) => {
+  //   return id === selected;
+  // })
+
+  // if (selectedNode) {
+  //   selectedNode.x = 100;
+
+  // }
+
+
+  // console.log(selectedNode)
+}
 
  let nodes = [];
  let links = []
@@ -49,22 +102,50 @@
  let selected;
 
 
- simulation.on("tick", () => {
-   nodes = simulation.nodes()
-  //  links = initialLinks
- })
+ 
 
  const recenterSimulation = () => {
   console.log('recentering')
-  simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
+  if (simulation) {
+    simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
+
+  }
  }
 
  const selectItem = () => {
+  if (selected) {
+    console.log('selecting');
+    links = initialLinks
+      .filter(({ source, target }) => source === selected || target === selected)
 
+    console.log(links)
+
+    runInitialSimulation()
+
+    simulation
+      // .force('select', selectingForce())
+      .force("link", forceLink(links).id(d => d.id).strength(0.3).distance(100))
+      // .force('charge', forceManyBody().strength(-20))
+      .alpha(0.4)
+      .restart()
+    
+  } else {
+    runInitialSimulation()
+  }
  }
+
+//  const hoverItem = () => {
+//   if (hovered) {
+//     links = initialLinks
+//       .filter(({ source, target }) => source === selected || target === selected)
+//   } else {
+//     links = initialLinks
+//   }
+//  }
 
  $: $width, $height, recenterSimulation()
  $: selected, selectItem()
+//  $: hovered, hoverItem()
 
 //  $: {
 //   console.log('running simulation')
@@ -100,18 +181,18 @@
 
  $: console.log(links)
 
- $: {
+//  $: {
   // console.log('hovered', hovered, links, initialLinks)  // if (hovered) {
-   links = initialLinks
-    .filter(({ source, target }) => source === hovered || target === hovered)
-    .map(({ source, target }, i) => ({
-      id: i,
-      sourceNode: simulation.nodes().find(d => d.id === source),
-      targetNode: simulation.nodes().find(d => d.id === target)
-    }))
+  //  links = initialLinks
+  //   .filter(({ source, target }) => source === selected || target === selected)
+    // .map(({ source, target }, i) => ({
+    //   id: i,
+    //   sourceNode: simulation.nodes().find(d => d.id === source),
+    //   targetNode: simulation.nodes().find(d => d.id === target)
+    // }))
 
   // console.log(links)
-  }
+  // }
   // simulation
   //   .force("link", forceLink(links).id(d => d.id))
  // }
@@ -119,34 +200,22 @@
 //  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
 </script>
 
-{#each links as link}
- {#if link.sourceNode && link.targetNode}
-  <path
-    class='link'
-    d={`M${link.sourceNode.x} ${link.sourceNode.y}, L${link.targetNode.x} ${link.targetNode.y}`}
-    stroke="#c3c3c3"
-    id={`link-${link.id}`}
+{#each links as { index, source, target }}
+  <Link
+    id={index}
+    sourceNode={source}
+    targetNode={target}
   />
-  <!-- <text
-    style="text-anchor:middle; font: 8px sans-serif;"
-    dy="-1">
 
-    <textPath
-      xlink:href={`#link-${link.id}`}
-      startOffset="50%"
-      class="link-label"
-    >
-      {link.sourceNode.institution_si}
-    </textPath>
-  </text> -->
-  {/if}
+ <!-- {#if link.sourceNode && link.targetNode} -->
+  
 {/each}
 {#each nodes as point (point.id)}
  <Point
    class='node'
    r={$rGet(point)}
    allActive={!hovered}
-   hovered={!!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id)}
+   hovered={hovered === point.id || links.find(({ source, target }) => source === point.id || target === point.id)}
    selected={selected === point.id}
    stroke={getColor(point.position)}
    x='{point.x}'
@@ -163,3 +232,5 @@
   .link-label {
   }
 </style>
+
+<!-- hovered={!!links.find(({sourceNode, targetNode}) => targetNode.id === point.id || sourceNode.id === point.id)} -->
