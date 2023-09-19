@@ -97,7 +97,7 @@ const selectingForce = () => {
  let nodes = [];
  let links = []
  let hovered;
- let selected;
+ let selected = [];
 
  const recenterSimulation = () => {
   console.log('recentering')
@@ -121,7 +121,7 @@ const selectingForce = () => {
 
     simulation
       // .force('select', selectingForce())
-      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(100))
+      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(150))
       // .force('charge', forceManyBody().strength(-20))
       .alpha(0.4)
       .restart()
@@ -133,9 +133,9 @@ const selectingForce = () => {
 
  const setLinkVisibility = () => {
   console.log('hovering', hovered, selected)
-  if (hovered || selected) {
+  if (hovered || selected.length) {
     links = initialLinks.map(({ source, target, visible, ...rest }) => ({ 
-      visible: (source === hovered || target === hovered || source === selected || target === selected),
+      visible: (source === hovered || target === hovered || selected.includes(source) || selected.includes(target)),
       source,
       target,
       ...rest
@@ -179,7 +179,14 @@ const selectingForce = () => {
  }
 
  const onClick = id => {
-  selected = id;
+  if (selected.includes(id)) {
+    selected = selected.filter(sId => sId !== id)
+  } else {
+    if (selected.length > 1) {
+      selected.shift()
+    }
+    selected = [...selected, id]
+  }
  }
 
 //  $: console.log(links)
@@ -218,9 +225,9 @@ const selectingForce = () => {
  <Point
    class='node'
    r={$rGet(point)}
-   allActive={!hovered && !selected}
+   allActive={!hovered && !selected.length}
    hovered={hovered === point.id || visibleLinks.find(({ source, target }) => source === point.id || target === point.id)}
-   selected={selected === point.id}
+   selected={selected.includes(point.id)}
    stroke={getColor(point.position)}
    x='{point.x}'
    y='{point.y}'
