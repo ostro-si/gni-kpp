@@ -36,7 +36,7 @@
 
  $: $tX = x;
  $: $tY = y;
-	$: $tR = allActive || hovered ? r : 3;
+	$: $tR = allActive || hovered || selected ? r : 3;
 </script>
 
 <circle

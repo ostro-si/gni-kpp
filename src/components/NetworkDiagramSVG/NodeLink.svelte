@@ -24,8 +24,6 @@
  const initialLinks = $data.links.map((d) => ({ ...d, visible: false }))
  let simulation;
 
- console.log(initialNodes)
-
  // const simulation = forceSimulation(initialNodes)
  const dragger = (el, node) => {
    const d = drag()
@@ -150,6 +148,7 @@ const selectingForce = () => {
  $: $width, $height, recenterSimulation()
  $: selected, selectItem()
  $: hovered, setLinkVisibility()
+ $: visibleLinks = links.filter(({ visible }) => !!visible)
 
 //  $: {
 //   console.log('running simulation')
@@ -219,8 +218,8 @@ const selectingForce = () => {
  <Point
    class='node'
    r={$rGet(point)}
-   allActive={!hovered}
-   hovered={hovered === point.id || links.find(({ source, target }) => source === point.id || target === point.id)}
+   allActive={!hovered && !selected}
+   hovered={hovered === point.id || visibleLinks.find(({ source, target }) => source === point.id || target === point.id)}
    selected={selected === point.id}
    stroke={getColor(point.position)}
    x='{point.x}'
