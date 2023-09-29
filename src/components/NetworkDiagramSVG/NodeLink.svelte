@@ -123,10 +123,11 @@ const selectingForce = () => {
  }
 
  const selectItem = () => {
+  console.log('calling select item', $selected)
   if ($selected.length && simulation) {
     console.log('selecting');
     
-    setLinkVisibility()
+    // setLinkVisibility()
 
     const filteredLinks = links.filter(({ visible }) => !!visible)
 
@@ -135,7 +136,7 @@ const selectingForce = () => {
     simulation
       .force('select', selectingForce())
       .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(1))
-      .force('charge', forceManyBody().strength(-20))
+      // .force('charge', forceManyBody().strength(-20))
       .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(250))
       .force("boundary", forceBoundary())
       .force('center', forceCenter($width / 2, $height / 2).strength(1))
@@ -146,15 +147,18 @@ const selectingForce = () => {
 
     simulation
       .force('select', selectingForce())
+      .force("boundary", forceBoundary())
+
       .alpha(0.8)
       .restart()
-    
+        
   } else {
     runInitialSimulation()
   }
  }
 
  const setLinkVisibility = () => {
+  console.log('setting link visibility', $selected)
   if (hovered || $selected.length) {
     links = initialLinks.map(({ source, target, visible, ...rest }) => ({ 
       visible: (source === hovered || target === hovered || $selected.includes(source) || $selected.includes(target)),
@@ -163,6 +167,7 @@ const selectingForce = () => {
       target,
       ...rest
     }))
+    console.log('links', links.filter(({ visible }) => !!visible))
   } else {
     links = initialLinks
   }
@@ -170,9 +175,11 @@ const selectingForce = () => {
 
  $: $width, $height, recenterSimulation()
  $: $selected, selectItem()
+ $: $selected, setLinkVisibility()
  $: hovered, setLinkVisibility()
  $: visibleLinks = links.filter(({ visible }) => !!visible)
 
+ $: console.log(visibleLinks)
 //  $: {
 //   console.log('running simulation')
 //   simulation
@@ -231,6 +238,7 @@ const selectingForce = () => {
  // }
 
 //  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
+$: console.log($selected, hovered)
 </script>
 
 {#each links as { index, source, target, visible, id, showLabel, institutions } (id)}
@@ -251,7 +259,7 @@ const selectingForce = () => {
    class='node'
    r={$rGet(point)}
    allActive={!hovered && !$selected.length}
-   hovered={hovered === point.id || visibleLinks.find(({ source, target }) => source === point.id || target === point.id)}
+   hovered={hovered === point.id || !!visibleLinks.find(({ source, target }) => source === point.id || target === point.id)}
    selected={$selected.includes(point.id)}
    stroke={getColor(point.position)}
    x='{point.x}'

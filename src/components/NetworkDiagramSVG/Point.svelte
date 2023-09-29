@@ -39,6 +39,8 @@
 	$: $tR = allActive || hovered || selected ? r : 3;
 	$: labelWidth = label.length * 5.5
 
+	$: console.log(id, hovered, selected)
+
 </script>
 
 <circle
@@ -47,7 +49,7 @@
  cx={$tX}
  cy={$tY}
  r={$tR}
-	fill={allActive || hovered ? `url(#${id})` : "#c3c3c3"}
+	fill={allActive || hovered || selected ? `url(#${id})` : "#c3c3c3"}
  stroke={selected ? "#ffb700" : (allActive || hovered ? stroke : "none")}
  stroke-width='{strokeWidth}'
 	on:mouseover={() => {onMouseover(id)}}
