@@ -1,6 +1,9 @@
 <script>
   import { fly } from 'svelte/transition';
   import Autocomplete from '@smui-extra/autocomplete';
+  import IconButton from '@smui/icon-button';
+
+
   import people from '$lib/data/people.json';
   import institutions from '$lib/data/institutions.json';
   import { slugify } from "../../utils";
@@ -9,6 +12,7 @@
   import { locale } from '$lib/translations';
   import { selected } from '../../stores'
 
+  export let searchOpen;
   
   let value;
 
@@ -28,14 +32,21 @@
   }
 
 </script>
-<div in:fly>
+<div class="container" in:fly>
  <Autocomplete
   {options}
   textfield$variant="outlined"
   getOptionLabel={(option) =>
     option ? `${option.label}` : ''}
   bind:value
- />
+ >
+</Autocomplete>
+<div class="close-icon">
+  <IconButton class="material-icons" on:click={() =>{$selected = []; searchOpen = false}} size="button"
+    >close</IconButton
+  >
+</div>
+
 </div>
 
 <style lang="scss">
@@ -57,6 +68,24 @@
 
  :global(.mdc-deprecated-list) {
   max-width: 300px;
+ }
+
+ .container {
+  display: flex;
+  align-items: center;
+ }
+
+ .close-icon {
+  transform: translateX(-33px);
+  color: rgb(173, 173, 173);
+  background: #fff;
+ }
+
+ :global(.mdc-icon-button) {
+  // padding: 3px !important;
+  width: 30px !important;
+  height: 30px !important;
+
  }
 
  

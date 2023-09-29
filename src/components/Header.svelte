@@ -27,7 +27,7 @@
 		<HeaderAboutMenu />
 		<div>
 			{#if searchOpen}
-				<Search />
+				<Search bind:searchOpen />
 			{:else}
 				<Button on:click={toggleSearch}>
 					<Label>{$t('common.header.search')}</Label>
