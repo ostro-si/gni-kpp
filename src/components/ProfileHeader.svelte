@@ -68,7 +68,7 @@ $: console.log($platform)
   position: fixed;
   width: 100%;
   transition: padding $transition-duration linear;
-  z-index: 1000;
+  z-index: 10;
 
   &.collapsed {
     padding: 0 20px;

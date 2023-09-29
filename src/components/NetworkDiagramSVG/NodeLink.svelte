@@ -43,7 +43,7 @@
  const runInitialSimulation = () => {
   let initialNodes = $data.nodes.map((d) => ({ ...d }))
   simulation = forceSimulation(initialNodes)
-    .force('collide', forceCollide().radius(d => $rGet(d)).strength(0.2))
+    .force('collide', forceCollide().radius(d => $rGet(d) + 15).strength(0.2))
     .force('center', forceCenter($width / 2, $height / 2).strength(1))
     .force('charge', forceManyBody().strength(manyBodyStrength))
     .force("boundary", forceBoundary())

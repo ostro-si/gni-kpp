@@ -37,6 +37,9 @@
  $: $tX = x;
  $: $tY = y;
 	$: $tR = allActive || hovered || selected ? r : 3;
+	$: labelWidth = label.length * 5.5
+
+	$: console.log(labelWidth)
 </script>
 
 <circle
@@ -55,27 +58,53 @@
 
 
 {#if hovered || selected}
-	<text
+	<g 
+		transform={`translate(${$tX}, ${$tY + $tR + 12})`}
 		in:fade
 		class="label"
-		x={$tX}
-		y={$tY + $tR + 12}
-		fill={selected ? "#ffb700" : stroke}
-	>
-			{label}
-	</text>
+		>
+			<rect 
+				x={-labelWidth/2}
+				y={-5}
+				width={labelWidth}
+				height="15"
+				fill={selected ? "#ffb700" : stroke} rx="7"
+			/>
+			<text
+				x={0}
+				y={3}
+				fill={"#fff"}
+			>
+				{label}
+			</text>
+	</g>
+	
 {/if}
 
 {#if selected}
-<text
-		class="label link"
-		x={$tX}
-		y={$tY + $tR + 30}
-		fill={"#ffb700"}
+	<g 
+		transform={`translate(${$tX}, ${$tY - $tR - 10})`}
+		in:fade
+		class="label"
 		on:click={() => goto(`${base}/${$locale}/people/${id}`)}
-	>
-		View CV
-	</text>
+		>
+		<rect 
+				x={-25}
+				y={-14}
+				width={50}
+				height="15"
+				fill="#fff"
+				stroke={selected ? "#ffb700" : stroke} rx="7"
+		/>
+	<text
+			class="label link"
+			x={0}
+			y={-5}
+			fill={"#ffb700"}
+		>
+			View CV
+		</text>
+	</g>
 {/if}
 
 <style lang="scss">
@@ -88,6 +117,10 @@
 		font-size: 8px;
 		font-weight: 600;
 		background: white;
+
+		text {
+		 dominant-baseline: middle;
+		}
 	}
 
 	.link {
