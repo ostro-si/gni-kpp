@@ -78,8 +78,14 @@
     style:transform={`translate(${startX}px, 0)`}
   >
     <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} component={getItemLabel(positions[0])} bind:titleLeftShift />
+    
+    <div class="positions">
+      {#each positionRows as positions, i}
+        <TimelinePositions {positions} {hovered} refX={startX} />
+      {/each}
+    </div>
     {#if Object.keys(connections).length}
-      <div class="connections-outer-container" class:collapsed={hovered}>
+      <div class="connections-outer-container">
         <div class="connections" bind:clientWidth={connectionsWidth} style:left={`${connectionsLeftShift || titleLeftShift}px`}>
           {#each Object.entries(connections) as [id, items], i (id)}
             <div 
@@ -90,14 +96,9 @@
         </div>
       </div>
     {/if}
-    <div class="positions">
-      {#each positionRows as positions, i}
-        <TimelinePositions {positions} {hovered} refX={startX} />
-      {/each}
-    </div>
-    {#if Object.keys(connections).length}
+    <!-- {#if Object.keys(connections).length}
       <div class="expanded-placeholder" class:expanded={hovered}></div>
-    {/if}
+    {/if} -->
     {#if hovered}
       <div id="expanded-anchor">
         <TimelineConnectionsContainer refX={startX} {connections} />
