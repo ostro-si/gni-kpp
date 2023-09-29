@@ -39,7 +39,6 @@
 	$: $tR = allActive || hovered || selected ? r : 3;
 	$: labelWidth = label.length * 5.5
 
-	$: console.log(labelWidth)
 </script>
 
 <circle

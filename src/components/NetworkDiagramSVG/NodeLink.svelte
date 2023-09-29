@@ -43,7 +43,7 @@
  const runInitialSimulation = () => {
   let initialNodes = $data.nodes.map((d) => ({ ...d }))
   simulation = forceSimulation(initialNodes)
-    .force('collide', forceCollide().radius(d => $rGet(d) + 15).strength(0.2))
+    .force('collide', forceCollide().radius(d => $rGet(d) + 10).strength(0.2))
     .force('center', forceCenter($width / 2, $height / 2).strength(1))
     .force('charge', forceManyBody().strength(manyBodyStrength))
     .force("boundary", forceBoundary())
@@ -76,14 +76,17 @@ const forceBoundary = () => {
 
 const selectingForce = () => {
   nodes.forEach((node) => {
-    if ($selected?.[0] === node.id) {
-      node.x = 100;
-      return;
-    } 
-    if ($selected?.[1] === node.id) {
-      node.x = $width - 100;
-      return;
-    } 
+    if ($selected?.includes(node.id)) {
+      node.y = $height/2;
+      if ($selected.length === 1) {
+        node.x = $width/2;
+        return;
+      } else if ($selected[0] === node.id) {
+        node.x = 50;
+      } else if ($selected[1] === node.id) {
+        node.x = $width - 50;
+      }
+    }
     // const isLinked = links.find(({sourceNode, targetNode}) => targetNode.id === node.id || sourceNode.id === node.id)
     
     // if (isLinked) {
@@ -131,11 +134,18 @@ const selectingForce = () => {
 
     simulation
       .force('select', selectingForce())
-      .force('collide', forceCollide().radius(d => $rGet(d)).strength(1))
+      .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(1))
       .force('charge', forceManyBody().strength(-20))
       .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(250))
       .force("boundary", forceBoundary())
+      .force('center', forceCenter($width / 2, $height / 2).strength(1))
+
       // .force('charge', forceManyBody().strength(-20))
+      .alpha(0.8)
+      .restart()
+
+    simulation
+      .force('select', selectingForce())
       .alpha(0.8)
       .restart()
     

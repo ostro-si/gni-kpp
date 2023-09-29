@@ -7,7 +7,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  export let data;
 
 
- $: console.log(data)
+ $: console.log(platform, platform === 'mobile')
 </script>
 
 
@@ -17,19 +17,19 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
   background='#E6E6EB'
  />
 
- {#if platform === 'mobile'}
+ {#if $platform === 'mobile'}
   <TimelineMobile
    items={data.affiliations}
   />
  {:else}
- <Timeline 
-   items={data.affiliations}
-   rowGroupingVar="person_name"
-   getItemLink={({ person_id }) => `/people/${person_id}`}
-   getItemLabel={({ person_id }) => {
-    const person = data.associatedPeople.find(({ id }) => id === person_id)
-    return person
-   }}
-  />
+  <Timeline 
+    items={data.affiliations}
+    rowGroupingVar="person_name"
+    getItemLink={({ person_id }) => `/people/${person_id}`}
+    getItemLabel={({ person_id }) => {
+      const person = data.associatedPeople.find(({ id }) => id === person_id)
+      return person
+    }}
+    />
  {/if}
 {/key}
