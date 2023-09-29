@@ -137,7 +137,13 @@ const selectingForce = () => {
       .force('select', selectingForce())
       .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(1))
       // .force('charge', forceManyBody().strength(-20))
-      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(250))
+      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
+        if ($selected.includes(source.id) && $selected.includes(target.id)) {
+          return 500;
+        } else {
+          return 250
+        }
+      }))
       .force("boundary", forceBoundary())
       .force('center', forceCenter($width / 2, $height / 2).strength(1))
 
