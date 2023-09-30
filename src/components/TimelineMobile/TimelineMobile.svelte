@@ -3,7 +3,7 @@
 	import PersonLabel from "../PersonLabel.svelte";
  export let items;
 
- console.log(items)
+//  console.log(items)
 
  $: sorted = items.sort((a, b) => a.start_year < b.start_year ? -1 : 1)
 </script>

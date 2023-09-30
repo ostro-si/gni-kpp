@@ -8,8 +8,12 @@
  export let refX;
  export let hovered;
  export let yOffset;
+ export let positions;
+ export let index;
 
  let w;
+ let shouldHideStartYear = false
+ let shouldCenterEndYear = false
 
  const connectionWidth = 12;
 
@@ -17,6 +21,15 @@
 
  $: startX = item.start_year ? $xScale(item.start_year) : $xRange[0]
  $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : 0
+
+ $: {
+  if (item.end_year === positions?.[index + 1]?.start_year) {
+    shouldCenterEndYear = true;
+  }
+  if (item.start_year === positions?.[index - 1]?.end_year) {
+    shouldHideStartYear = true;
+  }  
+ }
 
 //  $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
 
@@ -27,7 +40,7 @@
 //  $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections, 'person_id') : null
 // $: uni
 
-//  $: console.log(uniqueConnections, item.connections)
+//  $: console.log(positions, index)
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
@@ -36,10 +49,20 @@
     <div class="bar"></div>
     <div class="years" class:hidden={!hovered} in:fade>
       {#if item.start_year}
-        <div>{item.start_year}</div>
+        <div
+          class="year"
+          class:hidden={shouldHideStartYear}
+        >
+          {item.start_year}
+        </div>
       {/if}
       {#if item.end_year && item.end_year !== item.start_year}
-        <div>{item.end_year}</div>
+        <div
+          class="year"
+          class:centered={shouldCenterEndYear}
+        >
+          {item.end_year === 2100 ? 'present' : item.end_year}
+        </div>
       {/if}
     </div>
   </div>
@@ -84,6 +107,16 @@
 
   &.hidden {
     display: none;
+  }
+ }
+
+ .year {
+  &.centered {
+    transform: translateX(8px);
+  }
+
+  &.hidden {
+    visibility: hidden;
   }
  }
 

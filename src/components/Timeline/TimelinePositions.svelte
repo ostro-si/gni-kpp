@@ -48,7 +48,7 @@ $: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (s
 
 // $: 
 
-
+// $: console.log(positions)
 
 </script>
   <div class="label"
@@ -58,8 +58,8 @@ $: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (s
     <span>{label}</span>
   </div>
   <div class="bars" style:min-height={`${height}px`}>
-    {#each positions as item}
-      <TimelineItem {item} {hovered} {refX} {positions} />
+    {#each positions as item, i}
+      <TimelineItem {item} {hovered} {refX} {positions} index={i} />
     {/each}
   </div>
   

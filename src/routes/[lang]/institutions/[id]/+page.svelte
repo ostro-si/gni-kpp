@@ -7,7 +7,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  export let data;
 
 
- $: console.log(platform, platform === 'mobile')
+//  $: console.log(platform, platform === 'mobile')
 </script>
 
 

@@ -60,7 +60,7 @@
  $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
 
 
- $: console.log(connectionsWidth, connectionsLeftShift)
+//  $: console.log(connectionsWidth, connectionsLeftShift)
 
 </script>
 
