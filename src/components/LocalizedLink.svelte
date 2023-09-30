@@ -10,8 +10,6 @@
 	export let css = "display: flex";
 
 	$: fullHref = `${base}/${forceLocale || $locale}${href}`;
-
-	$: console.log(css)
 </script>
 
 {#if component === 'button'}

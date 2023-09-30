@@ -12,8 +12,6 @@
 	export let clickable
 	export let coloredText
 	export let css;
-
-	$: console.log(css, name, clickable)
  
 </script>
 

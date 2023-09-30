@@ -2,8 +2,10 @@
  import { t } from '$lib/translations';
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
- import TimelineMobile from '../../../../components/TimelineMobile/TimelineMobile.svelte';
+ import TimelineMobile from '../../../../components/TimelineMobile/Person/TimelineMobile.svelte';
  import { slugify, getColor, getDateYear, getTimeSince } from '../../../../utils';
+ import { platform } from '../../../../components/MediaQuerySsr.svelte';
+
  export let data;
 </script>
 
@@ -33,13 +35,17 @@
 />
 
 {#key data.id}
- <Timeline 
-  items={data.cv}
-  sectionGroupingVar="part_of_cv"
-  rowGroupingVar="institution_si"
-  getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
- />
- <!-- <TimelineMobile
-  items={data.cv}
- /> -->
+ {#if $platform === 'mobile'}
+   <TimelineMobile
+    items={data.cv}
+    color={getColor(data.position)}
+   />
+  {:else}
+   <Timeline 
+    items={data.cv}
+    sectionGroupingVar="part_of_cv"
+    rowGroupingVar="institution_si"
+    getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
+   />
+ {/if}
 {/key}
