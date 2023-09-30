@@ -17,7 +17,7 @@ let h;
 
 $: collapsed = scrollY !== 0;
 
-$: console.log($platform)
+// $: console.log($platform)
  
 </script>
 <svelte:window bind:scrollY={scrollY} />

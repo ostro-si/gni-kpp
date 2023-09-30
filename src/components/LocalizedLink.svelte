@@ -7,8 +7,11 @@
  export let href;
  export let forceLocale = false;
 	export let component = 'button';
+	export let css = "display: flex";
 
 	$: fullHref = `${base}/${forceLocale || $locale}${href}`;
+
+	$: console.log(css)
 </script>
 
 {#if component === 'button'}
@@ -18,7 +21,7 @@
 			</Label>
 		</Button>
 {:else}
-	<a href={fullHref} on:click={onClick}><slot></slot></a>
+	<a href={fullHref} on:click={onClick} style={css}><slot></slot></a>
 
 {/if}
 

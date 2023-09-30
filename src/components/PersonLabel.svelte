@@ -11,12 +11,14 @@
 	export let small
 	export let clickable
 	export let coloredText
+	export let css;
 
+	$: console.log(css, name, clickable)
  
 </script>
 
 {#if clickable}
-<LocalizedLink component={"a"} href={`/people/${id}`}>
+<LocalizedLink component={"a"} href={`/people/${id}`} {css}>
 	<Label
 			imageLink={image_link}
 			border={getColor(position)}

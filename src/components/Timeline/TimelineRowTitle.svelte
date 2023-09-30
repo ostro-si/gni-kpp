@@ -21,7 +21,7 @@
 <LocalizedLink component={"a"} {href}>
   <div class="container" bind:clientWidth={w} style:transform={`translateX(${titleLeftShift}px)`}>
     {#if component}
-      <PersonLabel {...component} small={true} />
+      <PersonLabel {...component} small={true} clickable css="display: flex"/>
     {:else}
       <h5 class="title">{title}</h5>
     {/if}

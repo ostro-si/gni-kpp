@@ -8,6 +8,7 @@ import { getContext } from 'svelte';
  export let positions;
  export let hovered;
  export let refX;
+ export let height;
 
 //  $: console.log(positions)
 
@@ -15,7 +16,6 @@ import { getContext } from 'svelte';
 
  let labelWidth;
  let label;
- let height = 20;
 //  $: height = hovered ? 20 : 10;
 
 //  $: tT
@@ -57,7 +57,7 @@ $: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (s
   >
     <span>{label}</span>
   </div>
-  <div class="bars" style:min-height={`${height}px`}>
+  <div class="bars" style:height={`${height}px`}>
     {#each positions as item, i}
       <TimelineItem {item} {hovered} {refX} {positions} index={i} />
     {/each}
@@ -74,6 +74,7 @@ $: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (s
     position: relative;
     display: table-row-group;
     color: $light-grey;
+    line-height: 1.5;
   }
 
   .bars {

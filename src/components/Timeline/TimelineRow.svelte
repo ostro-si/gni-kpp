@@ -81,7 +81,7 @@
     
     <div class="positions">
       {#each positionRows as positions, i}
-        <TimelinePositions {positions} {hovered} refX={startX} />
+        <TimelinePositions {positions} {hovered} refX={startX} height={Object.keys(connections).length > 0 && i === positionRows.length - 1 ? 12 : 20} />
       {/each}
     </div>
     {#if Object.keys(connections).length}
