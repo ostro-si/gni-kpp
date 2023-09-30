@@ -28,6 +28,7 @@
    }
    if (value?.type === 'institution') {
     goto(`${base}/${$locale}/institutions/${value.slug}`)
+    searchOpen = false;
    }
   }
 
@@ -52,12 +53,13 @@
 <style lang="scss">
  :global(.mdc-text-field) {
   background: white;
-  max-height: 40px;
+  max-height: 35px;
   border-radius: 5px;
  }
 
  :global(.mdc-text-field__input), :global(.mdc-deprecated-list-item__text) {
   font-size: 12px;
+  width: 20vw;
   // white-space: wrap;
  }
 

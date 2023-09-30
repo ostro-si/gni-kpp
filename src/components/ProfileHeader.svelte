@@ -66,7 +66,7 @@ $: console.log($platform)
   background-color: var(--background-color);
   padding: 20px;
   position: fixed;
-  width: 100%;
+  width: calc(100% - 40px);
   transition: padding $transition-duration linear;
   z-index: 15;
 

@@ -67,6 +67,7 @@
 		width: 100%;
 		z-index: 100;
 		color: white;
+		min-height: 59px;
 		
 		&__left, &__right {
 			display: flex;
@@ -76,6 +77,9 @@
 
 		&__title {
 			font-family: Noe Display;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
 		}
 	}
 
