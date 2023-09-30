@@ -73,6 +73,7 @@ $: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (s
     font-size: 10px;
     position: relative;
     display: table-row-group;
+    color: $light-grey;
   }
 
   .bars {

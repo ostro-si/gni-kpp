@@ -95,7 +95,7 @@
   min-width: 20px;
   height: 10px;
   border-radius: 20px;
-  background-color: $black;
+  background-color: $grey;
   border: 0.5px solid white;
  }
 
@@ -111,6 +111,7 @@
  }
 
  .year {
+  color: $grey;
   &.centered {
     transform: translateX(8px);
   }

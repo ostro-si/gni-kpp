@@ -51,6 +51,7 @@
 
  .title {
   margin: 15px 0;
+  color: $grey;
 
   .small & {
     font-size: 12px;

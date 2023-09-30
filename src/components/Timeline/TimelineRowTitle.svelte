@@ -29,7 +29,7 @@
 </LocalizedLink>
 
 
-<style>
+<style lang="scss">
   .container {
     display: inline-flex;
     align-items: center;
@@ -43,6 +43,7 @@
   font-weight: 600;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
+  color: $grey;
  }
 
  .image {
