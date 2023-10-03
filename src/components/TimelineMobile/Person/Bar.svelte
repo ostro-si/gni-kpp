@@ -10,6 +10,7 @@
  export let selected = false
  export let xOffset;
  export let color;
+	export let setSelectedIndex;
 
  const { data, xGet, width, zGet, yGet, xScale, yDomain, yRange, rGet, xDomain, xRange, yScale } = getContext('LayerCake');
 
@@ -22,7 +23,7 @@
 
 	let hovered = false;
 
- $: $tX = (index - xOffset) * 10;
+ $: $tX = (index - xOffset) * 10 + 5;
  $: height = $yScale(end_year === 2100 ? new Date().getFullYear() : end_year) - $yScale(start_year);
  // $: console.log($data, $yDomain, $yRange, $yScale(2010))
 </script>
@@ -35,6 +36,7 @@
  width="8"
  height={height > 5 ? height : 5}
  fill={selected ? color : "#E6E6F0"}
+	on:click={() => setSelectedIndex(index)}
 />
 
 <style>

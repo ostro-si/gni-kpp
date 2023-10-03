@@ -11,22 +11,29 @@ export let color;
 
 let scrollSectionIndex;
 
+const setSelectedIndex = (index) => {
+  console.log('setting', index)
+  scrollSectionIndex = index;
+}
 
- $: sorted = items.sort((a, b) => a.start_year < b.start_year ? -1 : 1)
+
+$: sorted = items
+  .sort((a, b) => a.end_year < b.end_year ? -1 : 1)
+  .sort((a, b) => a.start_year < b.start_year ? -1 : 1)
 
 $: console.log(scrollSectionIndex)
 </script>
 
 <div class="outer-container">
   <div class="left">
-    <VerticalTimeBars {items} selectedIndex={scrollSectionIndex} {color} />
+    <VerticalTimeBars {items} selectedIndex={scrollSectionIndex} {setSelectedIndex} {color} />
   </div>
   <div class="right">
     <Scrolly bind:value={scrollSectionIndex}>
       {#each sorted as item (item.id)}
       <div class="item">
         <div class="inner-container">
-        <div class="years">{item.start_year} - {item.end_year}</div>
+        <div class="years" style:color={color}>{item.start_year} - {item.end_year}</div>
         <div class="institution">{item.institution_si}</div>
         <div class="position">{item.position_si}</div>
         <div class="connections">
@@ -59,7 +66,7 @@ $: console.log(scrollSectionIndex)
 
   .right {
     border-left: 0.5px solid #aaa;
-    padding-left: 10px;
+    padding-left: 15px;
   }
 
  .item {
@@ -78,14 +85,17 @@ $: console.log(scrollSectionIndex)
   font-style: normal;
   font-weight: 700;
   line-height: 15px;
+  margin-bottom: 7px;
  }
 
  .institution {
   color: $black;
-  font-size: 11px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 600;
   line-height: 15px; /* 136.364% */
+  margin-bottom: 3px;
+
  }
 
  .position {
@@ -98,5 +108,6 @@ $: console.log(scrollSectionIndex)
 
  .connections {
   display: flex;
+  margin-top: 7px;
  }
 </style>

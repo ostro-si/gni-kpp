@@ -7,6 +7,7 @@
  export let items;
  export let selectedIndex;
  export let color;
+ export let setSelectedIndex;
 
  
  $: yMin = min(items, ({ start_year }) => start_year)
@@ -24,18 +25,18 @@
    >
    <Svg>
     <AxisY />
-    <Bars {selectedIndex} {xOffset} {color} />
+    <Bars {selectedIndex} {setSelectedIndex} {xOffset} {color} />
    </Svg>
  </LayerCake> 
 </div>
 
 <style>
  .chart-container {
-   width: 80px;
+   width: 100px;
    height: calc(100vh - 130px);
    position: fixed;
    overflow: hidden;
-   margin: 5px;
+   margin: 5px 0;
   }
  
  </style>

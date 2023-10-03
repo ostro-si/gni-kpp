@@ -20,7 +20,7 @@
   export let ticks = 9;
 
   /** @type {Number} [xTick=0] - How far over to position the text marker. */
-  export let xTick = 50;
+  export let xTick = 70;
 
   /** @type {Number} [yTick=0] - How far up and down to position the text marker. */
   export let yTick = 0;
