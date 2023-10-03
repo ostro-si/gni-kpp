@@ -1,8 +1,9 @@
 <script>
   import Scrolly from "../Scrolly.svelte";
- import { arrayUniqueById, getColor } from "../../../utils";
- import PersonLabel from "../../PersonLabel.svelte";
- import VerticalTimeBars from "./VerticalTimeBars.svelte";
+  import { arrayUniqueById, getColor, slugify } from "../../../utils";
+  import PersonLabel from "../../PersonLabel.svelte";
+  import VerticalTimeBars from "./VerticalTimeBars.svelte";
+	import LocalizedLink from "../../LocalizedLink.svelte";
 
  export let items;
 export let color;
@@ -21,7 +22,7 @@ $: sorted = items
   .sort((a, b) => a.end_year < b.end_year ? -1 : 1)
   .sort((a, b) => a.start_year < b.start_year ? -1 : 1)
 
-$: console.log(scrollSectionIndex)
+$: console.log(sorted)
 </script>
 
 <div class="outer-container">
@@ -34,7 +35,9 @@ $: console.log(scrollSectionIndex)
       <div class="item">
         <div class="inner-container">
         <div class="years" style:color={color}>{item.start_year} - {item.end_year}</div>
-        <div class="institution">{item.institution_si}</div>
+        <LocalizedLink component={"a"} href={`/institutions/${slugify(item.institution_si)}`}>
+          <div class="institution">{item.institution_si}</div>
+        </LocalizedLink>
         <div class="position">{item.position_si}</div>
         <div class="connections">
           {#each arrayUniqueById(item.connections, 'person_id') as { image_link, person_id, person_name, position } (person_id)}
@@ -94,7 +97,7 @@ $: console.log(scrollSectionIndex)
   font-style: normal;
   font-weight: 600;
   line-height: 15px; /* 136.364% */
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 
  }
 
