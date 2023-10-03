@@ -4,7 +4,7 @@
 
 // Svelte Colors!
 @use '@material/theme/index' as theme with (
-  $primary: #ff3e00,
+  $primary: #4600BE,
   $secondary: #676778,
   $surface: #fff,
   $background: #fff,
@@ -26,4 +26,8 @@ body {
 
 .mdc-button {
   color: black;
+}
+
+.smui-accordion .smui-accordion__panel.smui-accordion__panel--open {
+  margin: 0 !important;
 }

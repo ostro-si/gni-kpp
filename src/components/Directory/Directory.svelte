@@ -14,15 +14,15 @@
 
 
 <div class="accordion-container">
- <Accordion multiple defaultExpanded>
-   <Panel>
+ <Accordion multiple>
+   <Panel open>
       <Header>
         <div class="header" style="--background-color: {getColor('pm')}; color: #fff">{$t('Prime minister')}</div>
       </Header>
      <Content>
      </Content>
    </Panel>
-   <Panel>
+   <Panel open>
     <Header>
       <div class="header" style="--background-color: {getColor('minister')}">{$t('Ministers')}</div>
     </Header>
@@ -34,12 +34,12 @@
      {/each}
     </Content>
    </Panel>
-   <Panel>
+   <Panel open>
     <Header>
       <div class="header" style="--background-color: {getColor('secretary')}">{$t('Secretaries')}</div>
     </Header>
    </Panel>
-   <Panel>
+   <Panel open>
     <Header>
       <div class="header" style="--background-color: {getColor('mp')}">{$t('MPs')}</div>
     </Header>
