@@ -4,6 +4,7 @@
  import TimelineConnectionsContainer from './TimelineConnectionsContainer.svelte';
  import TimelineRowTitle from './TimelineRowTitle.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
+ import PersonLabel from '../PersonLabel.svelte';
  import { min } from 'd3-array'
  import { groupBy, getColor } from '../../utils';
 
@@ -79,10 +80,13 @@
       <div class="connections-outer-container">
         <div class="connections">
           {#each Object.entries(connections) as [id, items], i (id)}
-            <div 
+
+            <PersonLabel {id} image_link={items[0].image_link} position={items[0].position} small clickable />
+
+            <!-- <div 
               class="connection"
               style={`background-color: ${getColor(items[0].position)}; background-image: url('${items[0].image_link}'); border-color: ${getColor(items[0].position)};`}
-            />
+            /> -->
           {/each}
         </div>
       </div>
@@ -118,11 +122,11 @@
     display: table;
     width: calc(100% + #{$timeline-title-width});
     transform: translateX(-$timeline-title-width);
-
   }
 
   .left, .right {
     display: table-cell;
+    vertical-align: top;
   }
 
   .left {
@@ -205,7 +209,7 @@
   min-height: 26px;
   padding: 3px 0;
   overflow: hidden;
-
+  gap: 2px;
  }
 
  .connection {
@@ -218,5 +222,10 @@
   border: 2px solid;
   margin-right: 1px;
   background-size: cover;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
  }
 </style>

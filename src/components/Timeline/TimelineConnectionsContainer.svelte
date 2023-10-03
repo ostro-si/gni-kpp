@@ -37,7 +37,7 @@
    {/each}
  </div>
  <div class="background" 
-  style:transform={`translate(${minXTransform - 4}px, -15px)`}
+  style:transform={`translate(${minXTransform - 4}px, 0)`}
   style:width={`${maxXEnds}px`}
   style:height={`${h + 8}px`}
  />
@@ -47,7 +47,7 @@
 <style lang="scss">
  .connections-expanded {
   position: absolute;
-  transform: translateY(-15px);
+  // transform: translateY(-15px);
   background-color: white;
   // padding: 20px;
   // padding-top: 20px;
