@@ -4,6 +4,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
 	import TimelineMobile from '../../../../components/TimelineMobile/Institution/TimelineMobile.svelte';
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
+ import InstitutionBreakdown from '../../../../components/InstitutionBreakdown.svelte';
  export let data;
 
 
@@ -16,6 +17,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
   title={data.affiliations?.[0]?.institution_si}
   background='#E6E6EB'
  />
+ <InstitutionBreakdown affiliations={data.affiliations} />
 
  {#if $platform === 'mobile'}
   <TimelineMobile

@@ -39,7 +39,7 @@
   padding: 0;
   /* max-width: 200px; */
   font-weight: 600;
-  font-family: Arial, Helvetica, sans-serif;
+  // font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
   color: $grey;
  }
