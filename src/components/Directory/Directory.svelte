@@ -3,47 +3,48 @@
  import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
  import { groupBy, getColor } from '../../utils';
  import PersonLabel from '../PersonLabel.svelte';
-
+ import Icon from '../Icon.svelte';
 
  export let people;
 
- $: grouped = groupBy(people, 'position')
+ const panels = [
+  { key: 'pm', text: $t('Prime minister'), open: true},
+  { key: 'minister', text: $t('Ministers'), open: true},
+  { key: 'secretary', text: $t('Secretaries'), open: true},
+  { key: 'mp', text: $t('MPs'), open: true},
+ ]
 
- $: console.log(grouped)
+ $: grouped = groupBy(people, 'position')
 </script>
 
 
 <div class="accordion-container">
  <Accordion multiple>
-   <Panel open>
+  {#each panels as {key, text, open}}
+    <Panel bind:open>
       <Header>
-        <div class="header" style="--background-color: {getColor('pm')}; color: #fff">{$t('Prime minister')}</div>
+        <div class="header" style="--background-color: {getColor(key)}">
+          <div class="header__text">{text}</div>
+          <div class="header__icon">
+            {#if open}
+              <Icon icon="minus" />
+            {:else}
+              <Icon icon="plus" />
+            {/if}
+          </div>
+        </div>
       </Header>
-     <Content>
-     </Content>
-   </Panel>
-   <Panel open>
-    <Header>
-      <div class="header" style="--background-color: {getColor('minister')}">{$t('Ministers')}</div>
-    </Header>
-    <Content>
-     {#each grouped.minister as person}
-      <div class="item">
-        <PersonLabel {...person} clickable />
-      </div>
-     {/each}
-    </Content>
-   </Panel>
-   <Panel open>
-    <Header>
-      <div class="header" style="--background-color: {getColor('secretary')}">{$t('Secretaries')}</div>
-    </Header>
-   </Panel>
-   <Panel open>
-    <Header>
-      <div class="header" style="--background-color: {getColor('mp')}">{$t('MPs')}</div>
-    </Header>
-  </Panel>
+      <Content>
+      {#if key in grouped}
+        {#each grouped[key] as person}
+          <div class="item">
+            <PersonLabel {...person} clickable />
+          </div>
+        {/each}
+      {/if}
+      </Content>
+    </Panel>
+  {/each}
  </Accordion>
 </div>
 
@@ -67,6 +68,9 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .item {
