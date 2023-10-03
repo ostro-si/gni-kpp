@@ -39,11 +39,12 @@
  </LayerCake> 
 </div>
 
-<style>
+<style lang="scss">
 .chart-container {
-  width: 100%;
+  width: calc(100% - #{$timeline-title-width});
   margin: 5px 0;
   height: 200px;
+  transform: translateX($timeline-title-width);
  }
 
  .data-container {

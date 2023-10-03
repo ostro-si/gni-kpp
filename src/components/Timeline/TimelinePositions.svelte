@@ -8,7 +8,6 @@ import { getContext } from 'svelte';
  export let positions;
  export let hovered;
  export let refX;
- export let height;
 
 //  $: console.log(positions)
 
@@ -16,8 +15,9 @@ import { getContext } from 'svelte';
 
  let labelWidth;
  let label;
+ let height = 20
 //  $: height = hovered ? 20 : 10;
-
+// 
 //  $: tT
 // $: height = 10
 

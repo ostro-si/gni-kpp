@@ -18,8 +18,8 @@
 //  let hovered = i === 2 && title === "Univerza v Ljubljani, Fakulteta za družbene vede";
  let hovered = false;
  let connections;
- let connectionsWidth;
- let titleLeftShift;
+//  let connectionsWidth;
+//  let titleLeftShift;
 
 
  $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
@@ -57,7 +57,7 @@
 
  $: positions, calculatePositionOffsets()
 
- $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
+//  $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
 
 
 //  $: console.log(connectionsWidth, connectionsLeftShift)
@@ -73,29 +73,31 @@
   on:mouseleave={() => hovered = false}
   style:z-index={hovered ? 10 : 1}
 >
-  <div 
-    class="container"
-    style:transform={`translate(${startX}px, 0)`}
-  >
-    <TimelineRowTitle {title} href={getItemLink(positions[0])} {startX} component={getItemLabel(positions[0])} bind:titleLeftShift />
-    
-    <div class="positions">
-      {#each positionRows as positions, i}
-        <TimelinePositions {positions} {hovered} refX={startX} height={Object.keys(connections).length > 0 && i === positionRows.length - 1 ? 12 : 20} />
-      {/each}
-    </div>
+  <div class="left">
+    <TimelineRowTitle {title} href={getItemLink(positions[0])} component={getItemLabel(positions[0])} />
     {#if Object.keys(connections).length}
       <div class="connections-outer-container">
-        <div class="connections" bind:clientWidth={connectionsWidth} style:left={`${connectionsLeftShift || titleLeftShift}px`}>
+        <div class="connections">
           {#each Object.entries(connections) as [id, items], i (id)}
             <div 
               class="connection"
-              style={`background-color: ${getColor(items[0].position)}; background-image: url('${items[0].image_link}'); border-color: ${getColor(items[0].position)}; visibility: ${hovered ? 'hidden' : 'visible'}`}
+              style={`background-color: ${getColor(items[0].position)}; background-image: url('${items[0].image_link}'); border-color: ${getColor(items[0].position)};`}
             />
           {/each}
         </div>
       </div>
     {/if}
+  </div>
+  <div 
+    class="right"
+    style:transform={`translate(${startX}px, 0)`}
+  >
+    <div class="positions">
+      {#each positionRows as positions, i}
+        <TimelinePositions {positions} {hovered} refX={startX} />
+      {/each}
+    </div>
+    
     <!-- {#if Object.keys(connections).length}
       <div class="expanded-placeholder" class:expanded={hovered}></div>
     {/if} -->
@@ -113,12 +115,34 @@
     border-left: none;
     border-right: none;
     position: relative;
+    display: table;
+    width: calc(100% + #{$timeline-title-width});
+    transform: translateX(-$timeline-title-width);
+
   }
 
- .container {
-  overflow: visible;
-  padding: 5px 0;
- }
+  .left, .right {
+    display: table-cell;
+  }
+
+  .left {
+    // position: absolute;
+    // transform: translateX(-$timeline-title-width);
+    width: $timeline-title-width;
+    padding-right: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-right: 0.5px solid #E6E6EB;
+  }
+
+  .right {
+
+  }
+
+//  .container {
+//   overflow: visible;
+//   padding: 5px 0;
+//  }
  .bar {
   content: "";
   width: 100%;
@@ -128,14 +152,7 @@
   background-color: blue;
  }
 
- .title {
-  margin: 0;
-  padding: 0;
-  /* max-width: 200px; */
-  font-weight: 600;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
- }
+ 
 
  .positions {
   position: relative;
