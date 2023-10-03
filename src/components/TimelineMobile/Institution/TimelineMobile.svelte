@@ -6,14 +6,22 @@
   import Scrolly from "../Scrolly.svelte";
   import downArrow from '$lib/images/icon-network.svg';
 
- export let items;
+  export let items;
 
  const yearMax = new Date().getFullYear();
 
-let byYear = {};
-let currYear;
-let minYear;
-let scrollSectionIndex;
+  let byYear = {};
+  let currYear;
+  let minYear;
+  let scrollSectionIndex;
+  let itemHeight;
+
+  const scrollTo = index => {
+    window.scrollTo({
+      top: itemHeight * index,
+      behavior: 'smooth'
+    })
+  }
 
  $: {
   items.forEach(item => {
@@ -35,8 +43,7 @@ let scrollSectionIndex;
 <div class="scroll-tracker">
   <Scrolly bind:value={scrollSectionIndex}>
     {#each Object.keys(byYear) as year (year)}
-      <div class="step" class:active={year === currYear}>
-        <!-- {year} -->
+      <div class="step" class:active={year === currYear} bind:clientHeight={itemHeight}>
       </div>
     {/each}
   </Scrolly>
@@ -50,6 +57,7 @@ let scrollSectionIndex;
         class:selected={+year === currYear}
         style:top={`${(year - currYear)*10}vh`}
         style:opacity={1 - Math.abs(currYear - year)*0.2}
+        on:click={() => scrollTo(i)}
       >
         {year}
       </div>
@@ -116,6 +124,10 @@ let scrollSectionIndex;
   left: $yearWidth;
   width: calc(100% - #{$yearWidth})
  }
+
+//  .scroll-spacer {
+//   height: 50vh;
+//  }
 
  .year {
   padding: 20px 10px;

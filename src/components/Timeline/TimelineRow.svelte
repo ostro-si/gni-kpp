@@ -140,7 +140,7 @@
   }
 
   .right {
-
+    padding: 7px 0;
   }
 
 //  .container {

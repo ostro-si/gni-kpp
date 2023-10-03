@@ -6,23 +6,22 @@
 	import LocalizedLink from "../../LocalizedLink.svelte";
 
  export let items;
-export let color;
-
-//  console.log(items)
+ export let color;
 
 let scrollSectionIndex;
+let itemHeight;
 
 const setSelectedIndex = (index) => {
-  console.log('setting', index)
-  scrollSectionIndex = index;
+  window.scrollTo({
+    top: itemHeight * index,
+    behavior: 'smooth'
+  })
 }
-
 
 $: sorted = items
   .sort((a, b) => a.end_year < b.end_year ? -1 : 1)
   .sort((a, b) => a.start_year < b.start_year ? -1 : 1)
 
-$: console.log(sorted)
 </script>
 
 <div class="outer-container">
@@ -31,23 +30,23 @@ $: console.log(sorted)
   </div>
   <div class="right">
     <Scrolly bind:value={scrollSectionIndex}>
-      {#each sorted as item (item.id)}
-      <div class="item">
-        <div class="inner-container">
-        <div class="years" style:color={color}>{item.start_year} - {item.end_year}</div>
-        <LocalizedLink component={"a"} href={`/institutions/${slugify(item.institution_si)}`}>
-          <div class="institution">{item.institution_si}</div>
-        </LocalizedLink>
-        <div class="position">{item.position_si}</div>
-        <div class="connections">
-          {#each arrayUniqueById(item.connections, 'person_id') as { image_link, person_id, person_name, position } (person_id)}
-            <div class="connection">
-            <PersonLabel clickable {position} id={person_id} {image_link} small />
+      {#each sorted as item, i (item.id)}
+        <section class="item" id={i} bind:clientHeight={itemHeight}>
+          <div class="inner-container">
+          <div class="years" style:color={color}>{item.start_year} - {item.end_year}</div>
+          <LocalizedLink component={"a"} href={`/institutions/${slugify(item.institution_si)}`}>
+            <div class="institution">{item.institution_si}</div>
+          </LocalizedLink>
+          <div class="position">{item.position_si}</div>
+          <div class="connections">
+            {#each arrayUniqueById(item.connections, 'person_id') as { image_link, person_id, person_name, position } (person_id)}
+              <div class="connection">
+              <PersonLabel clickable {position} id={person_id} {image_link} small />
+              </div>
+            {/each}
             </div>
-          {/each}
           </div>
-        </div>
-      </div>
+        </section>
       {/each}
     </Scrolly>
   </div>
