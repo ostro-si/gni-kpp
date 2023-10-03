@@ -2,6 +2,7 @@
  import { LayerCake, Svg } from "layercake";
  import { min, max } from 'd3-array'
  import Bars from "./Bars.svelte";
+	import AxisY from "./AxisY.svelte";
 
  export let items;
  export let selectedIndex;
@@ -22,6 +23,7 @@
    let:height
    >
    <Svg>
+    <AxisY />
     <Bars {selectedIndex} {xOffset} {color} />
    </Svg>
  </LayerCake> 

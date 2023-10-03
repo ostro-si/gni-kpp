@@ -17,7 +17,7 @@ let scrollSectionIndex;
 $: console.log(scrollSectionIndex)
 </script>
 
-<div class="flex-container">
+<div class="outer-container">
   <div class="left">
     <VerticalTimeBars {items} selectedIndex={scrollSectionIndex} {color} />
   </div>
@@ -44,14 +44,22 @@ $: console.log(scrollSectionIndex)
 </div>
 
 <style lang="scss">
-  .flex-container {
-    display: flex;
+  .outer-container {
+    display: table;
+  }
+
+  .left, .right {
+    display: table-cell;
   }
 
   .left {
     width: 100px;
+    
+  }
 
-
+  .right {
+    border-left: 0.5px solid #aaa;
+    padding-left: 10px;
   }
 
  .item {
