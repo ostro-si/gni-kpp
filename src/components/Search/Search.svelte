@@ -60,6 +60,10 @@
  :global(.mdc-text-field__input), :global(.mdc-deprecated-list-item__text) {
   font-size: 12px;
   width: 20vw;
+
+  // @media (max-width: $mobile) {
+  //   width: 100%;
+  // }
   // white-space: wrap;
  }
 
@@ -70,11 +74,19 @@
 
  :global(.mdc-deprecated-list) {
   max-width: 300px;
+
+  // @media (max-width: $mobile) {
+  //   width: 100%;
+  // }
  }
 
  .container {
   display: flex;
   align-items: center;
+
+  // @media (max-width: $mobile) {
+  //   width: 100%;
+  // }
  }
 
  .close-icon {

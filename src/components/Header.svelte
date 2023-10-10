@@ -64,19 +64,13 @@
 </header>
 
 {#if mobileMenuOpen}
-	<List class="demo-list">
+	<List class="mobile-menu">
 		<Item>
 			<LocalizedLink href="/">{$t('common.header.home')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>
-			{#if searchOpen}
-				<Search bind:searchOpen />
-			{:else}
-				<Button on:click={toggleSearch}>
-					<Label>{$t('common.header.search')}</Label>
-				</Button>
-			{/if}
+			<LocalizedLink href="/about">{$t('common.header.search')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>
@@ -134,35 +128,37 @@
 		transform: translateY(-50%);
 	}
 
-	:global(.mdc-button) {
-		padding: 0;
-		min-width: 0;
-	}
+	
 
 	:global(.mdc-button__label) {
 		color: #fff;
 		text-transform: capitalize;
 	}
 
-	:global(.mdc-deprecated-list) {
-		max-width: 1000px !important;
-		width: 100%;
-		transform: translateY(53px);
-		position: absolute !important;
-		height: calc(100vh - 53px);
-		background: $grey;
-		z-index: 1000;
+	:global(.mdc-deprecated-list.mobile-menu) {
+			max-width: 1000px !important;
+			width: 100%;
+			transform: translateY(53px);
+			position: absolute !important;
+			height: calc(100vh - 70px);
+			background: $grey;
+			z-index: 1000;
 
-	}
-	:global(.mdc-deprecated-list-divider) {
-		border-bottom-color: white;
-	}
+			:global(.mdc-button) {
+				padding: 0;
+				min-width: 0;
+			}		
 
-	:global(.mdc-deprecated-list-item) {
-		background: $grey;
+			:global(.mdc-deprecated-list-divider) {
+				border-bottom-color: white;
+			}
 
-		&:last-child {
-			padding-top: 10px;
-		}
+			:global(.mdc-deprecated-list-item) {
+				background: $grey;
+
+				&:last-child {
+					padding-top: 10px;
+				}
+			}
 	}
 </style>
