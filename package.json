@@ -42,6 +42,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@smui/top-app-bar": "^7.0.0-beta.15",
 		"d3-scale-chromatic": "^3.0.0",
 		"d3-selection": "^3.0.0",
 		"d3-zoom": "^3.0.0",

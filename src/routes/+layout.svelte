@@ -2,10 +2,12 @@
 	import '../app.scss';
 	import '../app.scss';
 	import Header from '../components/Header.svelte';
+	import MobileHeader from '../components/MobileHeader.svelte';
 	import './styles.css';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import MediaQuery from '../components/MediaQuerySsr.svelte';
+	import MediaQuery, { platform } from '../components/MediaQuerySsr.svelte';
+
 
 	let password = '';
 	const hash = (s) =>
@@ -26,7 +28,12 @@
 	</div>
 {:else}
 	<div class="app">
-		<Header />
+		<!-- {#if $platform === 'mobile'}
+			<MobileHeader />
+		{:else} -->
+			<Header />
+		<!-- {/if} -->
+		
 		<main>
 			<slot />
 		</main>

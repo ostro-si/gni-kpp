@@ -5,8 +5,9 @@
 	import { base } from '$app/paths';
 	import Button, { Label } from '@smui/button'
 	import Menu from '@smui/menu';
-	import List, { Item, Separator, Text } from '@smui/list';
 	import Search from './Search/Search.svelte';
+	import IconButton from '@smui/icon-button';
+	import List, { Item, Separator, Text } from '@smui/list';
 	
 	import HeaderAboutMenu from './HeaderAboutMenu.svelte';
 	import logo from '$lib/images/icon-network.svg';
@@ -15,8 +16,11 @@
 	import LocalizedLink from './LocalizedLink.svelte';
 
 	let searchOpen = false;
+	let mobileMenuOpen = false;
 	const toggleSearch = () => searchOpen = !searchOpen
 
+	$: $page.path, mobileMenuOpen = false
+	
 </script>
 
 <header class="header">
@@ -54,8 +58,48 @@
 			</Button>
 		{/if}
 	</div>
-	
+	<div class="material-icons mobile-show mobile-menu-toggle">
+		<IconButton class="material-icons" on:click={() => mobileMenuOpen = !mobileMenuOpen}>menu</IconButton>
+	</div>
 </header>
+
+{#if mobileMenuOpen}
+	<List class="demo-list">
+		<Item>
+			<LocalizedLink href="/">{$t('common.header.home')}</LocalizedLink>
+		</Item>
+		<Separator />
+		<Item>
+			{#if searchOpen}
+				<Search bind:searchOpen />
+			{:else}
+				<Button on:click={toggleSearch}>
+					<Label>{$t('common.header.search')}</Label>
+				</Button>
+			{/if}
+		</Item>
+		<Separator />
+		<Item>
+			<LocalizedLink href="/about">{$t('common.header.stories')}</LocalizedLink>
+		</Item>
+		<Separator />
+		<Item>
+				<LocalizedLink href="/about">{$t('common.header.asset_tracker')}</LocalizedLink>
+		</Item>
+		<Separator />
+		<Item>
+				{#if $locale === 'en'}
+					<Button on:click={() => { setLocale('si'); goto(`${base}/si${$page.data.route}`) }}>
+						<img src={languageSi} alt="Switch language" />
+					</Button>
+				{:else}
+					<Button on:click={() => { setLocale('en'); goto(`${base}/en${$page.data.route}`) }}>
+						<img src={languageEn} alt="Switch language" />
+					</Button>
+				{/if}
+		</Item>
+	</List>
+{/if}
 
 <style lang="scss">
 	.header {
@@ -83,8 +127,42 @@
 		}
 	}
 
+	.mobile-menu-toggle {
+		position: absolute;
+		right: 30px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	:global(.mdc-button) {
+		padding: 0;
+		min-width: 0;
+	}
+
 	:global(.mdc-button__label) {
 		color: #fff;
 		text-transform: capitalize;
+	}
+
+	:global(.mdc-deprecated-list) {
+		max-width: 1000px !important;
+		width: 100%;
+		transform: translateY(53px);
+		position: absolute !important;
+		height: calc(100vh - 53px);
+		background: $grey;
+		z-index: 1000;
+
+	}
+	:global(.mdc-deprecated-list-divider) {
+		border-bottom-color: white;
+	}
+
+	:global(.mdc-deprecated-list-item) {
+		background: $grey;
+
+		&:last-child {
+			padding-top: 10px;
+		}
 	}
 </style>

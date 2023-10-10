@@ -111,5 +111,6 @@ $: sorted = items
  .connections {
   display: flex;
   margin-top: 7px;
+  gap: 3px;
  }
 </style>

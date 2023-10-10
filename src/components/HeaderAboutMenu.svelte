@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
  import Menu from '@smui/menu';
  import { Anchor } from '@smui/menu-surface';
  import { t } from '$lib/translations';
