@@ -2,7 +2,6 @@
 	import '../app.scss';
 	import '../app.scss';
 	import Header from '../components/Header.svelte';
-	import MobileHeader from '../components/MobileHeader.svelte';
 	import './styles.css';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';

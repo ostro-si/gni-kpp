@@ -2,7 +2,7 @@
   import { fly } from 'svelte/transition';
   import Autocomplete from '@smui-extra/autocomplete';
   import IconButton from '@smui/icon-button';
-
+  import { platform } from '../MediaQuerySsr.svelte';
 
   import people from '$lib/data/people.json';
   import institutions from '$lib/data/institutions.json';
@@ -12,7 +12,7 @@
   import { locale } from '$lib/translations';
   import { selected } from '../../stores'
 
-  export let searchOpen;
+  export let searchOpen = true;
   
   let value;
 
@@ -23,8 +23,12 @@
 
   $: {
    if (value?.type === 'person') {
-    goto(`${base}/${$locale}`)
-    $selected = [value.id]
+    if ($platform === 'mobile') {
+      goto(`${base}/${$locale}/people/${value.id}`)
+    } else {
+      goto(`${base}/${$locale}`)
+      $selected = [value.id]
+    }
    }
    if (value?.type === 'institution') {
     goto(`${base}/${$locale}/institutions/${value.slug}`)

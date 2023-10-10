@@ -59,7 +59,7 @@
 		{/if}
 	</div>
 	<div class="material-icons mobile-show mobile-menu-toggle">
-		<IconButton class="material-icons" on:click={() => mobileMenuOpen = !mobileMenuOpen}>menu</IconButton>
+		<IconButton class="material-icons" on:click={() => mobileMenuOpen = !mobileMenuOpen}>{mobileMenuOpen ? 'close' : 'menu'}</IconButton>
 	</div>
 </header>
 
@@ -70,7 +70,7 @@
 		</Item>
 		<Separator />
 		<Item>
-			<LocalizedLink href="/about">{$t('common.header.search')}</LocalizedLink>
+			<LocalizedLink href="/search">{$t('common.header.search')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>
