@@ -64,7 +64,7 @@
 </header>
 
 {#if mobileMenuOpen}
-	<List class="mobile-menu">
+	<List class="mobile-menu mobile-show">
 		<Item>
 			<LocalizedLink href="/">{$t('common.header.home')}</LocalizedLink>
 		</Item>
