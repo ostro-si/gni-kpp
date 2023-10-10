@@ -19,7 +19,7 @@ export const slugify = (str) => {
 export const colors = {
   pm: '#4600BE',
   minister: '#1599D0',
-  secretary: '#31C8B0',
+  sekretar: '#31C8B0',
   mp: '#ACEC5A'
 }
 

@@ -164,7 +164,7 @@ const selectingForce = () => {
  }
 
  const setLinkVisibility = () => {
-  console.log('setting link visibility', $selected)
+  // console.log('setting link visibility', $selected)
   if (hovered || $selected.length) {
     links = initialLinks.map(({ source, target, visible, ...rest }) => ({ 
       visible: (source === hovered || target === hovered || $selected.includes(source) || $selected.includes(target)),
@@ -173,7 +173,7 @@ const selectingForce = () => {
       target,
       ...rest
     }))
-    console.log('links', links.filter(({ visible }) => !!visible))
+    // console.log('links', links.filter(({ visible }) => !!visible))
   } else {
     links = initialLinks
   }
@@ -185,7 +185,7 @@ const selectingForce = () => {
  $: hovered, setLinkVisibility()
  $: visibleLinks = links.filter(({ visible }) => !!visible)
 
- $: console.log(visibleLinks)
+//  $: console.log(visibleLinks)
 //  $: {
 //   console.log('running simulation')
 //   simulation
@@ -244,7 +244,7 @@ const selectingForce = () => {
  // }
 
 //  $: console.log(links.find(({source, target}) => target === '5' || source === '5'))
-$: console.log($selected, hovered)
+// $: console.log($selected, hovered)
 </script>
 
 {#each links as { index, source, target, visible, id, showLabel, institutions } (id)}
