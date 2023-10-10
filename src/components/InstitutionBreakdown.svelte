@@ -7,49 +7,55 @@
 
 </script>
 
-<div class="institution-breakdown">
- {#each Object.entries(byType) as [type, items]}
-  {#if !!type}
-   <div class="container">
-    <div class="left">
-     {type}
+<div class="institution-breakdown mobile-hide">
+ <div class="outer-container">
+  {#each Object.entries(byType) as [type, items]}
+   {#if !!type}
+    <div class="container">
+     <div class="left">
+      {type}
+     </div>
+     <div class="right">
+      {#each arrayUniqueById(items, 'person_id') as person (person.id)}
+       <PersonLabel {...person} id={person.person_id} position={person.curr_position} small clickable />
+      {/each}
+     </div>
     </div>
-    <div class="right">
-     {#each arrayUniqueById(items, 'person_id') as person (person.id)}
-      <PersonLabel {...person} id={person.person_id} position={person.curr_position} small clickable />
-     {/each}
-    </div>
-   </div>
-  {/if}
- {/each}
+   {/if}
+  {/each}
+ </div>
 </div>
 
 <style lang="scss">
  .institution-breakdown {
   margin: 20px;
  }
- .container {
+
+ .outer-container {
   display: table;
-  border-bottom: 1px solid #E6E6EB;
   max-width: $max-width;
   margin: auto;
-  width: calc(100% - 40px);
-  padding: 20px;
+  width: 100%;
+  border-collapse: collapse; 
+ }
 
-  // &:first-child {
-  //  border-top: 1px solid #E6E6EB;
+ .container {
+  display: table-row;
+  border-bottom: 1px solid #E6E6EB;
 
-  // }
+
  }
 
  .left, .right {
   display: table-cell;
   vertical-align: top;
+  padding: 20px;
 
  }
 
  .left {
   text-transform: capitalize;
+  width: 25%;
  }
 
  .right {

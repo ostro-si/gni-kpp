@@ -1,20 +1,21 @@
 <script>
- import { arrayUniqueById, getColor } from "../../../utils";
- import { slide, fly } from 'svelte/transition';
+  import { t } from '$lib/translations';
+  import { arrayUniqueById, getColor } from "../../../utils";
+  import { slide, fly } from 'svelte/transition';
 	import PersonLabel from "../../PersonLabel.svelte";
-  import { min } from 'd3-array';
+  import { min, max, range } from 'd3-array';
   import Scrolly from "../Scrolly.svelte";
   import downArrow from '$lib/images/icon-network.svg';
 
   export let items;
 
- const yearMax = new Date().getFullYear();
-
   let byYear = {};
   let currYear;
   let minYear;
+  let maxYear
   let scrollSectionIndex;
   let itemHeight;
+  let yearsList = []
 
   const scrollTo = index => {
     window.scrollTo({
@@ -25,7 +26,7 @@
 
  $: {
   items.forEach(item => {
-    for (let year = +item.start_year; year <= Math.min(+item.end_year, yearMax); year++) {
+    for (let year = +item.start_year; year <= +item.end_year; year++) {
       if (year in byYear) {
         byYear[+year].push(item)
       } else {
@@ -34,6 +35,9 @@
     }
   })
   minYear =+ min(Object.keys(byYear))
+  maxYear =+ max(Object.keys(byYear))
+
+  yearsList = range(minYear, maxYear)
  }
 
  $: currYear = minYear + scrollSectionIndex
@@ -42,7 +46,7 @@
 </script>
 <div class="scroll-tracker">
   <Scrolly bind:value={scrollSectionIndex}>
-    {#each Object.keys(byYear) as year (year)}
+    {#each yearsList as year (year)}
       <div class="step" class:active={year === currYear} bind:clientHeight={itemHeight}>
       </div>
     {/each}
@@ -52,7 +56,7 @@
 
 <div class="container"> 
   <div class="left-scroll">
-    {#each Object.keys(byYear) as year, i (year)}
+    {#each yearsList as year, i (year)}
       <div class="year"
         class:selected={+year === currYear}
         style:top={`${(year - currYear)*10}vh`}
@@ -72,26 +76,28 @@
           {/each}
       </div>
     {/each} -->
-    {#if currYearItems}
       {#key currYear}
         <div class="item">
-          {#each arrayUniqueById(currYearItems, 'person_id') as { image_link, person_id, person_name, position_si, curr_position } (person_id)}
-            <div class="person_label">
-              <PersonLabel
-                clickable
-                position={curr_position}
-                subheading={position_si}
-                id={person_id}
-                name={person_name}
-                {image_link}
-                small
-                coloredText
-              />
-            </div>
-          {/each}
+          {#if currYearItems}
+            {#each arrayUniqueById(currYearItems, 'person_id') as { image_link, person_id, person_name, position_si, curr_position } (person_id)}
+              <div class="person_label">
+                <PersonLabel
+                  clickable
+                  position={curr_position}
+                  subheading={position_si}
+                  id={person_id}
+                  name={person_name}
+                  {image_link}
+                  small
+                  coloredText
+                />
+              </div>
+            {/each}
+          {:else}
+            <div class="placeholder">{$t('None')}</div>
+          {/if}
         </div>
       {/key}
-    {/if}
   </div>
 </div>
 
@@ -147,6 +153,12 @@
 
   .person_label {
     margin: 10px 0;
+  }
+
+  .placeholder {
+    font-style: italic;
+    font-weight: normal;
+
   }
 
   // .item {
