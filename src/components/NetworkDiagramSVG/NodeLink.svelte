@@ -135,7 +135,7 @@ const selectingForce = () => {
 
     simulation
       .force('select', selectingForce())
-      .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(1))
+      .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
       // .force('charge', forceManyBody().strength(-20))
       .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
         if ($selected.includes(source.id) && $selected.includes(target.id)) {

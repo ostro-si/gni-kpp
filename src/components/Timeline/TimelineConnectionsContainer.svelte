@@ -4,8 +4,8 @@
  import Portal from "svelte-portal";
  import TimelineConnectionRowExpanded from './TimelineConnectionRowExpanded.svelte';
 
-
- export let connections;
+ export let id;
+ export let connection;
  export let refX;
 
  let w, h;
@@ -17,7 +17,6 @@
 
 //  $: console.log(xTransforms, xEnds)
 
- 
 
  // const { xScale, xRange } = getContext('LayerCake');
 
@@ -25,16 +24,13 @@
  // $: startX = start_year ? $xScale(start_year) : $xRange[0]
 //  $: endX = connections.map()
 
-//  console.log('portal!', connections)
+ console.log('portal!', connection)
 </script>
 
 
 <Portal target="#expanded-anchor">
  <div class="connections-expanded" bind:clientHeight={h}>
-    {#each Object.entries(connections) as [id, items], i (id)}
-      <TimelineConnectionRowExpanded {id} {items} {refX} {i} bind:xTransform={xTransforms[i]} bind:xEnd={xEnds[i]} />
-     <!-- <TimelineConnectionExpanded {...connection} {i} {refX} /> -->
-   {/each}
+    <TimelineConnectionRowExpanded {id} items={connection} {refX} />
  </div>
  <div class="background" 
   style:transform={`translate(${minXTransform - 4}px, 0)`}

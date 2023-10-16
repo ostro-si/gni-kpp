@@ -18,6 +18,7 @@
 
 //  let hovered = i === 2 && title === "Univerza v Ljubljani, Fakulteta za družbene vede";
  let hovered = false;
+ let hoveredConnection;
  let connections;
 //  let connectionsWidth;
 //  let titleLeftShift;
@@ -80,9 +81,19 @@
       <div class="connections-outer-container">
         <div class="connections">
           {#each Object.entries(connections) as [id, items], i (id)}
-
-            <PersonLabel {id} image_link={items[0].image_link} position={items[0].position} small clickable />
-
+            <div
+              on:mouseover={() => hoveredConnection = id}
+              on:focus={() => hoveredConnection = id}
+              on:mouseleave={() => hoveredConnection = undefined}
+            >
+              <PersonLabel
+                {id}
+                image_link={items[0].image_link}
+                position={items[0].position}
+                small
+                clickable
+              />
+            </div>
             <!-- <div 
               class="connection"
               style={`background-color: ${getColor(items[0].position)}; background-image: url('${items[0].image_link}'); border-color: ${getColor(items[0].position)};`}
@@ -105,9 +116,9 @@
     <!-- {#if Object.keys(connections).length}
       <div class="expanded-placeholder" class:expanded={hovered}></div>
     {/if} -->
-    {#if hovered}
+    {#if hoveredConnection}
       <div id="expanded-anchor">
-        <TimelineConnectionsContainer refX={startX} {connections} />
+        <TimelineConnectionsContainer refX={startX} id={hoveredConnection} connection={connections[hoveredConnection]} />
       </div>
     {/if}
   </div>
