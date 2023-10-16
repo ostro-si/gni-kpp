@@ -206,7 +206,7 @@ async function main() {
 
   console.log(allLinks)
 
-  people = people.map(({ position, ...rest }) => ({ position: position.trim(), ...rest }))
+  people = people.map(({ position, connectionCount, ...rest }) => ({ position: position.trim(), connectionCount: connectionCount > 0 ? connectionCount : 0, ...rest }))
 
   // console.log(allCV)
 

@@ -256,9 +256,6 @@ const selectingForce = () => {
     sourceNode={nodes.find(({ id }) => source === id)}
     targetNode={nodes.find(({ id }) => target === id)}
   />
-
- <!-- {#if link.sourceNode && link.targetNode} -->
-  
 {/each}
 {#each nodes as point (point.id)}
  <Point
@@ -272,6 +269,7 @@ const selectingForce = () => {
    y='{point.y}'
    id={point.id}
    label={point.name}
+   hasImage={!!point.image_link}
    {onMouseover}
    {onMouseout}
    {onClick}

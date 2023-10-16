@@ -20,6 +20,7 @@
 	export let onMouseout;
 	export let onClick;
 	export let label;
+	export let hasImage;
 
  const strokeWidth = 2;
  // const stroke = '#fff';
@@ -36,10 +37,10 @@
 
  $: $tX = x;
  $: $tY = y;
-	$: $tR = allActive || hovered || selected ? r : 3;
+	$: $tR = (allActive || hovered || selected) && !isNaN(r) ? r : 3;
 	$: labelWidth = label.length * 5.5
 
-	// $: console.log(id, hovered, selected)
+	$: console.log(r)
 
 </script>
 
@@ -49,7 +50,7 @@
  cx={$tX}
  cy={$tY}
  r={$tR}
-	fill={allActive || hovered || selected ? `url(#${id})` : "#c3c3c3"}
+	fill={allActive || hovered || selected ? (hasImage ? `url(#${id})` : stroke) : "#c3c3c3"}
  stroke={selected ? "#ffb700" : (allActive || hovered ? stroke : "none")}
  stroke-width='{strokeWidth}'
 	on:mouseover={() => {onMouseover(id)}}

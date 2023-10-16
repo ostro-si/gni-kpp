@@ -11,7 +11,6 @@ import { scaleOrdinal, scaleBand } from 'd3-scale';
 import { selected } from '../../stores'
 
 
-
  export let people;
  export let connections;
 
@@ -20,6 +19,8 @@ import { selected } from '../../stores'
 	})
 
 	const seriesColors = ['#4600BE', '#3CBEAA', '#28A0D2', '#b2c1ff'];
+
+	console.log(people)
 </script>
 
 <style>
