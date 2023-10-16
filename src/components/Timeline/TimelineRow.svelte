@@ -130,15 +130,15 @@
     border: 0.5px solid #E6E6EB;
     border-left: none;
     border-right: none;
-    position: relative;
-    display: table;
+    // position: relative;
+    display: flex;
     width: calc(100% + #{$timeline-title-width});
     transform: translateX(-$timeline-title-width);
   }
 
   .left, .right {
-    display: table-cell;
-    vertical-align: top;
+    // display: table-cell;
+    // vertical-align: top;
   }
 
   .left {
@@ -180,21 +180,6 @@
   color: #000;
  }
 
- .connections-outer-container {
-  // overflow-y: hidden;
-  // overflow-x: visible;
-  transition: max-height 200ms ease-in;
-  max-height: 1000px;
-  height: 25px;
-  width: 100%;
-
-  &.collapsed {
-    max-height: 0;
-  }
-    // position: relative;
-    // display: inline-block;
-  }
-
   .expanded-placeholder {
     height: 1000px;
     max-height: 0;
@@ -216,8 +201,8 @@
  }
 
  .connections {
-  display: inline-flex;
-  flex-wrap: nowrap;
+  display: flex;
+  flex-wrap: wrap;
   min-height: 26px;
   padding: 3px 0;
   overflow: hidden;
