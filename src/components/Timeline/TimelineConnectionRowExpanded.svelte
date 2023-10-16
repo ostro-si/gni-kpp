@@ -17,7 +17,6 @@
  const { xScale, xRange } = getContext('LayerCake');
 
  let labelWidth;
- let loaded
 
 
  const minStartVal = min(items, i => i.start_year);
@@ -28,16 +27,8 @@
 
  $: personDetails = items[0] || {};
 
-
  $: xTransform = startX - refX - labelWidth;
  $: xEnd = startX + (endX - startX);
- // console.log(person_id, refX)
-
- // onMount(() => {
-  // onMount(() => loaded = true);
-
- //  console.log('mounted', id)
- // })
 </script>
 
 <!-- {#if loaded === true} -->

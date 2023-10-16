@@ -92,6 +92,7 @@
                 position={items[0].position}
                 small
                 clickable
+                size={hoveredConnection === id ? 40 : 20}
               />
             </div>
             <!-- <div 

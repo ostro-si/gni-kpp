@@ -1,14 +1,32 @@
 <script>
+  import { tweened } from "svelte/motion";
+  import { cubicOut } from "svelte/easing";
+
+
  export let imageLink;
  export let title;
  export let subheading;
  export let border;
  export let small;
  export let coloredText;
+ export let size;
+
+ const tweenParameters = {
+    duration: 400,
+    easing: cubicOut,
+};
+
+$: calculatedSize = !!size ? size : (small ? 20 : 50)
+
+const tSize = tweened(calculatedSize, tweenParameters);
+
+$: $tSize = calculatedSize
+
+
 </script>
 
 
-<div class="container" class:small={small}>
+<div class="container" class:small={small} style='--size:{$tSize};'>
  {#if imageLink}
   <div class="image" style={`background-image: url('${imageLink}'); border-color: ${border}`}></div>
  {/if}
@@ -36,17 +54,12 @@
  }
 
  .image {
-   height: 50px;
-   width: 50px;
-   border-radius: 50px;
+   height: calc( var(--size) * 1px );
+   width: calc( var(--size) * 1px );
+   border-radius: calc( var(--size) * 1px );
    background-size: cover;
    background-color: #c3c3c3;
    border: 2px solid;
-
-   .small & {
-    height: 20px;
-    width: 20px;
-   }
  }
 
  .title {

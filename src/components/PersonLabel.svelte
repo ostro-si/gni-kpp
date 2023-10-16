@@ -12,6 +12,7 @@
 	export let clickable
 	export let coloredText
 	export let css;
+	export let size;
  
 </script>
 
@@ -24,6 +25,7 @@
 			{subheading}
 			{small}
 			{coloredText}
+			{size}
 		/>
 </LocalizedLink>
 {:else}
@@ -34,6 +36,7 @@
 		{subheading}
 		{small}
 		{coloredText}
+		{size}
 	/>
 {/if}
 
