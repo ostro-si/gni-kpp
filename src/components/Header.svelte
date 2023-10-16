@@ -1,5 +1,5 @@
 <script>
-	import { t, setLocale, locale, setRoute } from '$lib/translations';
+	import { translate, setLocale, locale, setRoute } from '$lib/translations';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';  
 	import { base } from '$app/paths';
@@ -34,19 +34,19 @@
 				<Search bind:searchOpen />
 			{:else}
 				<Button on:click={toggleSearch}>
-					<Label>{$t('common.header.search')}</Label>
+					<Label>{$translate('header.search')}</Label>
 				</Button>
 			{/if}
 		</div>
 	</div>
 	
-	<h3 class="header__title">{$t('common.app_title')}</h3>
+	<h3 class="header__title">{$translate('app_title')}</h3>
 	<div class="header__right mobile-hide">
 		<div>
-			<LocalizedLink href="/about">{$t('common.header.stories')}</LocalizedLink>
+			<LocalizedLink href="/about">{$translate('header.stories')}</LocalizedLink>
 		</div>
 		<div>
-			<LocalizedLink href="/about">{$t('common.header.asset_tracker')}</LocalizedLink>
+			<LocalizedLink href="/about">{$translate('header.asset_tracker')}</LocalizedLink>
 		</div>
 		{#if $locale === 'en'}
 			<Button on:click={() => { setLocale('si'); goto(`${base}/si${$page.data.route}`) }}>
@@ -66,19 +66,19 @@
 {#if mobileMenuOpen}
 	<List class="mobile-menu mobile-show">
 		<Item>
-			<LocalizedLink href="/">{$t('common.header.home')}</LocalizedLink>
+			<LocalizedLink href="/">{$translate('header.home')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>
-			<LocalizedLink href="/search">{$t('common.header.search')}</LocalizedLink>
+			<LocalizedLink href="/search">{$translate('header.search')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>
-			<LocalizedLink href="/about">{$t('common.header.stories')}</LocalizedLink>
+			<LocalizedLink href="/about">{$translate('header.stories')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>
-				<LocalizedLink href="/about">{$t('common.header.asset_tracker')}</LocalizedLink>
+				<LocalizedLink href="/about">{$translate('header.asset_tracker')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>

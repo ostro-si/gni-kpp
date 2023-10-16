@@ -15,7 +15,6 @@
  let shouldHideStartYear = false
  let shouldCenterEndYear = false
 
- const connectionWidth = 12;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
@@ -92,7 +91,7 @@
  .bar {
   content: "";
   width: 100%;
-  min-width: 20px;
+  min-width: 10px;
   height: 10px;
   border-radius: 20px;
   background-color: $grey;

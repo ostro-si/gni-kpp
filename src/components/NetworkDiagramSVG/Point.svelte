@@ -40,7 +40,7 @@
 	$: $tR = (allActive || hovered || selected) && !isNaN(r) ? r : 3;
 	$: labelWidth = label.length * 5.5
 
-	$: console.log(r)
+	// $: console.log(r)
 
 </script>
 

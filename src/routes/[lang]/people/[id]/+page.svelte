@@ -1,14 +1,12 @@
 <script>
- import { t } from '$lib/translations';
+ import { translate, locale } from '$lib/translations';
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  import TimelineMobile from '../../../../components/TimelineMobile/Person/TimelineMobile.svelte';
- import { slugify, getColor, getDateYear, getTimeSince } from '../../../../utils';
+ import { slugify, getColor, getDateYear, getTimeSince, tField } from '../../../../utils';
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
 
  export let data;
-
- $: console.log(data)
 </script>
 
 <ProfileHeader
@@ -18,20 +16,20 @@
  background={getColor(data.position)}
  details={[
   {
-   label: "Party",
-   value: data.party
+   label: $translate("Party"),
+   value: tField(data, 'party', $locale)
   },
   {
-   label: "Birth year",
+   label: $translate("Birth year"),
    value: getDateYear(data.birth_date)
   },
   {
-   label: "Time in office",
+   label: $translate("Time in office"),
    value: getTimeSince(data.time_in_office)
   },
   {
-   label: "Assets",
-   component: data.asset_tracker_link && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${$t('Link')}</a>`
+   label: $translate("Assets"),
+   component: data.asset_tracker_link && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${translate('Link')}</a>`
   }
  ]}
 />

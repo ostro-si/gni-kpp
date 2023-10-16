@@ -1,5 +1,5 @@
 <script>
- import { t } from '$lib/translations';
+ import { translate } from '$lib/translations';
  import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
  import { groupBy, getColor } from '../../utils';
  import PersonLabel from '../PersonLabel.svelte';
@@ -8,10 +8,10 @@
  export let people;
 
  const panels = [
-  { key: 'pm', text: $t('Prime minister'), open: true},
-  { key: 'minister', text: $t('Ministers'), open: true},
-  { key: 'sekretar', text: $t('Secretaries'), open: true},
-  { key: 'mp', text: $t('MPs'), open: true},
+  { key: 'pm', text: translate('Prime minister'), open: true},
+  { key: 'minister', text: translate('Ministers'), open: true},
+  { key: 'sekretar', text: translate('Secretaries'), open: true},
+  { key: 'mp', text: translate('MPs'), open: true},
  ]
 
  $: grouped = groupBy(people, 'position')

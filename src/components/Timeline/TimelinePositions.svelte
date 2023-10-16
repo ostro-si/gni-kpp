@@ -1,9 +1,11 @@
 <script>
-import { getContext } from 'svelte';
+  import { locale } from '$lib/translations';
+
+  import { getContext } from 'svelte';
 
  import TimelineItem from './TimelineItem.svelte';
  import TimelineConnectionsExpanded from './TimelineConnectionsContainer.svelte';
- import { arrayUniqueById, getColor } from '../../utils';
+ import { arrayUniqueById, getColor, tField } from '../../utils';
  
  export let positions;
  export let hovered;
@@ -24,7 +26,7 @@ import { getContext } from 'svelte';
 // let uniqueConnections;
 
 $: {
-  const uniquePositionLabels = [...new Set(positions.map(({ position_si }) => position_si ))];
+  const uniquePositionLabels = [...new Set(positions.map((position) => tField(position, 'position', $locale)))];
   label = uniquePositionLabels.join(' / ')
 
   // let allConnections = []

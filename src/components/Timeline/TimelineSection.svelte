@@ -1,8 +1,10 @@
 <script>
+import { locale } from '$lib/translations';
+
  import { LayerCake, Svg, Html } from 'layercake';
  import TimelineRow from "./TimelineRow.svelte";
  import AxisX from '../AxisX.svelte';
- import { groupBy } from "../../utils";
+ import { groupBy, tField } from "../../utils";
 
  export let items;
  export let rowGroupingVar;
@@ -16,6 +18,8 @@
 
  let h;
 //  $: console.log(w, h)
+
+ $: console.log(items)
 
 </script>
 
@@ -32,7 +36,7 @@
    <Html>
     <div class="data-container" bind:clientHeight={h}>
      {#each Object.entries(byRow) as [title, positions],i}
-      <TimelineRow {title} {positions} {getItemLink} {getItemLabel} {i}/>
+      <TimelineRow title={tField(positions[0], rowGroupingVar.split('_')[0], $locale)} {positions} {getItemLink} {getItemLabel} {i}/>
      {/each}
     </div>
    </Html>

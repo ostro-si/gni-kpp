@@ -1,5 +1,5 @@
 <script>
-import { t } from '$lib/translations';
+import { translate } from '$lib/translations';
 import { platform } from "./MediaQuerySsr.svelte";
 
 
@@ -31,7 +31,7 @@ $: collapsed = scrollY !== 0;
    <div class="ProfileHeader__title">
     <h5 class="ProfileHeader__title__heading">{title}</h5>
     {#if subheading}
-     <h5 class="ProfileHeader__title__subheading">{$t(subheading)}</h5>
+     <h5 class="ProfileHeader__title__subheading">{$translate(subheading)}</h5>
     {/if}
    </div>
   </div>

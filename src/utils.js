@@ -19,7 +19,7 @@ export const slugify = (str) => {
 export const colors = {
   pm: '#4600BE',
   minister: '#1599D0',
-  sekretar: '#31C8B0',
+  secretary: '#31C8B0',
   mp: '#ACEC5A'
 }
 
@@ -35,6 +35,8 @@ export const getDateYear = dateString => {
 }
 
 export const getTimeSince = dateString => {
+
+  console.log(new Date(dateString))
   if (!dateString) return;
 
   const difference = new Date() - new Date(dateString);
@@ -54,4 +56,17 @@ export const arrayUniqueById = (arr, key) => {
 
   const map = new Map(arr.map(o => [o[key],o]));
   return [...map.values()];
+}
+
+export const tField = (datum, field, locale) => {
+  console.log(datum, field, locale)
+  if (locale === 'en') {
+    const enFieldValue = datum[`${field}_en`]
+    
+    if (enFieldValue?.length > 0) {
+      return enFieldValue;
+    }
+  }
+  
+  return datum[`${field}_si`]
 }

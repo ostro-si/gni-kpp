@@ -1,7 +1,7 @@
 <script>
  import Menu from '@smui/menu';
  import { Anchor } from '@smui/menu-surface';
- import { t } from '$lib/translations';
+ import { translate } from '$lib/translations';
  import List, {
    Item,
    Separator,
@@ -37,7 +37,7 @@
   bind:this={anchor}
 >
   <Button on:click={() => menu.setOpen(true)}>
-    <Label>{$t('common.header.about')}</Label>
+    <Label>{$translate('header.about')}</Label>
   </Button>
   <Menu
     bind:this={menu}
@@ -47,10 +47,10 @@
   >
     <List twoLine>
      <Item>
-      <LocalizedLink href="/about">{$t('common.header.the_project')}</LocalizedLink>
+      <LocalizedLink href="/about">{$translate('header.the_project')}</LocalizedLink>
      </Item>
      <Item>
-      <LocalizedLink href="/about">{$t('common.header.methodology')}</LocalizedLink>
+      <LocalizedLink href="/about">{$translate('header.methodology')}</LocalizedLink>
      </Item>
     </List>
   </Menu>
