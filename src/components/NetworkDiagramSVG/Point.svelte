@@ -5,7 +5,7 @@
 	import { cubicOut } from "svelte/easing";
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { t, setLocale, locale, setRoute } from '$lib/translations';
+	import { locale, translate } from '$lib/translations';
 
 
 	export let id;
@@ -104,7 +104,7 @@
 			y={-5}
 			fill={"#ffb700"}
 		>
-			View CV
+			{$translate("View CV")}
 		</text>
 	</g>
 {/if}

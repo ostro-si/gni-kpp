@@ -10,5 +10,12 @@
   "asset_tracker": "Detektor premoženja"
  },
  "minister": "minister",
- "secretary": "sekretar"
+ "secretary": "sekretar",
+ "Party": "Party",
+ "Birth year": "Birth year",
+ "Time in office": "Time in office",
+ "Assets": "Assets",
+ "Link": "Link",
+ "View CV": "View CV",
+ "Search for people, political parties, or institutions":"Search for people, political parties, or institutions"
 }

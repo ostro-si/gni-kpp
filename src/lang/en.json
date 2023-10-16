@@ -8,5 +8,11 @@
   "methodology": "Methodology",
   "stories": "Stories",
   "asset_tracker": "Asset Tracker"
- }
+ },
+ "izobraževanje": "education",
+ "delovne izkušnje": "work experience",
+ "lastništvo podjetja": "company ownership",
+ "strankarska pozicija": "party position",
+ "svetovalne in nadzorne funkcije etc.": "advisory and supervisory functions, etc.",
+ "prostočasne aktivnosti": "leisure activities"
 }

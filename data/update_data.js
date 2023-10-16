@@ -92,7 +92,7 @@ async function main() {
   const cvByInstitution = groupBy(cv_filtered, 'institution_si');
 
 
-  const findConnections = ({ id, person_id, institution_si, department, start_day, start_month, start_year, end_day, end_month, end_year }) => {
+  const findConnections = ({ id, person_id, institution_si, institution_department_si, start_day, start_month, start_year, end_day, end_month, end_year }) => {
     const institutionConnections = cvByInstitution[institution_si];
 
     if (!institutionConnections || !start_year || !end_year) {
@@ -107,7 +107,7 @@ async function main() {
         return false;
       }
 
-      if (!!department && !!d.department && department !== d.department) {
+      if (!!institution_department_si && !!d.institution_department_si && institution_department_si !== d.institution_department_si) {
         return false;
       }
         
@@ -128,7 +128,7 @@ async function main() {
       //   return false
       // }
       return true;
-    }).map(({ person_id, person_name, start_year, end_year, institution_si, image_link }) => ({ person_id, person_name, start_year, end_year, institution: institution_si, image_link }))
+    })
   }
 
   let allLinks = [];
@@ -170,14 +170,20 @@ async function main() {
     // console.log(allConnections)
 
     let links = {}
-    allConnections.forEach(({ person_id, institution }) => {
+    allConnections.forEach(({ person_id, institution_si, institution_en }) => {
+      const englishValue = !institution_en || institution_en.length === 0 ? institution_si : institution_en
+
       if (person_id in links) {
-        if (!links[person_id].includes(institution)) {
-          links[person_id].push(institution)
+        if (!links[person_id].si.includes(institution_si)) {
+          links[person_id].si.push(institution_si)
+        }
+
+        if (!links[person_id].en.includes(englishValue)) {
+          links[person_id].en.push(englishValue)
         }
        
       } else {
-        links[person_id] = [institution]
+        links[person_id] = { si: [institution_si], en: [englishValue] }
       }
     })
     

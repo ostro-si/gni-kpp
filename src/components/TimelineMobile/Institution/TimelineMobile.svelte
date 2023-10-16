@@ -1,5 +1,5 @@
 <script>
-  import { t } from '$lib/translations';
+  import { translate } from '$lib/translations';
   import { arrayUniqueById, getColor } from "../../../utils";
   import { slide, fly } from 'svelte/transition';
 	import PersonLabel from "../../PersonLabel.svelte";
@@ -94,7 +94,7 @@
               </div>
             {/each}
           {:else}
-            <div class="placeholder">{$t('None')}</div>
+            <div class="placeholder">{$translate('None')}</div>
           {/if}
         </div>
       {/key}

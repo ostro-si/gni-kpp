@@ -14,6 +14,8 @@
 	import { getColor } from '../../utils';
 	import Link from './Link.svelte';
   import { selected } from '../../stores'
+  import { locale, translate } from '$lib/translations';
+
 
  const { data, width, height, rGet, zGet, zDomain } = getContext('LayerCake');
 
@@ -252,7 +254,7 @@ const selectingForce = () => {
     {id}
     {showLabel}
     {visible}
-    {institutions}
+    institutions={institutions[$locale]}
     sourceNode={nodes.find(({ id }) => source === id)}
     targetNode={nodes.find(({ id }) => target === id)}
   />

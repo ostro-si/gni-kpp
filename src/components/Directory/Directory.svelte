@@ -8,10 +8,10 @@
  export let people;
 
  const panels = [
-  { key: 'pm', text: translate('Prime minister'), open: true},
-  { key: 'minister', text: translate('Ministers'), open: true},
-  { key: 'sekretar', text: translate('Secretaries'), open: true},
-  { key: 'mp', text: translate('MPs'), open: true},
+  { key: 'pm', text: $translate('Prime minister'), open: true},
+  { key: 'minister', text: $translate('Ministers'), open: true},
+  { key: 'sekretar', text: $translate('Secretaries'), open: true},
+  { key: 'mp', text: $translate('MPs'), open: true},
  ]
 
  $: grouped = groupBy(people, 'position')

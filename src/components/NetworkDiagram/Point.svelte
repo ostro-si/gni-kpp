@@ -5,7 +5,6 @@
 	import { cubicOut } from "svelte/easing";
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { t, setLocale, locale, setRoute } from '$lib/translations';
 
 
 	export let id;

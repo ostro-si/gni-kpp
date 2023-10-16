@@ -35,8 +35,6 @@ export const getDateYear = dateString => {
 }
 
 export const getTimeSince = dateString => {
-
-  console.log(new Date(dateString))
   if (!dateString) return;
 
   const difference = new Date() - new Date(dateString);
@@ -59,7 +57,7 @@ export const arrayUniqueById = (arr, key) => {
 }
 
 export const tField = (datum, field, locale) => {
-  console.log(datum, field, locale)
+  // console.log(datum, field, locale)
   if (locale === 'en') {
     const enFieldValue = datum[`${field}_en`]
     

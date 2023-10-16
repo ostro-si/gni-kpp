@@ -1,5 +1,6 @@
 <script>
  import AxisX from '../AxisX.svelte';
+ import { translate } from '$lib/translations';
  import TimelineSection from './TimelineSection.svelte';
  import { fade } from 'svelte/transition';
  import { groupBy } from '../../utils'
@@ -20,7 +21,7 @@
 <div class="timeline-container" in:fade>
   {#if sectionGroupingVar}
     {#each Object.entries(sections) as [title, sectionItems]}
-      <h5 class="section-title">{title}</h5>
+      <h5 class="section-title">{$translate(title)}</h5>
       <TimelineSection data={flattened} items={sectionItems} {rowGroupingVar} {getItemLink} {getItemLabel} />
     {/each}
   {:else}

@@ -19,7 +19,7 @@ import { locale } from '$lib/translations';
  let h;
 //  $: console.log(w, h)
 
- $: console.log(items)
+//  $: console.log(items)
 
 </script>
 

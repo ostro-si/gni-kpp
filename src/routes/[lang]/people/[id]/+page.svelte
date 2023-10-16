@@ -1,5 +1,5 @@
 <script>
- import { translate, locale } from '$lib/translations';
+ import { translate, locale, translations } from '$lib/translations';
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  import TimelineMobile from '../../../../components/TimelineMobile/Person/TimelineMobile.svelte';
@@ -7,6 +7,8 @@
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
 
  export let data;
+
+ $: console.log($translations)
 </script>
 
 <ProfileHeader
@@ -29,7 +31,7 @@
   },
   {
    label: $translate("Assets"),
-   component: data.asset_tracker_link && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${translate('Link')}</a>`
+   component: data.asset_tracker_link && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${$translate('Link')}</a>`
   }
  ]}
 />

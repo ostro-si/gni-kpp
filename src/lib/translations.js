@@ -21,6 +21,7 @@ const config = ({
      ).default,
    },
   ],
+  fallbackValue: undefined
 });
 
 export const defaultLocale = 'en';
@@ -28,7 +29,18 @@ export const defaultLocale = 'en';
 const { t, locale, locales, loading, setLocale, setRoute, translations } = new i18n(config);
 
 const translate = derived(t, $t => {
-  return (key) => $t(`common.${key}`)
+  return (key) => {
+    const value = $t(`common.${key}`)
+
+    // console.log(key, value)
+
+
+    if (!value) {
+      return key;
+    } else {
+      return value
+    }
+  }
 })
 
 export { translate, locale, locales, loading, setLocale, setRoute, translations }
