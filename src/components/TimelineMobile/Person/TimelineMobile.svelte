@@ -18,6 +18,8 @@ const setSelectedIndex = (index) => {
   })
 }
 
+$: console.log(items)
+
 $: sorted = items
   .sort((a, b) => a.end_year < b.end_year ? -1 : 1)
   .sort((a, b) => a.start_year < b.start_year ? -1 : 1)

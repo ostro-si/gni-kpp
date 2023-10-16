@@ -7,6 +7,8 @@
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
 
  export let data;
+
+ $: console.log(data)
 </script>
 
 <ProfileHeader
@@ -35,17 +37,19 @@
 />
 
 {#key data.id}
- {#if $platform === 'mobile'}
-   <TimelineMobile
-    items={data.cv}
-    color={getColor(data.position)}
-   />
-  {:else}
-   <Timeline 
-    items={data.cv}
-    sectionGroupingVar="part_of_cv"
-    rowGroupingVar="institution_si"
-    getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
-   />
- {/if}
+  {#if data.cv}
+    {#if $platform === 'mobile'}
+      <TimelineMobile
+        items={data.cv}
+        color={getColor(data.position)}
+      />
+    {:else}
+      <Timeline 
+        items={data.cv}
+        sectionGroupingVar="part_of_cv"
+        rowGroupingVar="institution_si"
+        getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
+      />
+    {/if}
+  {/if}
 {/key}

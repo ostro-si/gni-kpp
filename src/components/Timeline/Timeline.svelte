@@ -10,6 +10,8 @@
  export let getItemLink;
  export let getItemLabel;
 
+ $: console.log(items)
+
  $: sections = groupBy(items, sectionGroupingVar)
  $: flattened = items
   .map(({ start_year, end_year }) => ([{ year: start_year }, { year: end_year }]))
