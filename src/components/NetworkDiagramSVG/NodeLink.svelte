@@ -42,15 +42,23 @@
    select(el).call(d);
  }
 
+ onMount(() => {
+		runInitialSimulation()
+});
+
  const runInitialSimulation = () => {
   console.log('running initial simulation')
   let initialNodes = $data.nodes.map((d) => ({ ...d }))
   simulation = forceSimulation(initialNodes)
+
+  simulation
     .force('collide', forceCollide().radius(d => $rGet(d) + 10).strength(0.2))
     .force('center', forceCenter($width / 2, $height / 2).strength(1))
     .force('charge', forceManyBody().strength(manyBodyStrength))
     .force("boundary", forceBoundary())
     .stop()
+  
+  // recenterSimulation()
     
 
     // .alpha(0.8)
@@ -134,48 +142,51 @@ const selectingForce = () => {
  }
 
  const selectItem = () => {
-  console.log('calling select item', $selected)
-  if ($selected.length && simulation) {
-    console.log('selecting');
-    
-    // setLinkVisibility()
+  if (simulation) {
+    if ($selected.length) {
+      console.log('calling select item', $selected)
+      
+      // setLinkVisibility()
 
-    const filteredLinks = links.filter(({ visible }) => !!visible)
+      const filteredLinks = links.filter(({ visible }) => !!visible)
 
-    runInitialSimulation()
+      runInitialSimulation()
 
 
-    simulation
-      .force('select', selectingForce())
-      .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
-      // .force('charge', forceManyBody().strength(-20))
-      .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
-        if ($selected.includes(source.id) && $selected.includes(target.id)) {
-          return 500;
-        } else {
-          return 250
-        }
-      }))
-      .force("boundary", forceBoundary())
-      .force('center', forceCenter($width / 2, $height / 2).strength(1))
-      .stop()
-      // .force('charge', forceManyBody().strength(-20))
-      // .alpha(0.8)
-      // .restart()
+      simulation
+        .force('select', selectingForce())
+        .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
+        // .force('charge', forceManyBody().strength(-20))
+        .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
+          if ($selected.includes(source.id) && $selected.includes(target.id)) {
+            return 500;
+          } else {
+            return 250
+          }
+        }))
+        .force("boundary", forceBoundary())
+        .force('center', forceCenter($width / 2, $height / 2).strength(1))
+        .stop()
+        // .force('charge', forceManyBody().strength(-20))
+        // .alpha(0.8)
+        // .restart()
 
-    simulation
-      .force('select', selectingForce())
-      .force("boundary", forceBoundary())
-      .stop()
+      simulation
+        .force('select', selectingForce())
+        .force("boundary", forceBoundary())
+        .stop()
 
-    tick()
+      tick()
 
-      // .alpha(0.8)
-      // .restart()
-        
-  } else {
-    runInitialSimulation()
-    tick()
+        // .alpha(0.8)
+        // .restart()
+          
+    } else {
+      console.log('removing election, resetting', $selected)
+
+      runInitialSimulation()
+      tick()
+    }
   }
  }
 
