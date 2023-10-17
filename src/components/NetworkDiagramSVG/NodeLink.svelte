@@ -43,19 +43,23 @@
  }
 
  const runInitialSimulation = () => {
+  console.log('running initial simulation')
   let initialNodes = $data.nodes.map((d) => ({ ...d }))
   simulation = forceSimulation(initialNodes)
     .force('collide', forceCollide().radius(d => $rGet(d) + 10).strength(0.2))
     .force('center', forceCenter($width / 2, $height / 2).strength(1))
     .force('charge', forceManyBody().strength(manyBodyStrength))
     .force("boundary", forceBoundary())
-    .alpha(0.8)
-    .restart()
+    .stop()
+    
 
-  simulation.on("tick", () => {
-    nodes = simulation.nodes()
-    // links = links
-  })
+    // .alpha(0.8)
+    // .restart()
+
+  // simulation.on("tick", () => {
+  //   nodes = simulation.nodes()
+  //   // links = links
+  // })
 
  }
 
@@ -64,7 +68,7 @@
  
 
 const forceBoundary = () => {
-  nodes.forEach((node) => {
+  simulation?.nodes().forEach((node) => {
     const radius = $rGet(node);
     const y = Math.max(radius + 50, Math.min($height - 50 - radius, node.y));
     node.y = y;
@@ -73,7 +77,7 @@ const forceBoundary = () => {
     node.x = x
   });
 
-  nodes = nodes
+  // nodes = simulation?.nodes()
 }
 
 const selectingForce = () => {
@@ -118,9 +122,14 @@ const selectingForce = () => {
  let hovered;
 
  const recenterSimulation = () => {
-  console.log('recentering')
   if (simulation) {
+    console.log('recentering')
     simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
+      .force("boundary", forceBoundary())
+      .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
+
+
+    tick();
   }
  }
 
@@ -133,7 +142,8 @@ const selectingForce = () => {
 
     const filteredLinks = links.filter(({ visible }) => !!visible)
 
-    // runInitialSimulation()
+    runInitialSimulation()
+
 
     simulation
       .force('select', selectingForce())
@@ -148,20 +158,24 @@ const selectingForce = () => {
       }))
       .force("boundary", forceBoundary())
       .force('center', forceCenter($width / 2, $height / 2).strength(1))
-
+      .stop()
       // .force('charge', forceManyBody().strength(-20))
-      .alpha(0.8)
-      .restart()
+      // .alpha(0.8)
+      // .restart()
 
     simulation
       .force('select', selectingForce())
       .force("boundary", forceBoundary())
+      .stop()
 
-      .alpha(0.8)
-      .restart()
+    tick()
+
+      // .alpha(0.8)
+      // .restart()
         
   } else {
     runInitialSimulation()
+    tick()
   }
  }
 
@@ -206,6 +220,17 @@ const selectingForce = () => {
 //     .alpha(0.8)
 //     .restart()
 // }
+
+const tick = () => {
+  console.log('ticking')
+  for ( let i = 0,
+    n = Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay()));
+    i < n;
+    ++i ) {
+    simulation.tick();
+  }
+  nodes = simulation.nodes()
+}
 
 
  const onMouseover = id => {
