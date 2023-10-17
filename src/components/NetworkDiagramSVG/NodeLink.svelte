@@ -44,6 +44,8 @@
 
  onMount(() => {
 		runInitialSimulation()
+    // recenterSimulation()
+    tick()
 });
 
  const runInitialSimulation = () => {
@@ -54,7 +56,7 @@
   simulation
     .force('collide', forceCollide().radius(d => $rGet(d) + 10).strength(0.2))
     .force('center', forceCenter($width / 2, $height / 2).strength(1))
-    .force('charge', forceManyBody().strength(manyBodyStrength))
+    // .force('charge', forceManyBody().strength(manyBodyStrength))
     .force("boundary", forceBoundary())
     .stop()
   
@@ -89,7 +91,7 @@ const forceBoundary = () => {
 }
 
 const selectingForce = () => {
-  nodes.forEach((node) => {
+  simulation.nodes().forEach((node) => {
     if ($selected?.includes(node.id)) {
       node.y = $height/2;
       if ($selected.length === 1) {
@@ -135,6 +137,7 @@ const selectingForce = () => {
     simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
       .force("boundary", forceBoundary())
       .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
+      .force('charge', forceManyBody().strength(-20))
 
 
     tick();
@@ -154,8 +157,8 @@ const selectingForce = () => {
 
 
       simulation
-        .force('select', selectingForce())
-        .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
+        // .force('select', selectingForce())
+        // .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(1.5))
         // .force('charge', forceManyBody().strength(-20))
         .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
           if ($selected.includes(source.id) && $selected.includes(target.id)) {
@@ -164,17 +167,17 @@ const selectingForce = () => {
             return 250
           }
         }))
-        .force("boundary", forceBoundary())
         .force('center', forceCenter($width / 2, $height / 2).strength(1))
+        .force("boundary", forceBoundary())
         .stop()
         // .force('charge', forceManyBody().strength(-20))
         // .alpha(0.8)
         // .restart()
 
-      simulation
-        .force('select', selectingForce())
-        .force("boundary", forceBoundary())
-        .stop()
+      // simulation
+      //   // .force('select', selectingForce())
+      //   .force("boundary", forceBoundary())
+      //   .stop()
 
       tick()
 
