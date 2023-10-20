@@ -74,14 +74,17 @@ async function main() {
 
   const cv_filtered = cv
     .filter(({ person_id }) => !!person_id)
-    .map(({ start_day, start_month, start_year, end_day, end_month, end_year, ...rest}) => {
+    .map(({ start_day, start_month, start_year, end_day, end_month, end_year, institution_si, institution_department_si, ...rest}) => {
       const start = cleanDates('start', start_day, start_month, start_year)
       const end = cleanDates('end', end_day, end_month, end_year)
+      
 
       return ({
         ...rest,
         ...start,
-        ...end
+        ...end,
+        institution_si: institution_si.trim(),
+        institution_department_si: institution_department_si.trim(),
       })
     })
     .filter(({ start_year, end_year }) => !!start_year && !!end_year)
