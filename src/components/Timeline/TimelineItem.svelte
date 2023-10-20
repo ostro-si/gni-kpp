@@ -91,7 +91,7 @@
  .bar {
   content: "";
   width: 100%;
-  min-width: 10px;
+  min-width: 20px;
   height: 10px;
   border-radius: 20px;
   background-color: $grey;

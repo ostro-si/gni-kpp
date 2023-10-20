@@ -1,10 +1,10 @@
 <script>
  import Search from "../../../components/Search/Search.svelte";
- import { t } from '$lib/translations';
+ import { translate } from '$lib/translations';
 
 </script>
 
-<div class="title">{$t('Search for people, political parties, or institutions')}</div>
+<div class="title">{$translate('Search for people, political parties, or institutions')}</div>
 <div class="search">
  <Search />
 </div>

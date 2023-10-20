@@ -16,8 +16,8 @@
 	export let hovered;
 	export let selected;
 	export let stroke;
-	export let onMouseover;
-	export let onMouseout;
+	export let onMouseover = () => null;
+	export let onMouseout = () => null;
 	export let onClick;
 	export let label;
 	export let hasImage;
@@ -37,7 +37,7 @@
 
  $: $tX = x;
  $: $tY = y;
-	$: $tR = (allActive || hovered || selected) && !isNaN(r) ? r : 3;
+	$: $tR = (allActive || hovered || selected) && !isNaN(r) ? r : 2;
 	$: labelWidth = label.length * 5.5
 
 	// $: console.log(r)
