@@ -42,14 +42,14 @@
    select(el).call(d);
  }
 
- onMount(() => {
-		runInitialSimulation()
-    // recenterSimulation()
-    tick()
-});
+//  onMount(() => {
+// 		runInitialSimulation()
+//     // recenterSimulation()
+//     tick()
+// });
 
  const runInitialSimulation = () => {
-  console.log('running initial simulation')
+  console.log('running initial simulation', $width, $height)
   let initialNodes = $data.nodes.map((d) => ({ ...d }))
   simulation = forceSimulation(initialNodes)
 
@@ -132,13 +132,18 @@ const selectingForce = () => {
  let hovered;
 
  const recenterSimulation = () => {
+  console.log('in recenter')
   if (simulation) {
-    console.log('recentering')
+    console.log('recentering', $width, $height)
     simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
       .force("boundary", forceBoundary())
       .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
       .force('charge', forceManyBody().strength(-20))
 
+
+    tick();
+  } else if ($width > 100) {
+    runInitialSimulation();
 
     tick();
   }
@@ -185,7 +190,7 @@ const selectingForce = () => {
         // .restart()
           
     } else {
-      console.log('removing election, resetting', $selected)
+      console.log('removing selection, resetting', $selected)
 
       runInitialSimulation()
       tick()
