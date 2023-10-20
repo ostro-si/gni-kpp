@@ -68,3 +68,17 @@ export const tField = (datum, field, locale) => {
   
   return datum[`${field}_si`]
 }
+
+export const getInitials = name => {
+  if (!name) return null;
+
+  let rgx = new RegExp(/(\p{L}{1})\p{L}+/, 'gu');
+
+  let initials = [...name.matchAll(rgx)] || [];
+
+  initials = (
+    (initials.shift()?.[1] || '') + (initials.pop()?.[1] || '')
+  ).toUpperCase();
+
+  return initials
+}

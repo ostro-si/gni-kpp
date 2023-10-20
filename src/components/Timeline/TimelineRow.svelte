@@ -6,7 +6,7 @@
  import LocalizedLink from '../LocalizedLink.svelte';
  import PersonLabel from '../PersonLabel.svelte';
  import { min } from 'd3-array'
- import { groupBy, getColor } from '../../utils';
+ import { groupBy, getColor, getInitials } from '../../utils';
 
  export let title;
  export let positions;
@@ -89,6 +89,7 @@
               <PersonLabel
                 {id}
                 image_link={items[0].image_link}
+                imagePlaceholder={!items[0].image_link ? getInitials(items[0].person_name) : null}
                 position={items[0].position}
                 small
                 clickable

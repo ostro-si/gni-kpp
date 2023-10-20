@@ -4,6 +4,7 @@
 
 
  export let imageLink;
+ export let imagePlaceholder;
  export let title;
  export let subheading;
  export let border;
@@ -26,9 +27,13 @@ $: $tSize = calculatedSize
 </script>
 
 
-<div class="container" class:small={small} style='--size:{$tSize};'>
+<div class="container" class:small={small} style='--size:{$tSize}; --color:{border}'>
  {#if imageLink}
-  <div class="image" style={`background-image: url('${imageLink}'); border-color: ${border}`}></div>
+  <div class="image" style={`background-image: url('${imageLink}')`}></div>
+ {:else if imagePlaceholder}
+  <div class="image-placeholder">
+    <span>{imagePlaceholder}</span>
+  </div>
  {/if}
  {#if title || subheading}
   <div class="title">
@@ -53,13 +58,28 @@ $: $tSize = calculatedSize
   }
  }
 
- .image {
+ .image, .image-placeholder {
    height: calc( var(--size) * 1px );
    width: calc( var(--size) * 1px );
    border-radius: calc( var(--size) * 1px );
+   border: 2px solid var(--color);
+   background-color: var(--color);
+ }
+
+ .image {
    background-size: cover;
-   background-color: #c3c3c3;
-   border: 2px solid;
+ }
+
+ .image-placeholder {
+  position: relative;
+
+  span {
+    font-size: calc( var(--size) * 0.4px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
  }
 
  .title {
