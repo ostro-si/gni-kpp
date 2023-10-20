@@ -35,7 +35,7 @@ import { selected } from '../../stores'
 			data={{ nodes: people, links: connections }}
 			flatData={people}
 			r="connectionCount"
-			rRange={[5, 20]}
+			rRange={[4, 24]}
 			z="position"
 			zScale={scaleOrdinal()}
    zRange={seriesColors}

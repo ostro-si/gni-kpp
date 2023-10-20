@@ -151,6 +151,8 @@ const selectingForce = () => {
 
  const selectItem = () => {
   if (simulation) {
+    setLinkVisibility()
+    
     if ($selected.length) {
       console.log('calling select item', $selected)
       
@@ -166,7 +168,6 @@ const selectingForce = () => {
               return true;
             }
           } else {
-            console.log('multiple selected')
             const connectedToFirst = !!filteredLinks.find(({ source, target }) => (source === d.id || target === d.id) && (source === $selected[0] || target === $selected[0]))
             const connectedToSecond = !!filteredLinks.find(({ source, target }) => (source === d.id || target === d.id) && (source === $selected[1] || target === $selected[1]))
             return connectedToFirst && connectedToSecond
@@ -233,7 +234,6 @@ const selectingForce = () => {
 
  $: $width, $height, recenterSimulation()
  $: $selected, selectItem()
- $: $selected, setLinkVisibility()
  $: hovered, setLinkVisibility()
  $: visibleLinks = links.filter(({ visible }) => !!visible)
 

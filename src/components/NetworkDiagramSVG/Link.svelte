@@ -20,7 +20,7 @@
     const end = flip ? sourceNode : targetNode;
     path = `M${start.x} ${start.y}, L${end.x} ${end.y}`
    }
-  } 
+  }
 
   // $: shouldSplitLabel = sourceNode?.institution_si.length > 50;
 </script>
@@ -35,25 +35,48 @@
   />
   {#if showLabel}
   <text
-    style="text-anchor:middle; font: 8px sans-serif;"
     dy="-3"
    >
     <textPath
       xlink:href={`#link-${id}`}
       startOffset="50%"
     >
-      {#each institutions as institution}
-        <tspan
-          class="link__label"
-          on:click={() => goto(`${base}/${$locale}/institutions/${slugify(institution)}`)}
-        >
-          {institution}
-        </tspan>
-      {/each}
-      <!-- {institutions[0]}
-      {institutions.length > 1 ? ` + ${institutions.length - 1} others` : ''} -->
+      <tspan
+        class="link__label"
+        on:click={() => goto(`${base}/${$locale}/institutions/${slugify(institutions[0])}`)}
+      >
+        {institutions[0]}
+      </tspan>
     </textPath>
   </text>
+  
+  {#if institutions.length > 1}
+    <text
+      dy="8"
+    >
+      <textPath
+        xlink:href={`#link-${id}`}
+        startOffset="50%"
+      >
+        {#if institutions.length > 2}
+          <tspan
+            class="link__label"
+            style:pointer-events="none"
+          >
+            {`+${institutions.length - 1} more`}
+          </tspan>
+        {:else}
+          <tspan
+            class="link__label"
+            on:click={() => goto(`${base}/${$locale}/institutions/${slugify(institutions[1])}`)}
+          >
+            {institutions[1]}
+          </tspan>
+        {/if}
+      </textPath>
+    </text>
+  {/if}
+
  {/if}
 {/if}
 
@@ -69,6 +92,11 @@
         opacity: 0.7;
       }
     }
+  }
+
+  text {
+    text-anchor: middle;
+    font: 8px sans-serif;
   }
 
 </style>
