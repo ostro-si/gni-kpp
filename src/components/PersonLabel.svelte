@@ -4,6 +4,7 @@
 	import LocalizedLink from "./LocalizedLink.svelte";
 
  export let image_link;
+	export let imagePlaceholder;
  export let position;
 	export let id;
  export let name;
@@ -20,6 +21,7 @@
 <LocalizedLink component={"a"} href={`/people/${id}`} {css}>
 	<Label
 			imageLink={image_link}
+			{imagePlaceholder}
 			border={getColor(position)}
 			title={name}
 			{subheading}
@@ -31,6 +33,7 @@
 {:else}
 	<Label
 		imageLink={image_link}
+		{imagePlaceholder}
 		border={getColor(position)}
 		title={name}
 		{subheading}
