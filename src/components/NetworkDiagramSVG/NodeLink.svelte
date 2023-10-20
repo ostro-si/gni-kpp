@@ -157,14 +157,28 @@ const selectingForce = () => {
       // setLinkVisibility()
 
       const filteredLinks = links.filter(({ visible }) => !!visible)
+      let filteredNodes = $data.nodes
+        .map((d) => ({ ...d }))
+        .filter((d) => {
+          if ($selected.includes(d.id)) {
+            return true;
+          }
+          if (!!filteredLinks.find(({ source, target }) => source === d.id || target === d.id)) {
+            return true;
+          }
+          return false;
+        })
 
-      runInitialSimulation()
+      console.log(filteredNodes)
 
 
-      simulation
+      // runInitialSimulation()
+
+
+      simulation = forceSimulation(filteredNodes)
         // .force('select', selectingForce())
-        // .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(1.5))
-        // .force('charge', forceManyBody().strength(-20))
+        .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(3))
+        .force('charge', forceManyBody().strength(-50))
         .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
           if ($selected.includes(source.id) && $selected.includes(target.id)) {
             return 500;
