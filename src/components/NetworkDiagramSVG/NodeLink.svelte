@@ -154,31 +154,38 @@ const selectingForce = () => {
     if ($selected.length) {
       console.log('calling select item', $selected)
       
-      // setLinkVisibility()
-
-      const filteredLinks = links.filter(({ visible }) => !!visible)
+      let filteredLinks = links.filter(({ visible }) => !!visible)
       let filteredNodes = $data.nodes
         .map((d) => ({ ...d }))
         .filter((d) => {
           if ($selected.includes(d.id)) {
             return true;
           }
-          if (!!filteredLinks.find(({ source, target }) => source === d.id || target === d.id)) {
-            return true;
+          if ($selected.length === 1) {
+            if (!!filteredLinks.find(({ source, target }) => source === d.id || target === d.id)) {
+              return true;
+            }
+          } else {
+            console.log('multiple selected')
+            const connectedToFirst = !!filteredLinks.find(({ source, target }) => (source === d.id || target === d.id) && (source === $selected[0] || target === $selected[0]))
+            const connectedToSecond = !!filteredLinks.find(({ source, target }) => (source === d.id || target === d.id) && (source === $selected[1] || target === $selected[1]))
+            return connectedToFirst && connectedToSecond
           }
+          
           return false;
         })
 
-      console.log(filteredNodes)
 
-
-      // runInitialSimulation()
-
+      filteredLinks = filteredLinks.filter(({ source, target }) => {
+        return (
+          filteredNodes.find(({ id }) => source === id) &&  filteredNodes.find(({ id }) => target === id)
+        )
+      })
 
       simulation = forceSimulation(filteredNodes)
         // .force('select', selectingForce())
         .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(3))
-        .force('charge', forceManyBody().strength(-50))
+        .force('charge', forceManyBody().strength(-100))
         .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
           if ($selected.includes(source.id) && $selected.includes(target.id)) {
             return 500;
@@ -188,15 +195,11 @@ const selectingForce = () => {
         }))
         .force('center', forceCenter($width / 2, $height / 2).strength(1))
         .force("boundary", forceBoundary())
+        
         .stop()
         // .force('charge', forceManyBody().strength(-20))
         // .alpha(0.8)
         // .restart()
-
-      // simulation
-      //   // .force('select', selectingForce())
-      //   .force("boundary", forceBoundary())
-      //   .stop()
 
       tick()
 
