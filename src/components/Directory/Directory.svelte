@@ -1,7 +1,7 @@
 <script>
  import { translate } from '$lib/translations';
  import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
- import { groupBy, getColor } from '../../utils';
+ import { groupBy, getColor, getTextColor } from '../../utils';
  import PersonLabel from '../PersonLabel.svelte';
  import Icon from '../Icon.svelte';
 
@@ -23,13 +23,13 @@
   {#each panels as {key, text, open}}
     <Panel bind:open>
       <Header>
-        <div class="header" style="--background-color: {getColor(key)}">
+        <div class="header" style="--background-color: {getColor(key)}; --text-color: {getTextColor(key)}">
           <div class="header__text">{text}</div>
           <div class="header__icon">
             {#if open}
-              <Icon icon="minus" />
+              <Icon icon="minus" color={getTextColor(key)} />
             {:else}
-              <Icon icon="plus" />
+              <Icon icon="plus" color={getTextColor(key)} />
             {/if}
           </div>
         </div>
@@ -63,6 +63,7 @@
   .header {
     padding: 15px;
     background-color: var(--background-color);
+    color: var(--text-color);
     font-family: Noe Display;
     font-size: 20px;
     font-style: normal;

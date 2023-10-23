@@ -28,6 +28,13 @@ export const getColor = (key) => {
   return colors[key];
 }
 
+export const getTextColor = (key) => {
+  if (key === 'pm') {
+    return '#fff';
+  }
+  return "#00001E"
+}
+
 export const getDateYear = dateString => {
   if (!dateString) return;
 

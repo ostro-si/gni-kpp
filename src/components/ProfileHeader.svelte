@@ -8,6 +8,7 @@ import { platform } from "./MediaQuerySsr.svelte";
  export let subheading;
  export let details;
  export let background;
+ export let textColor;
  export let small;
 
 //  $: console.log(background, small)
@@ -22,7 +23,7 @@ $: collapsed = scrollY !== 0;
 </script>
 <svelte:window bind:scrollY={scrollY} />
 
-<div class="ProfileHeader" style="--background-color: {background}" class:collapsed={collapsed} class:mobile={$platform === 'mobile'} bind:clientHeight={h}>
+<div class="ProfileHeader" style="--background-color: {background}; --text-color: {textColor}" class:collapsed={collapsed} class:mobile={$platform === 'mobile'} bind:clientHeight={h}>
  <div class="inner-container">
   <div class="ProfileHeader__main">
    {#if imageLink}
@@ -64,6 +65,7 @@ $: collapsed = scrollY !== 0;
 
  .ProfileHeader {
   background-color: var(--background-color);
+  color: var(--text-color);
   padding: 20px;
   position: fixed;
   width: calc(100% - 40px);
@@ -157,7 +159,8 @@ $: collapsed = scrollY !== 0;
    min-width: 130px;
    transition: font-size $transition-duration linear;
    overflow-y: hidden;
-
+  
+   
 
    .collapsed & {
     font-size: 12px;
@@ -167,6 +170,12 @@ $: collapsed = scrollY !== 0;
     font-weight: 600;
     margin-bottom: 5px;
    }
+
+   &__value {
+    & > :global(a) {
+      color: var(--text-color) !important;
+    }
+    }
   }
  }
 </style>

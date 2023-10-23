@@ -3,7 +3,7 @@
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  import TimelineMobile from '../../../../components/TimelineMobile/Person/TimelineMobile.svelte';
- import { slugify, getColor, getDateYear, getTimeSince, tField } from '../../../../utils';
+ import { slugify, getColor, getTextColor, getDateYear, getTimeSince, tField } from '../../../../utils';
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
 
  export let data;
@@ -16,6 +16,7 @@
  subheading={data.position}
  imageLink={data.image_link}
  background={getColor(data.position)}
+ textColor={getTextColor(data.position)}
  details={[
   {
    label: $translate("Party"),
