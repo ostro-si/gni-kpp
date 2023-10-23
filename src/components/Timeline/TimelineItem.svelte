@@ -20,7 +20,7 @@
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
  $: startX = item.start_year ? $xScale(item.start_year) : $xRange[0]
- $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : 0
+ $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear() + 1)) : 0
 
  $: {
   if (item.end_year === positions?.[index + 1]?.start_year) {
@@ -47,21 +47,27 @@
   <!-- <h6 class="position">{item.position_si}</h6> -->
   <div class="bar-container" style:width={`${endX - startX}px`}>
     <div class="bar"></div>
-    <div class="years" class:hidden={!hovered} in:fade>
+    <div class="years" class:hidden={!hovered} style:transform={endX - startX < 33 && item.end_year !== item.start_year ? 'translateX(-9px)' : 'none'} in:fade>
       {#if item.start_year}
         <div
           class="year"
           class:hidden={shouldHideStartYear}
         >
-          {item.start_year}
+          <span>{item.start_year}</span>
+          {#if item.end_year === 2100}
+            <span>-</span>
+          {/if}
         </div>
       {/if}
+     
       {#if item.end_year && item.end_year !== item.start_year}
         <div
           class="year"
           class:centered={shouldCenterEndYear}
         >
-          {item.end_year === 2100 ? $translate('present') : item.end_year}
+          {#if item.end_year !== 2100}
+            {item.end_year}
+          {/if}
         </div>
       {/if}
     </div>
@@ -92,7 +98,7 @@
  .bar {
   content: "";
   width: 100%;
-  min-width: 20px;
+  min-width: 10px;
   height: 10px;
   border-radius: 20px;
   background-color: $grey;
@@ -104,6 +110,7 @@
   font-size: 8px;
   display: flex;
   justify-content: space-between;
+  gap: 2px;
 
   &.hidden {
     display: none;
@@ -112,6 +119,8 @@
 
  .year {
   color: $grey;
+  display: flex;
+  gap: 2px;
   &.centered {
     transform: translateX(8px);
   }

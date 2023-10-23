@@ -27,7 +27,7 @@ import { locale } from '$lib/translations';
  <LayerCake
    {data}
    x="year"
-   xDomain={[null, new Date().getFullYear()]}
+   xDomain={[null, new Date().getFullYear() + 1]}
    let:width
    >
    <Svg>

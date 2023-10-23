@@ -13,6 +13,8 @@ import NotesTooltip from './NotesTooltip.svelte';
  export let textColor;
  export let small;
 
+ $: console.log(notes)
+
 //  $: console.log(background, small)
 
 let scrollY;
@@ -34,7 +36,7 @@ $: collapsed = scrollY !== 0;
    <div class="ProfileHeader__title">
     <h5 class="ProfileHeader__title__heading">
       <span>{title}</span>
-      {#if notes}
+      {#if notes?.length}
         <NotesTooltip {notes} />
       {/if}
     </h5>
