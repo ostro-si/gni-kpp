@@ -11,10 +11,14 @@
   import { base } from '$app/paths';
   import { locale } from '$lib/translations';
   import { selected } from '../../stores'
+  import personIcon from '$lib/images/person.svg';
+	import institutionIcon from '$lib/images/institution.svg';
+
 
   export let searchOpen = true;
   
   let value;
+  let text;
 
   $: options = [
    ...people.map(({ name, ...rest }) => ({ type: 'person', label: name, name, ...rest })),
@@ -22,19 +26,25 @@
   ]
 
   $: {
-   if (value?.type === 'person') {
-    if ($platform === 'mobile') {
-      goto(`${base}/${$locale}/people/${value.id}`)
-    } else {
-      goto(`${base}/${$locale}`)
-      $selected = [value.id]
+    console.log('value', value, text)
+
+    if (value && (value.id || value.slug.length)) {
+      if (value?.type === 'person') {
+        if ($platform === 'mobile') {
+          goto(`${base}/${$locale}/people/${value.id}`)
+        } else {
+          goto(`${base}/${$locale}`)
+          $selected = [value.id]
+        }
+      }
+      if (value?.type === 'institution') {
+        goto(`${base}/${$locale}/institutions/${value.slug}`)
+        searchOpen = false;
+      }
     }
-   }
-   if (value?.type === 'institution') {
-    goto(`${base}/${$locale}/institutions/${value.slug}`)
-    searchOpen = false;
-   }
   }
+
+  const prefix = '<p class="test">'
 
 </script>
 <div class="container" in:fly>
@@ -45,6 +55,10 @@
     option ? `${option.label}` : ''}
   bind:value
  >
+  <div slot="match" let:match class="search-option">
+    <img src={match.type === 'person' ? personIcon : institutionIcon} alt="Home" />
+    <span>{match.label}</span>
+  </div>
 </Autocomplete>
 <div class="close-icon">
   <IconButton class="material-icons" on:click={() =>{$selected = []; searchOpen = false}} size="button"
@@ -104,6 +118,27 @@
   width: 30px !important;
   height: 30px !important;
 
+ }
+
+ :global(.mdc-deprecated-list-item), :global(.mdc-deprecated-list) {
+  padding: 0 !important;
+ }
+
+ .search-option {
+  display: flex;
+  align-items: start;
+  gap: 7px;
+  width: 100%;
+  padding: 6px 10px;
+  font-family: IBM Plex Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  img {
+    height: 18px;
+  }
  }
 
  
