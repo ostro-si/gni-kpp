@@ -1,7 +1,6 @@
-// import { redirect } from '@sveltejs/kit';
-// import { base } from '$app/paths';
-
-
-// export function load() {
-// 	// throw redirect(307, `${base}/en/`);
-// }
+import { redirect } from '@sveltejs/kit';
+ 
+export function load({params}) {
+ console.log(params)
+  throw redirect(302, '/si');
+}

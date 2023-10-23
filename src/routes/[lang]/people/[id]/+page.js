@@ -5,17 +5,11 @@ import cv from '$lib/data/cv.json';
 
 
 export async function load({ params }) {
- const { id } = params;
+ const { id, lang } = params;
 
  const bio = people.find(d => d.id === id);
-
- console.log(people)
- // const associatedPeople = bio
-
  if (!bio) {
-		throw error(404, {
-			message: 'Not found'
-		});
+		throw redirect(302, `/${lang}`);
 	}
 
  // console.log(cv[id], bio)
