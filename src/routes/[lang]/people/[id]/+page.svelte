@@ -3,7 +3,7 @@
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  import TimelineMobile from '../../../../components/TimelineMobile/Person/TimelineMobile.svelte';
- import { slugify, getColor, getTextColor, getDateYear, getTimeSince, tField } from '../../../../utils';
+ import { slugify, getColor, getTextColor, getDateYear, getDate, tField } from '../../../../utils';
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
 
  export let data;
@@ -27,8 +27,8 @@
    value: getDateYear(data.birth_date)
   },
   {
-   label: $translate("Time in office"),
-   value: getTimeSince(data.time_in_office)
+   label: $translate("First time in office"),
+   value: getDate(data.time_in_office)
   },
   {
    label: $translate("Assets"),

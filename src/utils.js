@@ -41,6 +41,14 @@ export const getDateYear = dateString => {
   return new Date(dateString).getFullYear();
 }
 
+export const getDate = dateString => {
+  if (!dateString) return;
+
+  const date = new Date(dateString);
+
+  return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
+}
+
 export const getTimeSince = dateString => {
   if (!dateString) return;
 
