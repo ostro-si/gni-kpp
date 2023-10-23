@@ -130,7 +130,7 @@
       <div class="expanded-placeholder" class:expanded={hovered}></div>
     {/if} -->
     {#if hoveredConnection}
-      <div id="expanded-anchor">
+      <div class="expanded-anchor">
         <TimelineConnectionsContainer refX={startX} id={hoveredConnection} connection={connections[hoveredConnection]} />
       </div>
     {/if}
@@ -190,6 +190,11 @@
 
  :global(a) {
   color: #000;
+ }
+
+ .expanded-anchor {
+  transform: translateY(15px);
+  min-height: 38px;
  }
 
   .expanded-placeholder {

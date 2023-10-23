@@ -88,4 +88,8 @@
    padding: 0 1px;
   }
  }
+
+ .bars {
+  height: 9px;
+ }
 </style>

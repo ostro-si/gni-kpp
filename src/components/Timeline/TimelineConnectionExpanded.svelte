@@ -29,8 +29,9 @@
 
 <style lang="scss">
  .item {
-  position: absolute;
+  position: relative;
   cursor: pointer;
+  top: 50%;
 
   &:hover {
    opacity: 0.7;
@@ -39,7 +40,7 @@
   &__bar {
    position: absolute;
    // left: 0;
-   top: 5px;
+   // top: 5px;
    width: 10px;
    height: 10px;
    min-width: 10px;
