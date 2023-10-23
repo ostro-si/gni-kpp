@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const groupBy = function(xs, key) {
  return xs.reduce(function(rv, x) {
    (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -102,12 +104,30 @@ export const getInitials = name => {
   return initials
 }
 
+export const formatDate = (year, month, day, locale) => {
+
+  const date = moment(`${year}`)
+
+  console.log('date', date)
+  moment.locale(locale)
+
+
+  return date.format('MMMM Do YYYY')
+
+}
+
+
+
+
 export const getYearsLabel = (item, presentPlaceholder) => {
-  console.log(item)
+  const start = formatDate(item.start_year, item.start_month, item.start_day)
 
-  if (item.start_year === item.end_year) {
-    return item.start_year
-  }
+  return start;
+  // console.log(item)
 
-  return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
+  // if (item.start_year === item.end_year) {
+  //   return item.start_year
+  // }
+
+  // return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
 }
