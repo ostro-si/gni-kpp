@@ -50,14 +50,18 @@
       const lastRow = positionRows[positionRows.length - 1]
       const lastElementPlaced = lastRow[lastRow.length - 1];
       if (lastElementPlaced.start_year !== lastElementPlaced.end_year && position.start_year >= lastElementPlaced.end_year) {
-        lastRow.push(position)
-        return;
+        if (lastElementPlaced.institution_department_si === position.institution_department_si) {
+          lastRow.push(position)
+          return;
+        }
       }
     }
   positionRows.push([position]);
  }
 
  $: positions, calculatePositionOffsets()
+
+//  $: console.log(positionRows)
 
 //  $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
 

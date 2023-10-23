@@ -17,6 +17,7 @@
 
  let labelWidth;
  let label;
+ let departmentLabel;
  let height = 20
 //  $: height = hovered ? 20 : 10;
 // 
@@ -28,6 +29,11 @@
 $: {
   const uniquePositionLabels = [...new Set(positions.map((position) => tField(position, 'position', $locale)))];
   label = uniquePositionLabels.join(' / ')
+
+  const department = tField(positions[0], 'institution_department', $locale);
+  if (department?.length) {
+    departmentLabel = department;
+  }
 
   // let allConnections = []
   // positions.forEach(({ connections }) => {
@@ -53,6 +59,13 @@ $: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (s
 // $: console.log(positions)
 
 </script>
+  {#if departmentLabel}
+    <div class="label"
+      style:left={`${startX - refX + labelLeftShift}px`}
+      >
+      <span>{departmentLabel}</span>
+    </div>
+  {/if}
   <div class="label"
     bind:clientWidth={labelWidth} 
     style:left={`${startX - refX + labelLeftShift}px`}
