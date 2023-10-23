@@ -1,0 +1,22 @@
+<script>
+	import IconButton from '@smui/icon-button';
+ import Tooltip from './Tooltip.svelte';
+	import { tooltip } from './tooltip';
+
+ export let notes;
+
+ $: console.log(notes)
+
+</script>
+
+<span title={notes} use:tooltip>
+ <IconButton class="material-icons" disabled size="mini">
+  info
+ </IconButton>
+</span>
+
+<style lang="scss">
+ :global(.mdc-icon-button.smui-icon-button--size-mini) {
+  font-size: 18px;
+ }
+</style>

@@ -36,7 +36,7 @@ import { locale } from '$lib/translations';
    <Html>
     <div class="data-container" bind:clientHeight={h}>
      {#each Object.entries(byRow) as [title, positions],i}
-      <TimelineRow title={tField(positions[0], rowGroupingVar.split('_')[0], $locale)} {positions} {getItemLink} {getItemLabel} {i}/>
+      <TimelineRow title={tField(positions[0], rowGroupingVar.split('_')[0], $locale)} {positions} {getItemLink} {getItemLabel} {rowGroupingVar} {i}/>
      {/each}
     </div>
    </Html>

@@ -1,17 +1,19 @@
 <script>
  import { getContext } from 'svelte';
+ import { locale } from '$lib/translations';
  import TimelinePositions from './TimelinePositions.svelte';
  import TimelineConnectionsContainer from './TimelineConnectionsContainer.svelte';
  import TimelineRowTitle from './TimelineRowTitle.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import PersonLabel from '../PersonLabel.svelte';
  import { min } from 'd3-array'
- import { groupBy, getColor, getInitials } from '../../utils';
+ import { groupBy, getColor, getInitials, tField } from '../../utils';
 
  export let title;
  export let positions;
  export let getItemLink;
  export let getItemLabel = () => null;
+ export let rowGroupingVar;
  export let i;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
@@ -57,6 +59,15 @@
   positionRows.push([position]);
  }
 
+ const getItemNotes = affiliations => {
+  if (rowGroupingVar === 'institution_si') {
+    const notes = affiliations.map(a => tField(a, 'notes_institution', $locale)).filter(note => note?.length > 0)
+
+    return [...new Set(notes)];
+  }
+  return []
+ }
+
  $: positions, calculatePositionOffsets()
 
 //  $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
@@ -76,7 +87,7 @@
   style:z-index={hovered ? 10 : 1}
 >
   <div class="left">
-    <TimelineRowTitle {title} href={getItemLink(positions[0])} component={getItemLabel(positions[0])} />
+    <TimelineRowTitle {title} href={getItemLink(positions[0])} component={getItemLabel(positions[0])} notes={getItemNotes(positions)} />
     {#if Object.keys(connections).length}
       <div class="connections-outer-container">
         <div class="connections">

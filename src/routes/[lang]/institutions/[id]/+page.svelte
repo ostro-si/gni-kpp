@@ -11,6 +11,14 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
 
  export let data;
 
+ let notes;
+ $: {
+  const notesRaw = data.affiliations.map(a => tField(a, 'notes_institution', $locale)).filter(note => note?.length > 0)
+
+  notes = [...new Set(notesRaw)];
+ }
+
+
 
 //  $: console.log(platform, platform === 'mobile')
 </script>
@@ -19,6 +27,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
 {#key data.route}
  <ProfileHeader
   title={tField(data.affiliations?.[0], 'institution', $locale)}
+  notes={notes}
   background='#E6E6EB'
  />
  <InstitutionBreakdown affiliations={data.affiliations} />

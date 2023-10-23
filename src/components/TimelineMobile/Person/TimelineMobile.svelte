@@ -52,9 +52,14 @@ $: sorted = items
                 </div>
               {/each}
             </div>
-            {#if tField(item, 'notes', $locale)}
+            {#if tField(item, 'notes_institution', $locale)}
               <div class="notes">
-                * {tField(item, 'notes', $locale)}
+                * {tField(item, 'notes_institution', $locale)}
+              </div>
+            {/if}
+            {#if tField(item, 'notes_position', $locale)}
+              <div class="notes">
+                * {tField(item, 'notes_position', $locale)}
               </div>
             {/if}
           </div>
