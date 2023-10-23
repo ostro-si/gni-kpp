@@ -1,9 +1,11 @@
 <script>
+  import { locale } from '$lib/translations';
   import Scrolly from "../Scrolly.svelte";
-  import { arrayUniqueById, getColor, slugify } from "../../../utils";
   import PersonLabel from "../../PersonLabel.svelte";
   import VerticalTimeBars from "./VerticalTimeBars.svelte";
 	import LocalizedLink from "../../LocalizedLink.svelte";
+  import { arrayUniqueById, getColor, slugify, tField } from '../../../utils';
+
 
  export let items;
  export let color;
@@ -37,9 +39,12 @@ $: sorted = items
           <div class="inner-container">
           <div class="years" style:color={color}>{item.start_year} - {item.end_year}</div>
           <LocalizedLink component={"a"} href={`/institutions/${slugify(item.institution_si)}`}>
-            <div class="institution">{item.institution_si}</div>
+            <div class="institution">{tField(item, 'institution', $locale)}</div>
           </LocalizedLink>
-          <div class="position">{item.position_si}</div>
+          {#if tField(item, 'institution_department', $locale)?.length}
+            <div class="department">{tField(item, 'institution_department', $locale)}</div>
+          {/if}
+          <div class="position">{tField(item, 'position', $locale)}</div>
           <div class="connections">
             {#each arrayUniqueById(item.connections, 'person_id') as { image_link, person_id, person_name, position } (person_id)}
               <div class="connection">
@@ -97,9 +102,17 @@ $: sorted = items
   font-size: 13px;
   font-style: normal;
   font-weight: 600;
-  line-height: 15px; /* 136.364% */
+  line-height: 16px; /* 136.364% */
   margin-bottom: 2px;
 
+ }
+
+ .department {
+  color:$black;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
  }
 
  .position {
