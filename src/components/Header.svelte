@@ -1,7 +1,10 @@
 <script>
 	import { translate, setLocale, locale, setRoute } from '$lib/translations';
+	import { platform } from "./MediaQuerySsr.svelte";
+
+
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';  
+	import { page, navigating } from '$app/stores';  
 	import { base } from '$app/paths';
 	import Button, { Label } from '@smui/button'
 	import Menu from '@smui/menu';
@@ -21,6 +24,7 @@
 
 	$: $page.path, mobileMenuOpen = false
 	
+	$: if($navigating) searchOpen = false;	
 </script>
 
 <header class="header">
@@ -39,8 +43,21 @@
 			{/if}
 		</div>
 	</div>
-	
-	<h3 class="header__title">{$translate('app_title')}</h3>
+	<div class="header__left mobile-show">
+		<div class="search-container">
+			{#if searchOpen}
+				<Search bind:searchOpen />
+			{:else}
+				<IconButton class="material-icons" on:click={toggleSearch}>
+					search
+				</IconButton>
+			{/if}
+		</div>
+		
+	</div>
+	{#if !searchOpen || $platform === 'desktop'}
+		<h3 class="header__title">{$translate('app_title')}</h3>
+	{/if}
 	<div class="header__right mobile-hide">
 		<div>
 			<LocalizedLink href="/about">{$translate('header.stories')}</LocalizedLink>
@@ -67,10 +84,6 @@
 	<List class="mobile-menu mobile-show">
 		<Item>
 			<LocalizedLink href="/">{$translate('header.home')}</LocalizedLink>
-		</Item>
-		<Separator />
-		<Item>
-			<LocalizedLink href="/search">{$translate('header.search')}</LocalizedLink>
 		</Item>
 		<Separator />
 		<Item>

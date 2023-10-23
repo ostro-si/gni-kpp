@@ -2,14 +2,15 @@
   import { fly } from 'svelte/transition';
   import Autocomplete from '@smui-extra/autocomplete';
   import IconButton from '@smui/icon-button';
+  import List, { Item, Text } from '@smui/list';
   import { platform } from '../MediaQuerySsr.svelte';
+  import { translate, locale } from '$lib/translations';
 
   import people from '$lib/data/people.json';
   import institutions from '$lib/data/institutions.json';
   import { slugify } from "../../utils";
 	import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import { locale } from '$lib/translations';
   import { selected } from '../../stores'
   import personIcon from '$lib/images/person.svg';
 	import institutionIcon from '$lib/images/institution.svg';
@@ -18,7 +19,6 @@
   export let searchOpen = true;
   
   let value;
-  let text;
 
   $: options = [
    ...people.map(({ name, ...rest }) => ({ type: 'person', label: name, name, ...rest })),
@@ -26,8 +26,6 @@
   ]
 
   $: {
-    console.log('value', value, text)
-
     if (value && (value.id || value.slug.length)) {
       if (value?.type === 'person') {
         if ($platform === 'mobile') {
@@ -59,6 +57,9 @@
     <img src={match.type === 'person' ? personIcon : institutionIcon} alt="Home" />
     <span>{match.label}</span>
   </div>
+  <div slot="no-matches">
+   <Text>{$translate("No matches found")}</Text>
+  </div>
 </Autocomplete>
 <div class="close-icon">
   <IconButton class="material-icons" on:click={() =>{$selected = []; searchOpen = false}} size="button"
@@ -79,9 +80,9 @@
   font-size: 12px;
   width: 20vw;
 
-  // @media (max-width: $mobile) {
-  //   width: 100%;
-  // }
+  @media (max-width: $mobile) {
+    width: 60vw;
+  }
   // white-space: wrap;
  }
 
@@ -120,7 +121,18 @@
 
  }
 
- :global(.mdc-deprecated-list-item), :global(.mdc-deprecated-list) {
+ :global(.mdc-deprecated-list-item) {
+  padding: 6px 10px;
+  font-family: IBM Plex Sans;
+
+ }
+
+ :global(.mdc-text-field__input) {
+  font-family: IBM Plex Sans;
+
+ }
+ 
+ :global(.mdc-deprecated-list) {
   padding: 0 !important;
  }
 
@@ -129,7 +141,7 @@
   align-items: start;
   gap: 7px;
   width: 100%;
-  padding: 6px 10px;
+  // padding: 6px 10px;
   font-family: IBM Plex Sans;
   font-size: 14px;
   font-style: normal;
