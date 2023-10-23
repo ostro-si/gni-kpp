@@ -15,7 +15,8 @@
  $: minXTransform = Math.min(...xTransforms);
  $: maxXEnds = Math.max(...xEnds);
 
-//  $: console.log(xTransforms, xEnds)
+ console.log(connection)
+ $: console.log(connection.map(({ start_year, end_year }) => ({ start_year, end_year })))
 
 
  // const { xScale, xRange } = getContext('LayerCake');

@@ -44,7 +44,7 @@
    </div>
    <div class="bars">
     {#each items as item}
-     <TimelineConnectionExpanded {...item} />
+     <TimelineConnectionExpanded {...item} refX={startX} />
     {/each}
    </div>
   </div>
@@ -91,5 +91,6 @@
 
  .bars {
   height: 9px;
+  position: relative;
  }
 </style>

@@ -5,7 +5,7 @@
 
  export let notes;
 
- $: console.log(notes)
+ // $: console.log(notes)
 
 </script>
 

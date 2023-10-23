@@ -23,9 +23,9 @@
  class="item__bar"
  style:width={`${endX - startX}px`}
  style:background-color={getColor(position)}
+ style:left={`${startX - refX}px`}
 />
  
-
 
 <style lang="scss">
  .item {
