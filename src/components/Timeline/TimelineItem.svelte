@@ -1,4 +1,5 @@
 <script>
+ import { locale, translate } from '$lib/translations';
  import { getContext } from 'svelte';
  import { fade } from 'svelte/transition';
  import { arrayUniqueById, getColor } from '../../utils'
@@ -60,7 +61,7 @@
           class="year"
           class:centered={shouldCenterEndYear}
         >
-          {item.end_year === 2100 ? 'present' : item.end_year}
+          {item.end_year === 2100 ? $translate('present') : item.end_year}
         </div>
       {/if}
     </div>

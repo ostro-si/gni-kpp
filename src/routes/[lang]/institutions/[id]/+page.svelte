@@ -1,10 +1,14 @@
 <script>
  import PersonLabel from '../../../../components/PersonLabel.svelte';
+ import { locale } from '$lib/translations';
+
 import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
 	import TimelineMobile from '../../../../components/TimelineMobile/Institution/TimelineMobile.svelte';
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
  import InstitutionBreakdown from '../../../../components/InstitutionBreakdown.svelte';
+ import { tField } from '../../../../utils';
+
  export let data;
 
 
@@ -14,7 +18,7 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
 
 {#key data.route}
  <ProfileHeader
-  title={data.affiliations?.[0]?.institution_si}
+  title={tField(data.affiliations?.[0], 'institution', $locale)}
   background='#E6E6EB'
  />
  <InstitutionBreakdown affiliations={data.affiliations} />

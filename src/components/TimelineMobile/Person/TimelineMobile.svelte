@@ -1,10 +1,10 @@
 <script>
-  import { locale } from '$lib/translations';
+  import { locale, translate } from '$lib/translations';
   import Scrolly from "../Scrolly.svelte";
   import PersonLabel from "../../PersonLabel.svelte";
   import VerticalTimeBars from "./VerticalTimeBars.svelte";
 	import LocalizedLink from "../../LocalizedLink.svelte";
-  import { arrayUniqueById, getColor, slugify, tField } from '../../../utils';
+  import { arrayUniqueById, getColor, slugify, tField, getYearsLabel, getInitials } from '../../../utils';
 
 
  export let items;
@@ -37,22 +37,28 @@ $: sorted = items
       {#each sorted as item, i (item.id)}
         <section class="item" id={i} bind:clientHeight={itemHeight}>
           <div class="inner-container">
-          <div class="years" style:color={color}>{item.start_year} - {item.end_year}</div>
-          <LocalizedLink component={"a"} href={`/institutions/${slugify(item.institution_si)}`}>
-            <div class="institution">{tField(item, 'institution', $locale)}</div>
-          </LocalizedLink>
-          {#if tField(item, 'institution_department', $locale)?.length}
-            <div class="department">{tField(item, 'institution_department', $locale)}</div>
-          {/if}
-          <div class="position">{tField(item, 'position', $locale)}</div>
-          <div class="connections">
-            {#each arrayUniqueById(item.connections, 'person_id') as { image_link, person_id, person_name, position } (person_id)}
-              <div class="connection">
-              <PersonLabel clickable {position} id={person_id} {image_link} small />
-              </div>
-            {/each}
+            <div class="years" style:color={color}>{getYearsLabel(item, $translate('present'))}</div>
+            <LocalizedLink component={"a"} href={`/institutions/${slugify(item.institution_si)}`}>
+              <div class="institution">{tField(item, 'institution', $locale)}</div>
+            </LocalizedLink>
+            {#if tField(item, 'institution_department', $locale)?.length}
+              <div class="department">{tField(item, 'institution_department', $locale)}</div>
+            {/if}
+            <div class="position">{tField(item, 'position', $locale)}</div>
+            <div class="connections">
+              {#each arrayUniqueById(item.connections, 'person_id') as { image_link, person_id, person_name, position } (person_id)}
+                <div class="connection">
+                <PersonLabel clickable {position} id={person_id} {image_link} imagePlaceholder={!image_link ? getInitials(person_name) : null} small />
+                </div>
+              {/each}
             </div>
+            {#if tField(item, 'notes', $locale)}
+              <div class="notes">
+                * {tField(item, 'notes', $locale)}
+              </div>
+            {/if}
           </div>
+
         </section>
       {/each}
     </Scrolly>
@@ -127,5 +133,14 @@ $: sorted = items
   display: flex;
   margin-top: 7px;
   gap: 3px;
+  flex-wrap: wrap;
+ }
+
+ .notes {
+  color: $light-grey;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
  }
 </style>

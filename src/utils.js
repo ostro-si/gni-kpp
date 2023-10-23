@@ -42,9 +42,13 @@ export const getDateYear = dateString => {
 }
 
 export const getDate = dateString => {
+
+  console.log('in get date', dateString)
   if (!dateString) return;
 
   const date = new Date(dateString);
+  console.log('in get date', dateString, date)
+
 
   return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 }
@@ -96,4 +100,14 @@ export const getInitials = name => {
   ).toUpperCase();
 
   return initials
+}
+
+export const getYearsLabel = (item, presentPlaceholder) => {
+  console.log(item)
+
+  if (item.start_year === item.end_year) {
+    return item.start_year
+  }
+
+  return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
 }
