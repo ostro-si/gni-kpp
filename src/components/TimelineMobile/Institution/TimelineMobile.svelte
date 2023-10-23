@@ -1,6 +1,6 @@
 <script>
-  import { translate } from '$lib/translations';
-  import { arrayUniqueById, getColor } from "../../../utils";
+  import { locale, translate } from '$lib/translations';
+  import { arrayUniqueById, getColor, tField } from "../../../utils";
   import { slide, fly } from 'svelte/transition';
 	import PersonLabel from "../../PersonLabel.svelte";
   import { min, max, range } from 'd3-array';
@@ -23,6 +23,16 @@
       behavior: 'smooth'
     })
   }
+
+  const getPersonSubheading = item => {
+    const position = tField(item, 'position', $locale)
+    const department = tField(item, 'institution_department', $locale)
+
+    if (department?.length) {
+      return `${position}, ${department}`
+    }
+    return position
+  } 
 
  $: {
   items.forEach(item => {
@@ -79,15 +89,15 @@
       {#key currYear}
         <div class="item">
           {#if currYearItems}
-            {#each arrayUniqueById(currYearItems, 'person_id') as { image_link, person_id, person_name, position_si, curr_position } (person_id)}
+            {#each arrayUniqueById(currYearItems, 'person_id') as item (item.person_id)}
               <div class="person_label">
                 <PersonLabel
                   clickable
-                  position={curr_position}
-                  subheading={position_si}
-                  id={person_id}
-                  name={person_name}
-                  {image_link}
+                  position={item.curr_position}
+                  subheading={getPersonSubheading(item)}
+                  id={item.person_id}
+                  name={item.person_name}
+                  image_link={item.image_link}
                   small
                   coloredText
                 />
