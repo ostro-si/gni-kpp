@@ -51,7 +51,7 @@ $: minX = min(positions, d => d.startDisplayDate)
     if (positionRows.length > 0) {
       const lastRow = positionRows[positionRows.length - 1]
       const lastElementPlaced = lastRow[lastRow.length - 1];
-      if (lastElementPlaced.start_year !== lastElementPlaced.end_year && position.start_year >= lastElementPlaced.end_year) {
+      if (position.startCompareDate >= lastElementPlaced.endCompareDate) {
         lastRow.push(position)
         return;
       }
@@ -73,7 +73,7 @@ $: minX = min(positions, d => d.startDisplayDate)
 //  $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
 
 
- $: console.log(positions.map(p => p.startDisplayDate), min(positions, d => d.startDisplayDate))
+//  $: console.log(positions.map(p => p.startDisplayDate), min(positions, d => d.startDisplayDate))
 
 </script>
 

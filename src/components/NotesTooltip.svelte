@@ -5,8 +5,6 @@
 
  export let notes;
 
- // $: console.log(notes)
-
 </script>
 
 <span title={notes} use:tooltip>
@@ -18,5 +16,7 @@
 <style lang="scss">
  :global(.mdc-icon-button.smui-icon-button--size-mini) {
   font-size: 18px;
+  height: 0 !important;
+  transform: translateY(-1px);
  }
 </style>

@@ -4,7 +4,8 @@
   import PersonLabel from "../../PersonLabel.svelte";
   import VerticalTimeBars from "./VerticalTimeBars.svelte";
 	import LocalizedLink from "../../LocalizedLink.svelte";
-  import { arrayUniqueById, getColor, slugify, tField, getInitials } from '../../../utils';
+  import YearsLabel from '../../YearsLabel.svelte';
+  import { arrayUniqueById, getColor, slugify, tField, getInitials, getYearsLabel } from '../../../utils';
 
 
  export let items;
@@ -20,11 +21,12 @@ const setSelectedIndex = (index) => {
   })
 }
 
-$: console.log(items)
+// $: console.log(items)
 
 $: sorted = items
-  .sort((a, b) => a.end_year < b.end_year ? -1 : 1)
-  .sort((a, b) => a.start_year < b.start_year ? -1 : 1)
+  .sort((a, b) => a.endDisplayDate < b.endDisplayDate ? -1 : 1)
+  .sort((a, b) => a.startDisplayDate < b.startDisplayDate ? -1 : 1)
+
 
 </script>
 
@@ -37,7 +39,9 @@ $: sorted = items
       {#each sorted as item, i (item.id)}
         <section class="item" id={i} bind:clientHeight={itemHeight}>
           <div class="inner-container">
-            <div class="years" style:color={color}>{getYearsLabel(item, $translate('present'))}</div>
+            <div class="years" style:color={color}>
+              <YearsLabel {item} />
+            </div>
             <LocalizedLink component={"a"} href={`/institutions/${slugify(item.institution_si)}`}>
               <div class="institution">{tField(item, 'institution', $locale)}</div>
             </LocalizedLink>

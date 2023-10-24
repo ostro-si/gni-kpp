@@ -1,4 +1,5 @@
 import moment from 'moment'
+import 'moment/locale/sl';
 
 export const groupBy = function(xs, key) {
  return xs.reduce(function(rv, x) {
@@ -104,16 +105,20 @@ export const getInitials = name => {
   return initials
 }
 
-export const formatDate = (year, month, day, locale) => {
-
-  const date = moment(`${year}`)
-
-  console.log('date', date)
-  moment.locale(locale)
+export const formatDate = (item, prefix, locale) => {
+  moment.locale(locale === 'en' ? 'en' : 'sl')
 
 
-  return date.format('MMMM Do YYYY')
+  const date = moment([item[`${prefix}_year`], item[`${prefix}_month`], item[`${prefix}_day`]].filter(d => !!d))
 
+
+  if (item[`${prefix}MonthUncertain`]) {
+    return date.format('YYYY')
+  } else if (item[`${prefix}DayUncertain`]) {
+    return date.format('MMMM YYYY')
+  } else {
+    return date.format('LL')
+  }
 }
 
 export const displayDate = (item, prefix, locale) => {
@@ -121,25 +126,28 @@ export const displayDate = (item, prefix, locale) => {
   if (item[`${prefix}MonthUncertain`]) {
     return item[`${prefix}_year`];
   } else if (item[`${prefix}DayUncertain`]) {
-    return item[`${prefix}_month`] + '.' + item[`${prefix}_year`];
+    return (+item[`${prefix}_month`]+1) + '.' + item[`${prefix}_year`];
   } else {
-    return item[`${prefix}_day`] + '.' + item[`${prefix}_month`] + '.' + item[`${prefix}_year`];
+    return item[`${prefix}_day`] + '.' + (+item[`${prefix}_month`]+1) + '.' + item[`${prefix}_year`];
   }
 }
 
 
-// export const getYearsLabel = (item, presentPlaceholder) => {
-//   const start = formatDate(item.start_year, item.start_month, item.start_day)
+export const getYearsLabel = (item, locale, presentPlaceholder) => {
+  const start = formatDate(item, 'start', locale)
+  const end = item.end_year === 2100 ? presentPlaceholder : formatDate(item, 'end', locale)
 
-//   return start;
-//   // console.log(item)
 
-//   // if (item.start_year === item.end_year) {
-//   //   return item.start_year
-//   // }
+  console.log(start)
+  return start === end ? start : start + ' - ' + end;
+  // console.log(item)
 
-//   // return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
-// }
+  // if (item.start_year === item.end_year) {
+  //   return item.start_year
+  // }
+
+  // return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
+}
 
 export const getLinearGradient = (item, color) => {
   const linearGradientStops = [];

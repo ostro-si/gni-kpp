@@ -165,7 +165,7 @@ async function main() {
         institution_si: institution_si.trim(),
       })
     })
-    .filter(({ start_year, end_year }) => !!start_year && !!end_year && end_year >= start_year)
+    .filter(({ start_year, end_year, endDisplayDate, startDisplayDate }) => !!start_year && !!end_year && endDisplayDate >= startDisplayDate)
 
   console.log(`Found ${cv_filtered.length} cv entries with person_id and start and end years`)
 

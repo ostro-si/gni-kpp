@@ -54,39 +54,45 @@
 //  $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections, 'person_id') : null
 // $: uni
 
- $: console.log(hovered, item)
+$: {
+  if (hovered) {
+    console.log(item, `${endX - startX}px`)
+  }
+}
+
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
   <!-- <h6 class="position">{item.position_si}</h6> -->
   <div class="bar-container" style:width={`${endX - startX}px`}>
     <div class="bar" style:background={getLinearGradient(item, "#272728")}></div>
-    <div class="years" class:hidden={!hovered} style:transform={endX - startX < 33 && item.end_year !== item.start_year ? 'translateX(-9px)' : 'none'} in:fade>
-      {#if item.start_year}
+    
+  </div>
+  <div class="years" class:hidden={!hovered} style:transform={endX - startX < 33 && item.end_year !== item.start_year ? 'translateX(-9px)' : 'none'} in:fade>
+    {#if item.start_year}
+    <div
+        class="year"
+        class:hidden={shouldHideStartYear}
+      >
+        <span>{item.start_year}</span>
+        <!-- <span>{displayDate(item, 'start', locale)}</span> -->
+        {#if item.end_year === 2100}
+          <span>-</span>
+        {/if}
+      </div>
+    {/if}
+   
+    {#if item.end_year && item.end_year !== item.start_year}
       <div
-          class="year"
-          class:hidden={shouldHideStartYear}
-        >
-          <span>{item.start_year}</span>
-          <!-- <span>{displayDate(item, 'start', locale)}</span> -->
-          {#if item.end_year === 2100}
-            <span>-</span>
-          {/if}
-        </div>
-      {/if}
-     
-      {#if item.end_year && item.end_year !== item.start_year}
-        <div
-          class="year"
-          class:centered={shouldCenterEndYear}
-        >
-          {#if item.end_year !== 2100}
-           {item.end_year}
-            <!-- <span>{displayDate(item, 'end', locale)}</span> -->
-          {/if}
-        </div>
-      {/if}
-    </div>
+        class="year"
+        class:centered={shouldCenterEndYear}
+      >
+        {#if item.end_year !== 2100}
+         {item.end_year}
+          <!-- <span>{displayDate(item, 'end', locale)}</span> -->
+        {/if}
+      </div>
+    {/if}
   </div>
   
   <!-- {#if uniqueConnections}
@@ -129,7 +135,7 @@
   gap: 2px;
 
   &.hidden {
-    display: none;
+    visibility: hidden;
   }
  }
 
