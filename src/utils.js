@@ -180,3 +180,23 @@ export const getLinearGradient = (item, color) => {
   }
   return `linear-gradient(to right, ${linearGradientStops.join(', ')})`
 }
+
+export const getPositionLabel = (position, gender, locale) => {
+  if (locale === 'en') {
+    if (position === 'pm') {
+      return 'Prime minister'
+    }
+    return position;
+  }
+
+  if (position === 'minister') {
+    if (gender === 'F') {
+      return 'ministrica'
+    } 
+  } else if (position === 'secretary') {
+    if (gender === 'F') {
+      return 'sekretarka'
+    } 
+  }
+  return position;
+}

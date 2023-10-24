@@ -3,7 +3,7 @@
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  import TimelineMobile from '../../../../components/TimelineMobile/Person/TimelineMobile.svelte';
- import { slugify, getColor, getTextColor, getDateYear, getDate, tField } from '../../../../utils';
+ import { slugify, getColor, getTextColor, getDateYear, getDate, tField, getPositionLabel } from '../../../../utils';
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
 
  export let data;
@@ -15,7 +15,7 @@
 
 <ProfileHeader
  title={data.name}
- subheading={data.position}
+ subheading={getPositionLabel(data.position, data.gender, $locale)}
  imageLink={data.image_link}
  background={getColor(data.position)}
  textColor={getTextColor(data.position)}
