@@ -3,17 +3,17 @@
  import Label from "./Label.svelte";
 	import LocalizedLink from "./LocalizedLink.svelte";
 
- export let image_link;
-	export let imagePlaceholder;
- export let position;
-	export let id;
- export let name;
-	export let subheading;
-	export let small
-	export let clickable
-	export let coloredText
-	export let css;
-	export let size;
+ export let image_link = undefined;
+	export let imagePlaceholder = undefined;
+ export let position = undefined;
+	export let id = undefined;
+ export let name = undefined;
+	export let subheading = undefined;
+	export let small = false;
+	export let clickable = false;
+	export let coloredText = false;
+	export let css = undefined;
+	export let size = undefined;
  
 </script>
 

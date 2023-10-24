@@ -1,6 +1,8 @@
 <script>
  import { arrayUniqueById, groupBy } from "../utils";
 	import PersonLabel from "./PersonLabel.svelte";
+ import { getInitials } from "../utils";
+
  export let affiliations;
 
  $: byType = groupBy(affiliations, 'affiliation_type')
@@ -17,7 +19,14 @@
      </div>
      <div class="right">
       {#each arrayUniqueById(items, 'person_id') as person (person.id)}
-       <PersonLabel {...person} id={person.person_id} position={person.curr_position} small clickable />
+       <PersonLabel 
+        id={person.person_id}
+        image_link={person.image_link}
+        imagePlaceholder={!person.image_link ? getInitials(person.person_name) : null}
+        position={person.curr_position}
+        small
+        clickable
+       />
       {/each}
      </div>
     </div>

@@ -22,7 +22,7 @@
   <LocalizedLink component={"a"} {href}>
     <div class="container">
       {#if component}
-        <PersonLabel {...component} small={true} clickable css="display: flex"/>
+        <PersonLabel id={component.id} name={component.name} image_link={component.image_link} position={component.position} small clickable css="display: flex"/>
       {:else}
         <h5 class="title">
           {title}

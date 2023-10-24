@@ -10,7 +10,6 @@
  export let item;
  export let refX;
  export let hovered;
- export let yOffset;
  export let positions;
  export let index;
 

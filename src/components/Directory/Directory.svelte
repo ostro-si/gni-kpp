@@ -10,7 +10,7 @@
  const panels = [
   { key: 'pm', text: $translate('Prime minister'), open: true},
   { key: 'minister', text: $translate('Ministers'), open: true},
-  { key: 'sekretar', text: $translate('Secretaries'), open: true},
+  { key: 'secretary', text: $translate('Secretaries'), open: true},
   { key: 'mp', text: $translate('MPs'), open: true},
  ]
 
@@ -38,7 +38,13 @@
       {#if key in grouped}
         {#each grouped[key] as person}
           <div class="item">
-            <PersonLabel {...person} clickable />
+              <PersonLabel
+                id={person.id}
+                name={person.name}
+                position={person.position}
+                image_link={person.image_link}
+                clickable
+              />
           </div>
         {/each}
       {/if}

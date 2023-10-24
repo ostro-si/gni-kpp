@@ -9,7 +9,7 @@
  import { min } from 'd3-array'
 
  export let items;
- export let sectionGroupingVar;
+ export let sectionGroupingVar = undefined;
  export let rowGroupingVar;
  export let getItemLink;
  export let getItemLabel;

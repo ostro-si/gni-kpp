@@ -4,18 +4,14 @@ import { platform } from "./MediaQuerySsr.svelte";
 import NotesTooltip from './NotesTooltip.svelte';
 
 
- export let imageLink;
- export let title;
- export let subheading;
- export let notes;
- export let details;
- export let background;
- export let textColor;
- export let small;
+ export let imageLink = undefined;
+ export let title = undefined;
+ export let subheading = undefined;
+ export let notes = undefined;
+ export let details = undefined;
+ export let background = undefined;
+ export let textColor = undefined;
 
- $: console.log(notes)
-
-//  $: console.log(background, small)
 
 let scrollY;
 let h;
