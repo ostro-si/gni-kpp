@@ -8,7 +8,8 @@ import { locale } from '$lib/translations';
 
  export let items;
  export let rowGroupingVar;
- export let data;
+ export let xScale;
+ export let data
  export let getItemLink;
  export let getItemLabel;
 
@@ -21,15 +22,15 @@ import { locale } from '$lib/translations';
 
 //  $: console.log(items)
 
-$: console.log(data)
+// $: console.log(data)
 
 </script>
 
 <div class='chart-container' style:height={`${h}px`}>
  <LayerCake
-   {data}
-   x="date"
-   xDomain={[null, new Date()]}
+   data={data}
+   x={"date"}
+   xScale={xScale}
    let:width
    >
    <Svg>
