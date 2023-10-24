@@ -19,8 +19,8 @@
  let labelWidth;
 
 
- const minStartVal = min(items, i => new Date(i.startCompareDate));
- const maxEndVal = max(items, i => new Date(i.endCompareDate));
+ const minStartVal = min(items, i => new Date(i.startDisplayDate));
+ const maxEndVal = max(items, i => new Date(i.endDisplayDate));
 
  $: startX = $xScale(minStartVal)
  $: endX = $xScale(Math.min(new Date(maxEndVal), new Date()))
@@ -44,7 +44,7 @@
    </div>
    <div class="bars">
     {#each items as item}
-     <TimelineConnectionExpanded {...item} refX={startX} />
+     <TimelineConnectionExpanded {item} refX={startX} />
     {/each}
    </div>
   </div>

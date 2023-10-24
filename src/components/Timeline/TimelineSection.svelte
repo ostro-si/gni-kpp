@@ -34,7 +34,8 @@ import { locale } from '$lib/translations';
    let:width
    >
    <Svg>
-     <AxisX />
+    <AxisX />
+
    </Svg>
    <Html>
     <div class="data-container" bind:clientHeight={h}>

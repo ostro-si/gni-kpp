@@ -1,9 +1,11 @@
 <script>
+  import moment from 'moment';
  import { locale, translate } from '$lib/translations';
  import { getContext } from 'svelte';
  import { fade } from 'svelte/transition';
- import { arrayUniqueById, getColor, displayDate } from '../../utils'
+ import { arrayUniqueById, getColor, displayDate, getLinearGradient } from '../../utils'
  import TimelineConnectionExpanded from './TimelineConnectionExpanded.svelte';
+	import { linear } from 'svelte/easing';
 
  export let item;
  export let refX;
@@ -28,8 +30,20 @@
   }
   if (item.start_year === positions?.[index - 1]?.end_year) {
     shouldHideStartYear = true;
-  }  
+  }
  }
+
+//  let linearGradient;
+//  let linearGradientStops = [];
+
+//  $: {
+//   // const oneYearPercent = $xScale()
+  
+//  }
+
+//  $: linearGradient = `linear-gradient(to right, ${linearGradientStops.join(' , ')})`
+
+//  $: console.log(linearGradientStops, linearGradient, linearGradientStops.join(' ,'))
 
 //  $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
 
@@ -40,13 +54,13 @@
 //  $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections, 'person_id') : null
 // $: uni
 
-//  $: console.log(positions, index)
+ $: console.log(hovered, item)
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
   <!-- <h6 class="position">{item.position_si}</h6> -->
   <div class="bar-container" style:width={`${endX - startX}px`}>
-    <div class="bar"></div>
+    <div class="bar" style:background={getLinearGradient(item, "#272728")}></div>
     <div class="years" class:hidden={!hovered} style:transform={endX - startX < 33 && item.end_year !== item.start_year ? 'translateX(-9px)' : 'none'} in:fade>
       {#if item.start_year}
       <div

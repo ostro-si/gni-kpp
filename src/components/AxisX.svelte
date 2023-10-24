@@ -35,8 +35,6 @@
 
   $: tickVals = $xScale.ticks()
 
-  $: console.log($xScale, tickVals)
-
   function textAnchor(i) {
     if (snapTicks === true) {
       if (i === 0) {

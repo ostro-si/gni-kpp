@@ -128,15 +128,47 @@ export const displayDate = (item, prefix, locale) => {
 }
 
 
-export const getYearsLabel = (item, presentPlaceholder) => {
-  const start = formatDate(item.start_year, item.start_month, item.start_day)
+// export const getYearsLabel = (item, presentPlaceholder) => {
+//   const start = formatDate(item.start_year, item.start_month, item.start_day)
 
-  return start;
-  // console.log(item)
+//   return start;
+//   // console.log(item)
 
-  // if (item.start_year === item.end_year) {
-  //   return item.start_year
-  // }
+//   // if (item.start_year === item.end_year) {
+//   //   return item.start_year
+//   // }
 
-  // return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
+//   // return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
+// }
+
+export const getLinearGradient = (item, color) => {
+  const linearGradientStops = [];
+
+  const monthsMultiplier = 3;
+  const yearsExtent = moment(item.endDisplayDate).diff(item.startDisplayDate, 'years');
+  const monthsExtent = moment(item.endDisplayDate).diff(item.startDisplayDate, 'months');
+
+  // const 
+  if (item.startMonthUncertain) {
+    linearGradientStops.push("transparent")
+    linearGradientStops.push(`${color} ${(1/yearsExtent) * 100}%`)
+  } else if (item.startDayUncertain) {
+    linearGradientStops.push("transparent")
+    linearGradientStops.push(`${color} ${(1/monthsExtent * monthsMultiplier) * 100}%`)
+  } else {
+    linearGradientStops.push(`${color}`)
+  }
+
+  linearGradientStops.push(`${color} 50%`)
+
+  if (item.endMonthUncertain) {
+    linearGradientStops.push(`${color} ${100 - ((1/yearsExtent) * 100)}%`)
+    linearGradientStops.push("transparent")
+  } else if (item.endDayUncertain) {
+    linearGradientStops.push(`${color} ${100 - ((1/monthsExtent * monthsMultiplier) * 100)}%`)
+    linearGradientStops.push("transparent")
+  } else {
+    linearGradientStops.push(`${color} 100%`)
+  }
+  return `linear-gradient(to right, ${linearGradientStops.join(', ')})`
 }

@@ -75,7 +75,7 @@ const cleanDates = (prefix, day, month, year) => {
 
   return({
     [`${prefix}_day`]: cleanedDay ? +cleanedDay : undefined,
-    [`${prefix}_month`]: cleanedMonth ? +cleanedMonth : undefined,
+    [`${prefix}_month`]: cleanedMonth ? +cleanedMonth - 1 : undefined,
     [`${prefix}_year`]: cleanedYear ? +cleanedYear : undefined,
   })
 }
@@ -94,16 +94,16 @@ const findStartCompareDate = ({start_day, start_month, start_year}) => {
 
   if (!start_day && !start_month) {
     startDisplayDate = moment((start_year).toString())
-    startCompareDate = moment((start_year + 1).toString()).subtract(1, 'seconds')
+    startCompareDate = moment((start_year).toString()).add(1, 'years').subtract(1, 'seconds')
     startMonthUncertain = true
     startDayUncertain = true
   } else if (!start_day) {
-    startDisplayDate = moment([start_year.toString(), (start_month - 1).toString()])
-    startCompareDate = moment([start_year.toString(), (start_month).toString()]).subtract(1, 'seconds')
+    startDisplayDate = moment([start_year.toString(), (start_month).toString()])
+    startCompareDate = moment([start_year.toString(), (start_month).toString()]).add(1, 'months').subtract(1, 'seconds')
     startDayUncertain = true
   } else {
-    startDisplayDate = moment([start_year.toString(), (start_month - 1).toString(), start_day.toString()])
-    startCompareDate = moment([start_year.toString(), (start_month - 1).toString(), start_day.toString()])
+    startDisplayDate = moment([start_year.toString(), (start_month).toString(), start_day.toString()])
+    startCompareDate = moment([start_year.toString(), (start_month).toString(), start_day.toString()])
   }
 
   // console.log('compare', startCompareDate.format('MMMM Do YYYY'))
@@ -123,17 +123,17 @@ const findEndCompareDate = ({end_day, end_month, end_year}) => {
   let endDayUncertain = false
 
   if (!end_day && !end_month) {
-    endDisplayDate = moment((end_year + 1).toString()).subtract(1, 'seconds')
+    endDisplayDate = moment((end_year).toString()).add(1, 'years').subtract(1, 'seconds')
     endCompareDate = moment(end_year.toString())
     endMonthUncertain = true
     endDayUncertain = true
   } else if (!end_day) {
-    endDisplayDate = moment([end_year.toString(), (end_month).toString()]).subtract(1, 'seconds')
-    endCompareDate = moment([end_year.toString(), (end_month - 1).toString()])
+    endDisplayDate = moment([end_year.toString(), (end_month).toString()]).add(1, 'months').subtract(1, 'seconds')
+    endCompareDate = moment([end_year.toString(), (end_month).toString()])
     endDayUncertain = true
   } else {
-    endDisplayDate = moment([end_year.toString(), (end_month - 1).toString(), end_day.toString()])
-    endCompareDate = moment([end_year.toString(), (end_month - 1).toString(), end_day.toString()])
+    endDisplayDate = moment([end_year.toString(), (end_month).toString(), end_day.toString()])
+    endCompareDate = moment([end_year.toString(), (end_month).toString(), end_day.toString()])
   }
 
   // console.log('compare', endCompareDate.format('MMMM Do YYYY'))
@@ -153,8 +153,8 @@ async function main() {
       const startCompareDate = findStartCompareDate(start);
       const endCompareDate = findEndCompareDate(end);
 
-      console.log(end)
-      console.log(endCompareDate)
+      // console.log(end)
+      // console.log(endCompareDate)
 
       return ({
         ...rest,
@@ -165,7 +165,7 @@ async function main() {
         institution_si: institution_si.trim(),
       })
     })
-    .filter(({ start_year, end_year }) => !!start_year && !!end_year)
+    .filter(({ start_year, end_year }) => !!start_year && !!end_year && end_year >= start_year)
 
   console.log(`Found ${cv_filtered.length} cv entries with person_id and start and end years`)
 

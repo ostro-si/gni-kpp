@@ -48,8 +48,6 @@
   maxYear = +max(Object.keys(byYear))
 
   maxYear = Math.min(new Date().getFullYear(), maxYear)
-  console.log(maxYear)
-
 
   yearsList = range(minYear, maxYear)
  }

@@ -4,7 +4,7 @@
   import PersonLabel from "../../PersonLabel.svelte";
   import VerticalTimeBars from "./VerticalTimeBars.svelte";
 	import LocalizedLink from "../../LocalizedLink.svelte";
-  import { arrayUniqueById, getColor, slugify, tField, getYearsLabel, getInitials } from '../../../utils';
+  import { arrayUniqueById, getColor, slugify, tField, getInitials } from '../../../utils';
 
 
  export let items;

@@ -22,9 +22,6 @@
 
 $: xScale = scaleTime()
   .domain([new Date(min(items, d => d.startDisplayDate)), new Date()])
-  // .nice()
-
-$: console.log('scale', xScale.domain(), xScale.ticks(), flattened)
  
 </script>
 <div class="timeline-container" in:fade>

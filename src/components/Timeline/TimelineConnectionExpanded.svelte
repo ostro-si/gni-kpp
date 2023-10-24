@@ -1,20 +1,17 @@
 <script>
  import { getContext } from 'svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
-	import { getColor } from '../../utils';
+	import { getColor, getLinearGradient } from '../../utils';
 
- export let startDisplayDate;
- export let endDisplayDate;
+ export let item
  export let refX;
- export let position;
- export let person_id
  export let i;
 
  const { xScale, xRange } = getContext('LayerCake');
 
 
- $: startX = $xScale(new Date(startDisplayDate))
- $: endX = $xScale(Math.min(new Date(endDisplayDate), new Date()))
+ $: startX = $xScale(new Date(item.startDisplayDate))
+ $: endX = $xScale(Math.min(new Date(item.endDisplayDate), new Date()))
 
  // console.log(person_id, refX)
 </script>
@@ -22,7 +19,7 @@
 <div
  class="item__bar"
  style:width={`${endX - startX}px`}
- style:background-color={getColor(position)}
+ style:background={getLinearGradient(item, getColor(item.position))}
  style:left={`${startX - refX}px`}
 />
  
