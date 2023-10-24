@@ -8,7 +8,9 @@
 
  export let data;
 
- $: console.log($translations)
+//  $: console.log($translations)
+ $: console.log($platform)
+
 </script>
 
 <ProfileHeader
@@ -35,10 +37,11 @@
    component: data.asset_tracker_link && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${$translate('Link')}</a>`
   }
  ]}
+
 />
 
 {#key data.id}
-  {#if data.cv}
+  {#if data.cv && $platform}
     {#if $platform === 'mobile'}
       <TimelineMobile
         items={data.cv}

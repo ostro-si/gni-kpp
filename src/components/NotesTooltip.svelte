@@ -17,6 +17,6 @@
  :global(.mdc-icon-button.smui-icon-button--size-mini) {
   font-size: 18px;
   height: 0 !important;
-  transform: translateY(-1px);
+  transform: translateY(2.5px);
  }
 </style>

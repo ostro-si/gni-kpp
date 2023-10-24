@@ -140,7 +140,10 @@
  .right-scroll {
   position: absolute;
   left: $yearWidth;
-  width: calc(100% - #{$yearWidth})
+  width: calc(100% - #{$yearWidth});
+  // transform: translateY(-25%);
+  overflow: scroll;
+  max-height: calc(100vh - 200px);
  }
 
 //  .scroll-spacer {

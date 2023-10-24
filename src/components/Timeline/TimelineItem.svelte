@@ -54,11 +54,11 @@
 //  $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections, 'person_id') : null
 // $: uni
 
-$: {
-  if (hovered) {
-    console.log(item, `${endX - startX}px`)
-  }
-}
+// $: {
+//   if (hovered) {
+//     console.log(item.startDisplayDate, item.endDisplayDate)
+//   }
+// }
 
 </script>
 

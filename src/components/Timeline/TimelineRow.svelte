@@ -51,7 +51,11 @@ $: minX = min(positions, d => d.startDisplayDate)
     if (positionRows.length > 0) {
       const lastRow = positionRows[positionRows.length - 1]
       const lastElementPlaced = lastRow[lastRow.length - 1];
-      if (position.startCompareDate >= lastElementPlaced.endCompareDate) {
+      if (position.person_name === 'Matej Arčon') {
+        console.log(position.startCompareDate, lastElementPlaced.endCompareDate)
+
+      }
+      if (position.startDisplayDate >= lastElementPlaced.endDisplayDate) {
         lastRow.push(position)
         return;
       }
