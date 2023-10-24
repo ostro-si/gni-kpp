@@ -25,8 +25,8 @@
 //  let connectionsWidth;
 //  let titleLeftShift;
 
-
- $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
+$: minX = min(positions, d => d.startDisplayDate)
+ $: startX = $xScale(new Date(minX))
  $: {
   const connectionsRaw = positions
     .map(({ connections }) => connections)
@@ -40,7 +40,7 @@
 
  const calculatePositionOffsets = () => {
   positions
-    .sort((a, b) => a.start_year < b.start_year ? -1 : 1)
+    .sort((a, b) => a.startDisplayDate < b.startDisplayDate ? -1 : 1)
     .forEach(position => {
       placePosition(position)
     })
@@ -73,7 +73,7 @@
 //  $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
 
 
-//  $: console.log(connectionsWidth, connectionsLeftShift)
+ $: console.log(positions.map(p => p.startDisplayDate), min(positions, d => d.startDisplayDate))
 
 </script>
 

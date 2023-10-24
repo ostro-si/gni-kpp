@@ -4,6 +4,7 @@
  -->
  <script>
   import { getContext } from 'svelte';
+  import moment from 'moment';
   const { width, height, xScale, yRange } = getContext('LayerCake');
 
   /** @type {Boolean} [gridlines=true] - Extend lines from the ticks into the chart space */
@@ -19,7 +20,7 @@
   export let snapTicks = false;
 
   /** @type {Function} [formatTick=d => d] - A function that passes the current tick value and expects a nicely formatted value in return. */
-  export let formatTick = d => d;
+  export let formatTick = d => moment(d).format('YYYY');
 
   /** @type {Number|Array|Function} [ticks] - If this is a number, it passes that along to the [d3Scale.ticks](https://github.com/d3/d3-scale) function. If this is an array, hardcodes the ticks to those values. If it's a function, passes along the default tick values and expects an array of tick values in return. If nothing, it uses the default ticks supplied by the D3 function. */
   export let ticks = undefined;
@@ -39,6 +40,8 @@
         ticks($xScale.ticks()) :
           $xScale.ticks(ticks);
 
+  // $: console.log(tickVals, $xScale.domain())
+
   function textAnchor(i) {
     if (snapTicks === true) {
       if (i === 0) {
@@ -54,7 +57,6 @@
 
 <g class="axis x-axis" class:snapTicks>
   {#each tickVals as tick, i (tick)}
-    {#if tick <= new Date().getFullYear()}
       <g class="tick tick-{i}" transform="translate({$xScale(tick)},{Math.max(...$yRange)})">
         {#if gridlines !== false}
           <line class="gridline" y1={$height * -1} y2="0" x1="0" x2="0" />
@@ -76,7 +78,6 @@
           text-anchor={textAnchor(i)}>{formatTick(tick)}</text
         >
       </g>
-    {/if}
   {/each}
   {#if baseline === true}
     <line class="baseline" y1={$height + 0.5} y2={$height + 0.5} x1="0" x2={$width} />

@@ -1,4 +1,5 @@
 <script>
+  import moment from 'moment';
  import AxisX from '../AxisX.svelte';
  import { translate } from '$lib/translations';
  import TimelineSection from './TimelineSection.svelte';
@@ -13,9 +14,9 @@
 
  $: sections = groupBy(items, sectionGroupingVar)
  $: flattened = items
-  .map(({ start_year, end_year }) => ([{ year: start_year }, { year: end_year }]))
+  .map(({ startDisplayDate, endDisplayDate }) => ([{ date: new Date(startDisplayDate) }, { date: new Date(endDisplayDate) }]))
   .flat()
-  .filter(d => !!d.year)
+  .filter(d => !!d.date)
  
 </script>
 <div class="timeline-container" in:fade>

@@ -19,11 +19,11 @@
  let labelWidth;
 
 
- const minStartVal = min(items, i => i.start_year);
- const maxEndVal = max(items, i => i.end_year);
- 
- $: startX = minStartVal ? $xScale(minStartVal) : $xRange[0]
- $: endX = maxEndVal ? $xScale(Math.min(maxEndVal, new Date().getFullYear())) : 0
+ const minStartVal = min(items, i => new Date(i.startCompareDate));
+ const maxEndVal = max(items, i => new Date(i.endCompareDate));
+
+ $: startX = $xScale(minStartVal)
+ $: endX = $xScale(Math.min(new Date(maxEndVal), new Date()))
 
  $: personDetails = items[0] || {};
 

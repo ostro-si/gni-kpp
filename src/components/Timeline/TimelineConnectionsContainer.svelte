@@ -16,7 +16,7 @@
  $: maxXEnds = Math.max(...xEnds);
 
  console.log(connection)
- $: console.log(connection.map(({ start_year, end_year }) => ({ start_year, end_year })))
+ $: console.log(connection.map(({ startDisplayDate, endDisplayDate }) => ({ startDisplayDate, endDisplayDate })))
 
 
  // const { xScale, xRange } = getContext('LayerCake');

@@ -41,12 +41,12 @@ $: {
   // console.log(hasConnections)
   // height = uniqueConnections?.length > 0 ? 10 : 20
 } 
-$: startX = $xScale(positions[0].start_year)
+$: startX = $xScale(new Date(positions[0].startDisplayDate))
+
+
 // $: leftShift = (labelWidth && ((startX - refX) + labelWidth) > $width) ? $width - ((startX - refX) + labelWidth) : 0
 $: labelLeftShift = labelWidth && ((startX + labelWidth) > $width) ? $width - (startX + labelWidth): 0
 // $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
-
-// $: console.log(connectionsWidth, startX, refX, connectionsLeftShift)
 
 // $: 
 

@@ -58,8 +58,19 @@ const cleanDates = (prefix, day, month, year) => {
   const splitDayDot = day?.split(".") || []
   const splitDay = splitDaySlash.length > splitDayDot.length ? splitDaySlash : splitDayDot
 
-  const cleanedDay = splitDay[1] && splitDay[1].length > 0 ? +splitDay[1] : undefined
-  const cleanedMonth = month || splitDay?.[0]
+  let cleanedDay
+  let cleanedMonth
+
+  // Temporary fix to handle date inconsistencies in the sheet
+  if (!month && splitDay?.length && +splitDay[0] > 12) {
+    cleanedDay = splitDay[0]
+    cleanedMonth = splitDay[1]
+  } else {
+    cleanedDay = splitDay[1] && splitDay[1].length > 0 ? +splitDay[1] : undefined
+    cleanedMonth = month || splitDay?.[0]
+  }
+
+  
   const cleanedYear = year || splitDay?.[2]
 
   return({
@@ -71,31 +82,63 @@ const cleanDates = (prefix, day, month, year) => {
 
 
 const findStartCompareDate = ({start_day, start_month, start_year}) => {
+  // console.log(start_day, start_month, start_year)
   if (!start_year) {
     return;
   }
 
+  let startCompareDate
+  let startDisplayDate
+  let startMonthUncertain = false
+  let startDayUncertain = false
+
   if (!start_day && !start_month) {
-    return moment((start_year + 1).toString()).subtract(1, 'seconds')
+    startDisplayDate = moment((start_year).toString())
+    startCompareDate = moment((start_year + 1).toString()).subtract(1, 'seconds')
+    startMonthUncertain = true
+    startDayUncertain = true
   } else if (!start_day) {
-    return moment([start_year.toString(), (start_month).toString()]).subtract(1, 'seconds')
+    startDisplayDate = moment([start_year.toString(), (start_month - 1).toString()])
+    startCompareDate = moment([start_year.toString(), (start_month).toString()]).subtract(1, 'seconds')
+    startDayUncertain = true
   } else {
-    return moment([start_year.toString(), (start_month - 1).toString(), start_day.toString()])
+    startDisplayDate = moment([start_year.toString(), (start_month - 1).toString(), start_day.toString()])
+    startCompareDate = moment([start_year.toString(), (start_month - 1).toString(), start_day.toString()])
   }
+
+  // console.log('compare', startCompareDate.format('MMMM Do YYYY'))
+  // console.log('display', startDisplayDate.format('MMMM Do YYYY'))
+  return ({ startCompareDate, startDisplayDate, startMonthUncertain, startDayUncertain })
 }
 
 const findEndCompareDate = ({end_day, end_month, end_year}) => {
   if (!end_year) {
     return;
   }
+  // console.log(end_day, end_month, end_year)
+
+  let endCompareDate
+  let endDisplayDate
+  let endMonthUncertain = false
+  let endDayUncertain = false
 
   if (!end_day && !end_month) {
-    return moment(end_year.toString())
+    endDisplayDate = moment((end_year + 1).toString()).subtract(1, 'seconds')
+    endCompareDate = moment(end_year.toString())
+    endMonthUncertain = true
+    endDayUncertain = true
   } else if (!end_day) {
-    return moment([end_year.toString(), (end_month - 1).toString()])
+    endDisplayDate = moment([end_year.toString(), (end_month).toString()]).subtract(1, 'seconds')
+    endCompareDate = moment([end_year.toString(), (end_month - 1).toString()])
+    endDayUncertain = true
   } else {
-    return moment([end_year.toString(), (end_month - 1).toString(), end_day.toString()])
+    endDisplayDate = moment([end_year.toString(), (end_month - 1).toString(), end_day.toString()])
+    endCompareDate = moment([end_year.toString(), (end_month - 1).toString(), end_day.toString()])
   }
+
+  // console.log('compare', endCompareDate.format('MMMM Do YYYY'))
+  // console.log('display', endDisplayDate.format('MMMM Do YYYY'))
+  return ({ endCompareDate, endDisplayDate, endMonthUncertain, endDayUncertain })
 }
 
 async function main() {
@@ -110,12 +153,15 @@ async function main() {
       const startCompareDate = findStartCompareDate(start);
       const endCompareDate = findEndCompareDate(end);
 
+      console.log(end)
+      console.log(endCompareDate)
+
       return ({
         ...rest,
         ...start,
         ...end,
-        startCompareDate,
-        endCompareDate,
+        ...startCompareDate,
+        ...endCompareDate,
         institution_si: institution_si.trim(),
       })
     })

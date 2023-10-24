@@ -3,8 +3,8 @@
  import LocalizedLink from '../LocalizedLink.svelte';
 	import { getColor } from '../../utils';
 
- export let start_year;
- export let end_year;
+ export let startDisplayDate;
+ export let endDisplayDate;
  export let refX;
  export let position;
  export let person_id
@@ -13,8 +13,8 @@
  const { xScale, xRange } = getContext('LayerCake');
 
 
- $: startX = start_year ? $xScale(start_year) : $xRange[0]
- $: endX = end_year ? $xScale(Math.min(end_year, new Date().getFullYear())) : 0
+ $: startX = $xScale(new Date(startDisplayDate))
+ $: endX = $xScale(Math.min(new Date(endDisplayDate), new Date()))
 
  // console.log(person_id, refX)
 </script>

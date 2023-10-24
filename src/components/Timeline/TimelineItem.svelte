@@ -2,7 +2,7 @@
  import { locale, translate } from '$lib/translations';
  import { getContext } from 'svelte';
  import { fade } from 'svelte/transition';
- import { arrayUniqueById, getColor } from '../../utils'
+ import { arrayUniqueById, getColor, displayDate } from '../../utils'
  import TimelineConnectionExpanded from './TimelineConnectionExpanded.svelte';
 
  export let item;
@@ -19,8 +19,8 @@
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
- $: startX = item.start_year ? $xScale(item.start_year) : $xRange[0]
- $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear() + 1)) : 0
+ $: startX = $xScale(new Date(item.startDisplayDate))
+ $: endX = $xScale(Math.min(new Date(item.endDisplayDate), new Date()))
 
  $: {
   if (item.end_year === positions?.[index + 1]?.start_year) {
@@ -49,11 +49,12 @@
     <div class="bar"></div>
     <div class="years" class:hidden={!hovered} style:transform={endX - startX < 33 && item.end_year !== item.start_year ? 'translateX(-9px)' : 'none'} in:fade>
       {#if item.start_year}
-        <div
+      <div
           class="year"
           class:hidden={shouldHideStartYear}
         >
           <span>{item.start_year}</span>
+          <!-- <span>{displayDate(item, 'start', locale)}</span> -->
           {#if item.end_year === 2100}
             <span>-</span>
           {/if}
@@ -66,7 +67,8 @@
           class:centered={shouldCenterEndYear}
         >
           {#if item.end_year !== 2100}
-            {item.end_year}
+           {item.end_year}
+            <!-- <span>{displayDate(item, 'end', locale)}</span> -->
           {/if}
         </div>
       {/if}

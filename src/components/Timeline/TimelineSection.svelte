@@ -21,13 +21,15 @@ import { locale } from '$lib/translations';
 
 //  $: console.log(items)
 
+$: console.log(data)
+
 </script>
 
 <div class='chart-container' style:height={`${h}px`}>
  <LayerCake
    {data}
-   x="year"
-   xDomain={[null, new Date().getFullYear() + 1]}
+   x="date"
+   xDomain={[null, new Date()]}
    let:width
    >
    <Svg>

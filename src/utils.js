@@ -116,7 +116,16 @@ export const formatDate = (year, month, day, locale) => {
 
 }
 
-
+export const displayDate = (item, prefix, locale) => {
+  console.log(item)
+  if (item[`${prefix}MonthUncertain`]) {
+    return item[`${prefix}_year`];
+  } else if (item[`${prefix}DayUncertain`]) {
+    return item[`${prefix}_month`] + '.' + item[`${prefix}_year`];
+  } else {
+    return item[`${prefix}_day`] + '.' + item[`${prefix}_month`] + '.' + item[`${prefix}_year`];
+  }
+}
 
 
 export const getYearsLabel = (item, presentPlaceholder) => {
