@@ -4,6 +4,8 @@
  -->
  <script>
   import { getContext } from 'svelte';
+  import moment from 'moment';
+  import { timeMonth } from 'd3-time';
   const { width, height, xScale, yRange } = getContext('LayerCake');
 
   /** @type {Boolean} [gridlines=true] - Extend lines from the ticks into the chart space */
@@ -18,9 +20,6 @@
   /** @type {Boolean} [snapTicks=false] - Instead of centering the text on the first and the last items, align them to the edges of the chart. */
   export let snapTicks = false;
 
-  /** @type {Function} [formatTick=d => d] - A function that passes the current tick value and expects a nicely formatted value in return. */
-  export let formatTick = d => d;
-
   /** @type {Number|Array|Function} [ticks] - If this is a number, it passes that along to the [d3Scale.ticks](https://github.com/d3/d3-scale) function. If this is an array, hardcodes the ticks to those values. If it's a function, passes along the default tick values and expects an array of tick values in return. If nothing, it uses the default ticks supplied by the D3 function. */
   export let ticks = undefined;
 
@@ -32,12 +31,11 @@
 
   $: isBandwidth = typeof $xScale.bandwidth === 'function';
 
-  $: tickVals = Array.isArray(ticks) ? ticks :
-    isBandwidth ?
-      $xScale.domain() :
-      typeof ticks === 'function' ?
-        ticks($xScale.ticks()) :
-          $xScale.ticks(ticks);
+  $: tickVals = $xScale.ticks()
+
+  $: yearsExtent = moment($xScale.domain()[1]).diff($xScale.domain()[0], "years")
+  $: format = yearsExtent < 4 ? 'M.YYYY' : 'YYYY'
+  $: formatTick = d => moment(d).format(format);
 
   function textAnchor(i) {
     if (snapTicks === true) {
@@ -54,27 +52,27 @@
 
 <g class="axis x-axis" class:snapTicks>
   {#each tickVals as tick, i (tick)}
-    <g class="tick tick-{i}" transform="translate({$xScale(tick)},{Math.max(...$yRange)})">
-      {#if gridlines !== false}
-        <line class="gridline" y1={$height * -1} y2="0" x1="0" x2="0" />
-      {/if}
-      {#if tickMarks === true}
-        <line
-          class="tick-mark"
-          y1={0}
-          y2={6}
-          x1={isBandwidth ? $xScale.bandwidth() / 2 : 0}
-          x2={isBandwidth ? $xScale.bandwidth() / 2 : 0}
-        />
-      {/if}
-      <text
-        x={isBandwidth ? ($xScale.bandwidth() / 2 + xTick) : xTick}
-        y={-$height}
-        dx=""
-        dy=""
-        text-anchor={textAnchor(i)}>{formatTick(tick)}</text
-      >
-    </g>
+      <g class="tick tick-{i}" transform="translate({$xScale(tick)},{Math.max(...$yRange)})">
+        {#if gridlines !== false}
+          <line class="gridline" y1={$height * -1} y2="0" x1="0" x2="0" />
+        {/if}
+        {#if tickMarks === true}
+          <line
+            class="tick-mark"
+            y1={0}
+            y2={6}
+            x1={isBandwidth ? $xScale.bandwidth() / 2 : 0}
+            x2={isBandwidth ? $xScale.bandwidth() / 2 : 0}
+          />
+        {/if}
+        <text
+          x={isBandwidth ? ($xScale.bandwidth() / 2 + xTick) : xTick}
+          y={-$height}
+          dx=""
+          dy=""
+          text-anchor={textAnchor(i)}>{formatTick(tick)}</text
+        >
+      </g>
   {/each}
   {#if baseline === true}
     <line class="baseline" y1={$height + 0.5} y2={$height + 0.5} x1="0" x2={$width} />

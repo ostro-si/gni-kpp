@@ -19,11 +19,11 @@
  let labelWidth;
 
 
- const minStartVal = min(items, i => i.start_year);
- const maxEndVal = max(items, i => i.end_year);
- 
- $: startX = minStartVal ? $xScale(minStartVal) : $xRange[0]
- $: endX = maxEndVal ? $xScale(Math.min(maxEndVal, new Date().getFullYear())) : 0
+ const minStartVal = min(items, i => new Date(i.startDisplayDate));
+ const maxEndVal = max(items, i => new Date(i.endDisplayDate));
+
+ $: startX = $xScale(minStartVal)
+ $: endX = $xScale(Math.min(new Date(maxEndVal), new Date()))
 
  $: personDetails = items[0] || {};
 
@@ -44,7 +44,7 @@
    </div>
    <div class="bars">
     {#each items as item}
-     <TimelineConnectionExpanded {...item} />
+     <TimelineConnectionExpanded {item} refX={startX} />
     {/each}
    </div>
   </div>
@@ -87,5 +87,10 @@
    background: white;
    padding: 0 1px;
   }
+ }
+
+ .bars {
+  height: 9px;
+  position: relative;
  }
 </style>

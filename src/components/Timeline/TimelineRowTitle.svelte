@@ -3,10 +3,12 @@
  import { getContext } from 'svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import PersonLabel from '../PersonLabel.svelte';
+ import NotesTooltip from '../NotesTooltip.svelte';
 
  export let title;
  export let href;
  export let component;
+ export let notes;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
@@ -16,23 +18,38 @@
 </script>
 
 
-<LocalizedLink component={"a"} {href}>
-  <div class="container">
-    {#if component}
-      <PersonLabel {...component} small={true} clickable css="display: flex"/>
-    {:else}
-      <h5 class="title">{title}</h5>
-    {/if}
-  </div>
-</LocalizedLink>
+<div class="outer-container">
+  <LocalizedLink component={"a"} {href}>
+    <div class="container">
+      {#if component}
+        <PersonLabel id={component.id} name={component.name} image_link={component.image_link} position={component.position} small clickable css="display: flex"/>
+      {:else}
+        <h5 class="title">
+          {title}
+        </h5>
+      {/if}
+    </div>
+  </LocalizedLink>
+  {#if notes.length}
+    <NotesTooltip {notes} />
+  {/if} 
+</div>
+
 
 
 <style lang="scss">
+  .outer-container {
+    display: inline-flex;
+    align-items: start;
+    justify-content: space-between;
+  }
+  
   .container {
     display: inline-flex;
     align-items: center;
     gap: 7px;
   }
+ 
  .title {
   display: inline-flex;
   margin: 0;
@@ -42,6 +59,7 @@
   // font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
   color: $grey;
+
  }
 
  .image {

@@ -1,3 +1,6 @@
+import moment from 'moment'
+import 'moment/locale/sl';
+
 export const groupBy = function(xs, key) {
  return xs.reduce(function(rv, x) {
    (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -42,9 +45,12 @@ export const getDateYear = dateString => {
 }
 
 export const getDate = dateString => {
+
+  console.log('in get date', dateString)
   if (!dateString) return;
 
   const date = new Date(dateString);
+  console.log('in get date', dateString, date)
 
   return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 }
@@ -96,4 +102,100 @@ export const getInitials = name => {
   ).toUpperCase();
 
   return initials
+}
+
+export const formatDate = (item, prefix, locale) => {
+  moment.locale(locale === 'en' ? 'en' : 'sl')
+
+
+  const date = moment([item[`${prefix}_year`], item[`${prefix}_month`], item[`${prefix}_day`]].filter(d => !!d))
+
+
+  if (item[`${prefix}MonthUncertain`]) {
+    return date.format('YYYY')
+  } else if (item[`${prefix}DayUncertain`]) {
+    return date.format('MMMM YYYY')
+  } else {
+    return date.format('LL')
+  }
+}
+
+export const displayDate = (item, prefix, locale) => {
+  console.log(item)
+  if (item[`${prefix}MonthUncertain`]) {
+    return item[`${prefix}_year`];
+  } else if (item[`${prefix}DayUncertain`]) {
+    return (+item[`${prefix}_month`]+1) + '.' + item[`${prefix}_year`];
+  } else {
+    return item[`${prefix}_day`] + '.' + (+item[`${prefix}_month`]+1) + '.' + item[`${prefix}_year`];
+  }
+}
+
+
+export const getYearsLabel = (item, locale, presentPlaceholder) => {
+  const start = formatDate(item, 'start', locale)
+  const end = item.end_year === 2100 ? presentPlaceholder : formatDate(item, 'end', locale)
+
+
+  console.log(start)
+  return start === end ? start : start + ' - ' + end;
+  // console.log(item)
+
+  // if (item.start_year === item.end_year) {
+  //   return item.start_year
+  // }
+
+  // return `${item.start_year} - ${item.end_year === 2100 ? presentPlaceholder : item.end_year}`
+}
+
+export const getLinearGradient = (item, color) => {
+  const linearGradientStops = [];
+
+  const monthsMultiplier = 3;
+  const yearsExtent = moment(item.endDisplayDate).diff(item.startDisplayDate, 'years');
+  const monthsExtent = moment(item.endDisplayDate).diff(item.startDisplayDate, 'months');
+
+  // const 
+  if (item.startMonthUncertain) {
+    linearGradientStops.push("transparent")
+    linearGradientStops.push(`${color} ${(1/yearsExtent) * 100}%`)
+  } else if (item.startDayUncertain) {
+    linearGradientStops.push("transparent")
+    linearGradientStops.push(`${color} ${(1/monthsExtent * monthsMultiplier) * 100}%`)
+  } else {
+    linearGradientStops.push(`${color}`)
+  }
+
+  linearGradientStops.push(`${color} 50%`)
+
+  if (item.endMonthUncertain) {
+    linearGradientStops.push(`${color} ${100 - ((1/yearsExtent) * 100)}%`)
+    linearGradientStops.push("transparent")
+  } else if (item.endDayUncertain) {
+    linearGradientStops.push(`${color} ${100 - ((1/monthsExtent * monthsMultiplier) * 100)}%`)
+    linearGradientStops.push("transparent")
+  } else {
+    linearGradientStops.push(`${color} 100%`)
+  }
+  return `linear-gradient(to right, ${linearGradientStops.join(', ')})`
+}
+
+export const getPositionLabel = (position, gender, locale) => {
+  if (locale === 'en') {
+    if (position === 'pm') {
+      return 'Prime minister'
+    }
+    return position;
+  }
+
+  if (position === 'minister') {
+    if (gender === 'F') {
+      return 'ministrica'
+    } 
+  } else if (position === 'secretary') {
+    if (gender === 'F') {
+      return 'sekretarka'
+    } 
+  }
+  return position;
 }

@@ -15,7 +15,8 @@
  $: minXTransform = Math.min(...xTransforms);
  $: maxXEnds = Math.max(...xEnds);
 
-//  $: console.log(xTransforms, xEnds)
+ console.log(connection)
+//  $: console.log(connection.map(({ startDisplayDate, endDisplayDate }) => ({ startDisplayDate, endDisplayDate })))
 
 
  // const { xScale, xRange } = getContext('LayerCake');
@@ -28,23 +29,24 @@
 </script>
 
 
-<Portal target="#expanded-anchor">
+<!-- <Portal target="#expanded-anchor"> -->
  <div class="connections-expanded" bind:clientHeight={h}>
     <TimelineConnectionRowExpanded {id} items={connection} {refX} />
  </div>
- <div class="background" 
+ <!-- <div class="background" 
   style:transform={`translate(${minXTransform - 4}px, 0)`}
   style:width={`${maxXEnds}px`}
   style:height={`${h + 8}px`}
- />
-</Portal>
+ /> -->
+<!-- </Portal> -->
 
 
 <style lang="scss">
  .connections-expanded {
-  position: absolute;
-  // transform: translateY(-15px);
+//   position: absolute;
+//   transform: translateY(10px);
   background-color: white;
+  height: 20px;
   // padding: 20px;
   // padding-top: 20px;
   z-index: 6;

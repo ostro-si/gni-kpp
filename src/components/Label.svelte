@@ -2,15 +2,14 @@
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
 
-
- export let imageLink;
- export let imagePlaceholder;
- export let title;
- export let subheading;
- export let border;
- export let small;
- export let coloredText;
- export let size;
+  export let imageLink;
+  export let imagePlaceholder;
+  export let title;
+  export let subheading;
+  export let border;
+  export let small;
+  export let coloredText;
+  export let size;
 
  const tweenParameters = {
     duration: 400,

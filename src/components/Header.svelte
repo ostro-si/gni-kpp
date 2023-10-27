@@ -22,7 +22,7 @@
 	let mobileMenuOpen = false;
 	const toggleSearch = () => searchOpen = !searchOpen
 
-	$: $page.path, mobileMenuOpen = false
+	$: if($navigating) mobileMenuOpen = false
 	
 	$: if($navigating) searchOpen = false;	
 </script>

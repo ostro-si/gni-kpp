@@ -8,7 +8,8 @@ import { locale } from '$lib/translations';
 
  export let items;
  export let rowGroupingVar;
- export let data;
+ export let xScale;
+ export let data
  export let getItemLink;
  export let getItemLabel;
 
@@ -21,22 +22,25 @@ import { locale } from '$lib/translations';
 
 //  $: console.log(items)
 
+// $: console.log(data)
+
 </script>
 
 <div class='chart-container' style:height={`${h}px`}>
  <LayerCake
-   {data}
-   x="year"
-   xDomain={[null, new Date().getFullYear()]}
+   data={data}
+   x={"date"}
+   xScale={xScale}
    let:width
    >
    <Svg>
-     <AxisX />
+    <AxisX />
+
    </Svg>
    <Html>
     <div class="data-container" bind:clientHeight={h}>
      {#each Object.entries(byRow) as [title, positions],i}
-      <TimelineRow title={tField(positions[0], rowGroupingVar.split('_')[0], $locale)} {positions} {getItemLink} {getItemLabel} {i}/>
+      <TimelineRow title={tField(positions[0], rowGroupingVar.split('_')[0], $locale)} {positions} {getItemLink} {getItemLabel} {rowGroupingVar} {i}/>
      {/each}
     </div>
    </Html>

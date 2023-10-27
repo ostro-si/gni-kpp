@@ -46,6 +46,7 @@
 		"d3-scale-chromatic": "^3.0.0",
 		"d3-selection": "^3.0.0",
 		"d3-zoom": "^3.0.0",
+		"moment": "^2.29.4",
 		"svelte-i18n": "^3.7.0",
 		"svelte-portal": "^2.2.0",
 		"sveltekit-i18n": "^2.3.2"

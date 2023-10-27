@@ -3,17 +3,19 @@
  import ProfileHeader from '../../../../components/ProfileHeader.svelte';
  import Timeline from '../../../../components/Timeline/Timeline.svelte';
  import TimelineMobile from '../../../../components/TimelineMobile/Person/TimelineMobile.svelte';
- import { slugify, getColor, getTextColor, getDateYear, getDate, tField } from '../../../../utils';
+ import { slugify, getColor, getTextColor, getDateYear, getDate, tField, getPositionLabel } from '../../../../utils';
  import { platform } from '../../../../components/MediaQuerySsr.svelte';
 
  export let data;
 
- $: console.log($translations)
+//  $: console.log($translations)
+ $: console.log($platform)
+
 </script>
 
 <ProfileHeader
  title={data.name}
- subheading={data.position}
+ subheading={getPositionLabel(data.position, data.gender, $locale)}
  imageLink={data.image_link}
  background={getColor(data.position)}
  textColor={getTextColor(data.position)}
@@ -35,10 +37,11 @@
    component: data.asset_tracker_link && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${$translate('Link')}</a>`
   }
  ]}
+
 />
 
 {#key data.id}
-  {#if data.cv}
+  {#if data.cv && $platform}
     {#if $platform === 'mobile'}
       <TimelineMobile
         items={data.cv}

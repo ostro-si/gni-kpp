@@ -1,17 +1,17 @@
 <script>
 import { translate } from '$lib/translations';
 import { platform } from "./MediaQuerySsr.svelte";
+import NotesTooltip from './NotesTooltip.svelte';
 
 
- export let imageLink;
- export let title;
- export let subheading;
- export let details;
- export let background;
- export let textColor;
- export let small;
+ export let imageLink = undefined;
+ export let title = undefined;
+ export let subheading = undefined;
+ export let notes = undefined;
+ export let details = undefined;
+ export let background = undefined;
+ export let textColor = undefined;
 
-//  $: console.log(background, small)
 
 let scrollY;
 let h;
@@ -30,11 +30,17 @@ $: collapsed = scrollY !== 0;
     <div class="ProfileHeader__image" style={`background-image: url('${imageLink}')`}></div>
    {/if}
    <div class="ProfileHeader__title">
-    <h5 class="ProfileHeader__title__heading">{title}</h5>
+    <h5 class="ProfileHeader__title__heading">
+      <span>{title}</span>
+      {#if notes?.length}
+        <NotesTooltip {notes} />
+      {/if}
+    </h5>
     {#if subheading}
      <h5 class="ProfileHeader__title__subheading">{$translate(subheading)}</h5>
     {/if}
    </div>
+   
   </div>
  {#if details}
   <div class="ProfileHeader__secondary">
@@ -95,17 +101,19 @@ $: collapsed = scrollY !== 0;
    align-items: center;
 
    @media (max-width: 550px) {
-    justify-content: flex-start;
-  }
+      justify-content: flex-start;
+    }
   }
 
   &__secondary {
    gap: 15px;
    align-items: normal;
    align-self: center;
+   
    @media (max-width: 550px) {
       flex-wrap: wrap;
       justify-content: space-between;
+      width: 100%;
 
       .collapsed & {
         display: none;
@@ -136,6 +144,7 @@ $: collapsed = scrollY !== 0;
    margin: 15px 0;
    font-size: 20px;
    transition: font-size $transition-duration linear;
+   max-width: 500px;
 
    .collapsed & {
     font-size: 14px;
@@ -160,7 +169,6 @@ $: collapsed = scrollY !== 0;
    transition: font-size $transition-duration linear;
    overflow-y: hidden;
   
-   
 
    .collapsed & {
     font-size: 12px;

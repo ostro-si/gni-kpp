@@ -1,13 +1,15 @@
 <script>
+  import moment from 'moment';
+ import { locale, translate } from '$lib/translations';
  import { getContext } from 'svelte';
  import { fade } from 'svelte/transition';
- import { arrayUniqueById, getColor } from '../../utils'
+ import { arrayUniqueById, getColor, displayDate, getLinearGradient } from '../../utils'
  import TimelineConnectionExpanded from './TimelineConnectionExpanded.svelte';
+	import { linear } from 'svelte/easing';
 
  export let item;
  export let refX;
  export let hovered;
- export let yOffset;
  export let positions;
  export let index;
 
@@ -18,8 +20,8 @@
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
- $: startX = item.start_year ? $xScale(item.start_year) : $xRange[0]
- $: endX = item.end_year ? $xScale(Math.min(item.end_year, new Date().getFullYear())) : 0
+ $: startX = $xScale(new Date(item.startDisplayDate))
+ $: endX = $xScale(Math.min(new Date(item.endDisplayDate), new Date()))
 
  $: {
   if (item.end_year === positions?.[index + 1]?.start_year) {
@@ -27,8 +29,20 @@
   }
   if (item.start_year === positions?.[index - 1]?.end_year) {
     shouldHideStartYear = true;
-  }  
+  }
  }
+
+//  let linearGradient;
+//  let linearGradientStops = [];
+
+//  $: {
+//   // const oneYearPercent = $xScale()
+  
+//  }
+
+//  $: linearGradient = `linear-gradient(to right, ${linearGradientStops.join(' , ')})`
+
+//  $: console.log(linearGradientStops, linearGradient, linearGradientStops.join(' ,'))
 
 //  $: numConnectionsToShow = w ? Math.floor(w / connectionWidth) -1 : 0
 
@@ -39,31 +53,45 @@
 //  $: uniqueConnections = item.connections?.length ? arrayUniqueById(item.connections, 'person_id') : null
 // $: uni
 
-//  $: console.log(positions, index)
+// $: {
+//   if (hovered) {
+//     console.log(item.startDisplayDate, item.endDisplayDate)
+//   }
+// }
+
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
   <!-- <h6 class="position">{item.position_si}</h6> -->
   <div class="bar-container" style:width={`${endX - startX}px`}>
-    <div class="bar"></div>
-    <div class="years" class:hidden={!hovered} in:fade>
-      {#if item.start_year}
-        <div
-          class="year"
-          class:hidden={shouldHideStartYear}
-        >
-          {item.start_year}
-        </div>
-      {/if}
-      {#if item.end_year && item.end_year !== item.start_year}
-        <div
-          class="year"
-          class:centered={shouldCenterEndYear}
-        >
-          {item.end_year === 2100 ? 'present' : item.end_year}
-        </div>
-      {/if}
-    </div>
+    <div class="bar" style:background={getLinearGradient(item, "#272728")}></div>
+    
+  </div>
+  <div class="years" class:hidden={!hovered} style:transform={endX - startX < 33 && item.end_year !== item.start_year ? 'translateX(-9px)' : 'none'} in:fade>
+    {#if item.start_year}
+    <div
+        class="year"
+        class:hidden={shouldHideStartYear}
+      >
+        <!-- <span>{item.start_year}</span> -->
+        <span>{displayDate(item, 'start', locale)}</span>
+        {#if item.end_year === 2100}
+          <span>-</span>
+        {/if}
+      </div>
+    {/if}
+   
+    <!-- {#if item.end_year && item.end_year !== item.start_year} -->
+      <div
+        class="year"
+        class:centered={shouldCenterEndYear}
+      >
+        {#if item.end_year !== 2100}
+         <!-- {item.end_year} -->
+          <span>{displayDate(item, 'end', locale)}</span>
+        {/if}
+      </div>
+    <!-- {/if} -->
   </div>
   
   <!-- {#if uniqueConnections}
@@ -91,7 +119,7 @@
  .bar {
   content: "";
   width: 100%;
-  min-width: 20px;
+  min-width: 10px;
   height: 10px;
   border-radius: 20px;
   background-color: $grey;
@@ -103,14 +131,17 @@
   font-size: 8px;
   display: flex;
   justify-content: space-between;
+  gap: 2px;
 
   &.hidden {
-    display: none;
+    visibility: hidden;
   }
  }
 
  .year {
   color: $grey;
+  display: flex;
+  gap: 2px;
   &.centered {
     transform: translateX(8px);
   }

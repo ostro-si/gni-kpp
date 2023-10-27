@@ -3,6 +3,7 @@ import {
  getSpreadSheetValues
 } from './googleSheetsService.js';
 import fs from 'fs'
+import moment from 'moment'
 
 import { groupBy, slugify } from './util.js';
 import { start } from 'repl';
@@ -57,15 +58,87 @@ const cleanDates = (prefix, day, month, year) => {
   const splitDayDot = day?.split(".") || []
   const splitDay = splitDaySlash.length > splitDayDot.length ? splitDaySlash : splitDayDot
 
-  const cleanedDay = splitDay[0] && splitDay[0].length > 0 ? +splitDay[0] : undefined
-  const cleanedMonth = month || splitDay?.[1]
+  let cleanedDay
+  let cleanedMonth
+
+  // Temporary fix to handle date inconsistencies in the sheet
+  if (!month && splitDay?.length && +splitDay[0] > 12) {
+    cleanedDay = splitDay[0]
+    cleanedMonth = splitDay[1]
+  } else {
+    cleanedDay = splitDay[1] && splitDay[1].length > 0 ? +splitDay[1] : undefined
+    cleanedMonth = month || splitDay?.[0]
+  }
+
+  
   const cleanedYear = year || splitDay?.[2]
 
   return({
     [`${prefix}_day`]: cleanedDay ? +cleanedDay : undefined,
-    [`${prefix}_month`]: cleanedMonth ? +cleanedMonth : undefined,
+    [`${prefix}_month`]: cleanedMonth ? +cleanedMonth - 1 : undefined,
     [`${prefix}_year`]: cleanedYear ? +cleanedYear : undefined,
   })
+}
+
+
+const findStartCompareDate = ({start_day, start_month, start_year}) => {
+  // console.log(start_day, start_month, start_year)
+  if (!start_year) {
+    return;
+  }
+
+  let startCompareDate
+  let startDisplayDate
+  let startMonthUncertain = false
+  let startDayUncertain = false
+
+  if (!start_day && !start_month) {
+    startDisplayDate = moment((start_year).toString())
+    startCompareDate = moment((start_year).toString()).add(1, 'years').subtract(1, 'seconds')
+    startMonthUncertain = true
+    startDayUncertain = true
+  } else if (!start_day) {
+    startDisplayDate = moment([start_year.toString(), (start_month).toString()])
+    startCompareDate = moment([start_year.toString(), (start_month).toString()]).add(1, 'months').subtract(1, 'seconds')
+    startDayUncertain = true
+  } else {
+    startDisplayDate = moment([start_year.toString(), (start_month).toString(), start_day.toString()])
+    startCompareDate = moment([start_year.toString(), (start_month).toString(), start_day.toString()])
+  }
+
+  // console.log('compare', startCompareDate.format('MMMM Do YYYY'))
+  // console.log('display', startDisplayDate.format('MMMM Do YYYY'))
+  return ({ startCompareDate, startDisplayDate, startMonthUncertain, startDayUncertain })
+}
+
+const findEndCompareDate = ({end_day, end_month, end_year}) => {
+  if (!end_year) {
+    return;
+  }
+  // console.log(end_day, end_month, end_year)
+
+  let endCompareDate
+  let endDisplayDate
+  let endMonthUncertain = false
+  let endDayUncertain = false
+
+  if (!end_day && !end_month) {
+    endDisplayDate = moment((end_year).toString()).add(1, 'years').subtract(1, 'seconds')
+    endCompareDate = moment(end_year.toString())
+    endMonthUncertain = true
+    endDayUncertain = true
+  } else if (!end_day) {
+    endDisplayDate = moment([end_year.toString(), (end_month).toString()]).add(1, 'months').subtract(1, 'seconds')
+    endCompareDate = moment([end_year.toString(), (end_month).toString()])
+    endDayUncertain = true
+  } else {
+    endDisplayDate = moment([end_year.toString(), (end_month).toString(), end_day.toString()])
+    endCompareDate = moment([end_year.toString(), (end_month).toString(), end_day.toString()])
+  }
+
+  // console.log('compare', endCompareDate.format('MMMM Do YYYY'))
+  // console.log('display', endDisplayDate.format('MMMM Do YYYY'))
+  return ({ endCompareDate, endDisplayDate, endMonthUncertain, endDayUncertain })
 }
 
 async function main() {
@@ -77,17 +150,22 @@ async function main() {
     .map(({ start_day, start_month, start_year, end_day, end_month, end_year, institution_si, institution_department_si, ...rest}) => {
       const start = cleanDates('start', start_day, start_month, start_year)
       const end = cleanDates('end', end_day, end_month, end_year)
-      
+      const startCompareDate = findStartCompareDate(start);
+      const endCompareDate = findEndCompareDate(end);
+
+      // console.log(end)
+      // console.log(endCompareDate)
 
       return ({
         ...rest,
         ...start,
         ...end,
+        ...startCompareDate,
+        ...endCompareDate,
         institution_si: institution_si.trim(),
-        institution_department_si: institution_department_si.trim(),
       })
     })
-    .filter(({ start_year, end_year }) => !!start_year && !!end_year)
+    .filter(({ start_year, end_year, endDisplayDate, startDisplayDate }) => !!start_year && !!end_year && endDisplayDate >= startDisplayDate)
 
   console.log(`Found ${cv_filtered.length} cv entries with person_id and start and end years`)
 
@@ -95,41 +173,26 @@ async function main() {
   const cvByInstitution = groupBy(cv_filtered, 'institution_si');
 
 
-  const findConnections = ({ id, person_id, institution_si, institution_department_si, start_day, start_month, start_year, end_day, end_month, end_year }) => {
+  const findConnections = ({ id, person_id, institution_si, institution_department_si, startCompareDate, endCompareDate }) => {
     const institutionConnections = cvByInstitution[institution_si];
 
-    if (!institutionConnections || !start_year || !end_year) {
+    if (!institutionConnections || !startCompareDate || !endCompareDate) {
       return []
     }
-    const sourceStartYear = start_month ? start_year : start_year + 1
-    const sourceEndYear = end_month ? end_year : end_year - 1;
 
     return institutionConnections.filter((d) => {
-      // check years
       if (id === d.id || person_id === d.person_id) {
         return false;
       }
-
-      if (!!institution_department_si && !!d.institution_department_si && institution_department_si !== d.institution_department_si) {
-        return false;
-      }
         
-      if (!d.end_year || !d.start_year) {
+      if (!d.startCompareDate || !d.endCompareDate) {
         return false
       }
 
-      const targetStartYear = d.start_month ? d.start_year : d.start_year + 1
-      const targetEndYear = d.end_month ? d.end_year : d.end_year - 1;
-
-      if (targetStartYear > sourceEndYear || targetEndYear < sourceStartYear) {
+      if (d.startCompareDate > endCompareDate || d.endCompareDate < startCompareDate) {
         return false;
       }
 
-      // console.log({start_day, start_month, start_year, end_day, end_month, end_year}, d)
-      // if ()
-      // if (d.end_month && d.end_month < ) {
-      //   return false
-      // }
       return true;
     })
   }
@@ -150,43 +213,32 @@ async function main() {
         return ({ person_id, ...rest, image_link: personData.image_link, position: personData.position})
       })
 
-      // console.log(connections)
-      // console.log('------------------')
-      // console.log(personId)
-      // console.log(connections.map(c => c.person_id))
+     
       allConnections = [...allConnections, ...connections]
-
-      // if (personId === '157') {
-      //   console.log({
-      //     ...cvItem,
-      //     connections
-      //   });
-      // }
 
       return ({
         ...cvItem,
         connections
       });
     })
-    // console.log([...new Set(connectionIds)].length)
-
-    // console.log(allConnections)
 
     let links = {}
-    allConnections.forEach(({ person_id, institution_si, institution_en }) => {
-      const englishValue = !institution_en || institution_en.length === 0 ? institution_si : institution_en
+    allConnections.forEach(({ person_id, institution_si, institution_en, show_in_network }) => {
+      if (show_in_network) {
+        const englishValue = !institution_en || institution_en.length === 0 ? institution_si : institution_en
 
-      if (person_id in links) {
-        if (!links[person_id].si.includes(institution_si)) {
-          links[person_id].si.push(institution_si)
+        if (person_id in links) {
+          if (!links[person_id].si.includes(institution_si)) {
+            links[person_id].si.push(institution_si)
+          }
+  
+          if (!links[person_id].en.includes(englishValue)) {
+            links[person_id].en.push(englishValue)
+          }
+         
+        } else {
+          links[person_id] = { si: [institution_si], en: [englishValue] }
         }
-
-        if (!links[person_id].en.includes(englishValue)) {
-          links[person_id].en.push(englishValue)
-        }
-       
-      } else {
-        links[person_id] = { si: [institution_si], en: [englishValue] }
       }
     })
     

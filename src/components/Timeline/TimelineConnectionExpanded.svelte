@@ -1,20 +1,17 @@
 <script>
  import { getContext } from 'svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
-	import { getColor } from '../../utils';
+	import { getColor, getLinearGradient } from '../../utils';
 
- export let start_year;
- export let end_year;
+ export let item
  export let refX;
- export let position;
- export let person_id
  export let i;
 
  const { xScale, xRange } = getContext('LayerCake');
 
 
- $: startX = start_year ? $xScale(start_year) : $xRange[0]
- $: endX = end_year ? $xScale(Math.min(end_year, new Date().getFullYear())) : 0
+ $: startX = $xScale(new Date(item.startDisplayDate))
+ $: endX = $xScale(Math.min(new Date(item.endDisplayDate), new Date()))
 
  // console.log(person_id, refX)
 </script>
@@ -22,15 +19,16 @@
 <div
  class="item__bar"
  style:width={`${endX - startX}px`}
- style:background-color={getColor(position)}
+ style:background={getLinearGradient(item, getColor(item.position))}
+ style:left={`${startX - refX}px`}
 />
  
 
-
 <style lang="scss">
  .item {
-  position: absolute;
+  position: relative;
   cursor: pointer;
+  top: 50%;
 
   &:hover {
    opacity: 0.7;
@@ -39,7 +37,7 @@
   &__bar {
    position: absolute;
    // left: 0;
-   top: 5px;
+   // top: 5px;
    width: 10px;
    height: 10px;
    min-width: 10px;

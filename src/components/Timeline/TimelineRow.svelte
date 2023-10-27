@@ -1,17 +1,19 @@
 <script>
  import { getContext } from 'svelte';
+ import { locale } from '$lib/translations';
  import TimelinePositions from './TimelinePositions.svelte';
  import TimelineConnectionsContainer from './TimelineConnectionsContainer.svelte';
  import TimelineRowTitle from './TimelineRowTitle.svelte';
  import LocalizedLink from '../LocalizedLink.svelte';
  import PersonLabel from '../PersonLabel.svelte';
  import { min } from 'd3-array'
- import { groupBy, getColor, getInitials } from '../../utils';
+ import { groupBy, getColor, getInitials, tField } from '../../utils';
 
  export let title;
  export let positions;
  export let getItemLink;
  export let getItemLabel = () => null;
+ export let rowGroupingVar;
  export let i;
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
@@ -23,8 +25,8 @@
 //  let connectionsWidth;
 //  let titleLeftShift;
 
-
- $: startX = min(positions, d => d.start_year ? $xScale(d.start_year) : $xRange[0])
+$: minX = min(positions, d => d.startDisplayDate)
+ $: startX = $xScale(new Date(minX))
  $: {
   const connectionsRaw = positions
     .map(({ connections }) => connections)
@@ -38,7 +40,7 @@
 
  const calculatePositionOffsets = () => {
   positions
-    .sort((a, b) => a.start_year < b.start_year ? -1 : 1)
+    .sort((a, b) => a.startDisplayDate < b.startDisplayDate ? -1 : 1)
     .forEach(position => {
       placePosition(position)
     })
@@ -49,7 +51,11 @@
     if (positionRows.length > 0) {
       const lastRow = positionRows[positionRows.length - 1]
       const lastElementPlaced = lastRow[lastRow.length - 1];
-      if (lastElementPlaced.start_year !== lastElementPlaced.end_year && position.start_year >= lastElementPlaced.end_year) {
+      // if (position.person_name === 'Matej Arčon') {
+      //   console.log(position.startCompareDate, lastElementPlaced.endCompareDate)
+
+      // }
+      if (position.startDisplayDate >= lastElementPlaced.endDisplayDate) {
         if (lastElementPlaced.institution_department_si === position.institution_department_si) {
           lastRow.push(position)
           return;
@@ -59,6 +65,15 @@
   positionRows.push([position]);
  }
 
+ const getItemNotes = affiliations => {
+  if (rowGroupingVar === 'institution_si') {
+    const notes = affiliations.map(a => tField(a, 'notes_institution', $locale)).filter(note => note?.length > 0)
+
+    return [...new Set(notes)];
+  }
+  return []
+ }
+
  $: positions, calculatePositionOffsets()
 
 //  $: console.log(positionRows)
@@ -66,7 +81,7 @@
 //  $: connectionsLeftShift = connectionsWidth && ((startX + connectionsWidth) > $width) ? $width - (startX + connectionsWidth): 0
 
 
-//  $: console.log(connectionsWidth, connectionsLeftShift)
+//  $: console.log(positions.map(p => p.startDisplayDate), min(positions, d => d.startDisplayDate))
 
 </script>
 
@@ -80,7 +95,7 @@
   style:z-index={hovered ? 10 : 1}
 >
   <div class="left">
-    <TimelineRowTitle {title} href={getItemLink(positions[0])} component={getItemLabel(positions[0])} />
+    <TimelineRowTitle {title} href={getItemLink(positions[0])} component={getItemLabel(positions[0])} notes={getItemNotes(positions)} />
     {#if Object.keys(connections).length}
       <div class="connections-outer-container">
         <div class="connections">
@@ -123,7 +138,7 @@
       <div class="expanded-placeholder" class:expanded={hovered}></div>
     {/if} -->
     {#if hoveredConnection}
-      <div id="expanded-anchor">
+      <div class="expanded-anchor">
         <TimelineConnectionsContainer refX={startX} id={hoveredConnection} connection={connections[hoveredConnection]} />
       </div>
     {/if}
@@ -183,6 +198,11 @@
 
  :global(a) {
   color: #000;
+ }
+
+ .expanded-anchor {
+  transform: translateY(15px);
+  min-height: 38px;
  }
 
   .expanded-placeholder {
