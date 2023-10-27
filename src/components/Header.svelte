@@ -34,6 +34,9 @@
 		</LocalizedLink>
 		<HeaderAboutMenu />
 		<div>
+			<LocalizedLink href="/about">{$translate('header.stories')}</LocalizedLink>
+		</div>
+		<div>
 			{#if searchOpen}
 				<Search bind:searchOpen />
 			{:else}
@@ -59,9 +62,6 @@
 		<h3 class="header__title">{$translate('app_title')}</h3>
 	{/if}
 	<div class="header__right mobile-hide">
-		<div>
-			<LocalizedLink href="/about">{$translate('header.stories')}</LocalizedLink>
-		</div>
 		<div>
 			<LocalizedLink href="/about">{$translate('header.asset_tracker')}</LocalizedLink>
 		</div>

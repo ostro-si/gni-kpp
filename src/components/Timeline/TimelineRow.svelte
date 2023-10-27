@@ -166,7 +166,7 @@ $: minX = min(positions, d => d.startDisplayDate)
     // transform: translateX(-$timeline-title-width);
     width: $timeline-title-width;
     padding-right: 15px;
-    padding-top: 7px;
+    // padding-top: 7px;
     padding-bottom: 7px;
     border-right: 0.5px solid #E6E6EB;
   }
