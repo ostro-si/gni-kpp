@@ -73,25 +73,25 @@
         class="year"
         class:hidden={shouldHideStartYear}
       >
-        <span>{item.start_year}</span>
-        <!-- <span>{displayDate(item, 'start', locale)}</span> -->
+        <!-- <span>{item.start_year}</span> -->
+        <span>{displayDate(item, 'start', locale)}</span>
         {#if item.end_year === 2100}
           <span>-</span>
         {/if}
       </div>
     {/if}
    
-    {#if item.end_year && item.end_year !== item.start_year}
+    <!-- {#if item.end_year && item.end_year !== item.start_year} -->
       <div
         class="year"
         class:centered={shouldCenterEndYear}
       >
         {#if item.end_year !== 2100}
-         {item.end_year}
-          <!-- <span>{displayDate(item, 'end', locale)}</span> -->
+         <!-- {item.end_year} -->
+          <span>{displayDate(item, 'end', locale)}</span>
         {/if}
       </div>
-    {/if}
+    <!-- {/if} -->
   </div>
   
   <!-- {#if uniqueConnections}
