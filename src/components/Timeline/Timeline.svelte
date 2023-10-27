@@ -23,7 +23,7 @@
 $: xScale = scaleTime()
   .domain([new Date(min(items, d => d.startDisplayDate)), new Date()])
 
-$: console.log(xScale.domain())
+// $: console.log(xScale.domain())
  
 </script>
 <div class="timeline-container" in:fade>

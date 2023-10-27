@@ -1,6 +1,8 @@
 <script>
+  import { getContext } from "svelte";
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
+  import Image from "./Image.svelte";
 
   export let imageLink;
   export let imagePlaceholder;
@@ -22,18 +24,20 @@ const tSize = tweened(calculatedSize, tweenParameters);
 
 $: $tSize = calculatedSize
 
-
 </script>
 
 
 <div class="container" class:small={small} style='--size:{$tSize}; --color:{border}'>
- {#if imageLink}
-  <div class="image" style={`background-image: url('${imageLink}')`}></div>
- {:else if imagePlaceholder}
-  <div class="image-placeholder">
-    <span>{imagePlaceholder}</span>
-  </div>
- {/if}
+  <Image imageLink={imageLink} let:imageSrc>
+    {#if imageSrc}
+      <div class="image" style={`background-image: url('${imageSrc}')`}></div>
+    {:else if imagePlaceholder}
+      <div class="image-placeholder">
+        <span>{imagePlaceholder}</span>
+      </div>
+    {/if}
+  </Image>
+  
  {#if title || subheading}
   <div class="title">
     <h5 class="title__heading" style:color={coloredText ? border : 'inherit'}>{title}</h5>

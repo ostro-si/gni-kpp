@@ -10,7 +10,7 @@
  const seriesColors = ['#4600BE', '#3CBEAA', '#28A0D2', '#b2c1ff'];
 
 
- $: console.log(people, connections)
+//  $: console.log(people, connections)
 
  let h;
 //  export let yearRange;

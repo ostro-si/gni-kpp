@@ -1,4 +1,5 @@
 <script>
+	import { setContext } from 'svelte';
 	import '../app.scss';
 	import '../app.scss';
 	import Header from '../components/Header.svelte';
@@ -6,6 +7,17 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import MediaQuery, { platform } from '../components/MediaQuerySsr.svelte';
+
+	
+
+	const images = import.meta.glob('$lib/img/**.png', { 
+  query: { w: '100', h: '100', format: 'webp' },
+		eager: true
+	});
+
+	setContext("images", images)
+
+	console.log('imported images', images)
 
 
 	let password = '';
@@ -19,7 +31,6 @@
 </script>
 
 <MediaQuery />
-
 {#if passwordProtected}
 	<div class="password-container">
 		<label for="password">Password:</label>

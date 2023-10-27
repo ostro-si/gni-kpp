@@ -20,7 +20,7 @@ import { selected } from '../../stores'
 
 	const seriesColors = ['#4600BE', '#3CBEAA', '#28A0D2', '#b2c1ff'];
 
-	console.log(people)
+	// console.log(people)
 </script>
 
 <style>
