@@ -162,6 +162,7 @@ async function main() {
         ...end,
         ...startCompareDate,
         ...endCompareDate,
+        institution_department_si: institution_department_si.trim(),
         institution_si: institution_si.trim(),
       })
     })

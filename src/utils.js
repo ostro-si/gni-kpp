@@ -121,7 +121,7 @@ export const formatDate = (item, prefix, locale) => {
 }
 
 export const displayDate = (item, prefix, locale) => {
-  console.log(item)
+  // console.log(item)
   if (item[`${prefix}MonthUncertain`]) {
     return item[`${prefix}_year`];
   } else if (item[`${prefix}DayUncertain`]) {
@@ -137,7 +137,7 @@ export const getYearsLabel = (item, locale, presentPlaceholder) => {
   const end = item.end_year === 2100 ? presentPlaceholder : formatDate(item, 'end', locale)
 
 
-  console.log(start)
+  // console.log(start)
   return start === end ? start : start + ' - ' + end;
   // console.log(item)
 

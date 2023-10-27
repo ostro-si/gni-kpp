@@ -22,7 +22,7 @@ import { locale } from '$lib/translations';
 
 //  $: console.log(items)
 
-// $: console.log(data)
+// $: console.log(byRow)
 
 </script>
 

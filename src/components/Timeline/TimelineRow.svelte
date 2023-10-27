@@ -48,20 +48,20 @@ $: minX = min(positions, d => d.startDisplayDate)
  }
 
  const placePosition = (position) => {
-    if (positionRows.length > 0) {
-      const lastRow = positionRows[positionRows.length - 1]
-      const lastElementPlaced = lastRow[lastRow.length - 1];
-      // if (position.person_name === 'Matej Arčon') {
-      //   console.log(position.startCompareDate, lastElementPlaced.endCompareDate)
+    // if (positionRows.length > 0) {
+    //   const lastRow = positionRows[positionRows.length - 1]
+    //   const lastElementPlaced = lastRow[lastRow.length - 1];
+    //   // if (position.person_name === 'Matej Arčon') {
+    //   //   console.log(position.startCompareDate, lastElementPlaced.endCompareDate)
 
-      // }
-      if (position.startDisplayDate >= lastElementPlaced.endDisplayDate) {
-        if (lastElementPlaced.institution_department_si === position.institution_department_si) {
-          lastRow.push(position)
-          return;
-        }
-      }
-    }
+    //   // }
+    //   if (position.startDisplayDate >= lastElementPlaced.endDisplayDate) {
+    //     if (lastElementPlaced.institution_department_si === position.institution_department_si) {
+    //       lastRow.push(position)
+    //       return;
+    //     }
+    //   }
+    // }
   positionRows.push([position]);
  }
 
