@@ -45,13 +45,10 @@ export const getDateYear = dateString => {
 }
 
 export const getDate = dateString => {
-
-  console.log('in get date', dateString)
   if (!dateString) return;
 
-  const date = new Date(dateString);
-  console.log('in get date', dateString, date)
-
+  const pieces = dateString.split("/")
+  const date = new Date(pieces[2], pieces[1], pieces[0]);
   return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 }
 

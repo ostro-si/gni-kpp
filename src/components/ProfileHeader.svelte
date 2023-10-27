@@ -2,6 +2,7 @@
 import { translate } from '$lib/translations';
 import { platform } from "./MediaQuerySsr.svelte";
 import NotesTooltip from './NotesTooltip.svelte';
+import Image from '../components/Image.svelte'
 
 
  export let imageLink = undefined;
@@ -26,9 +27,11 @@ $: collapsed = scrollY !== 0;
 <div class="ProfileHeader" style="--background-color: {background}; --text-color: {textColor}" class:collapsed={collapsed} class:mobile={$platform === 'mobile'} bind:clientHeight={h}>
  <div class="inner-container">
   <div class="ProfileHeader__main">
-   {#if imageLink}
-    <div class="ProfileHeader__image" style={`background-image: url('${imageLink}')`}></div>
-   {/if}
+    <Image {imageLink} let:imageSrc>
+      {#if imageSrc}
+        <div class="ProfileHeader__image" style={`background-image: url('${imageSrc}')`}></div>
+      {/if}
+    </Image>
    <div class="ProfileHeader__title">
     <h5 class="ProfileHeader__title__heading">
       <span>{title}</span>

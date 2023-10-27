@@ -17,10 +17,11 @@ $: {
       const images = getContext('images');
       imageSrc = images?.[`/src/lib/img/${imageLink}`]?.default
     }
+  } else {
+    imageSrc = undefined
   }
 }
 
-$: console.log(imageLink, imageSrc)
 </script>
 
  <slot imageSrc={imageSrc} />
