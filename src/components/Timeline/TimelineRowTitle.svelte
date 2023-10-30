@@ -39,7 +39,7 @@
 
 <style lang="scss">
   .outer-container {
-    display: inline-flex;
+    display: flex;
     align-items: start;
     justify-content: space-between;
   }

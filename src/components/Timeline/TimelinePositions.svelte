@@ -91,18 +91,19 @@ $: combinedLabelShift = Math.min(labelLeftShift, deptLabelLeftShift)
   .label {
     white-space: nowrap;
     margin: 0;
-    padding: 2px 0;
+    padding-bottom: 2px;
     font-weight: normal;
     font-size: 10px;
     position: relative;
-    display: table-row-group;
+    // display: table-row-group;
     color: $light-grey;
     line-height: 1.5;
 
     &.department-label {
       color: $grey;
-      padding-bottom: 0;
-      padding-top: 8px;
+      padding-bottom: 2px;
+      padding-top: 5px;
+
       line-height: 1;
     }
   }
