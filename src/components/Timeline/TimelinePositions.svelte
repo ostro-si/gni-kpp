@@ -95,7 +95,7 @@ $: combinedLabelShift = Math.min(labelLeftShift, deptLabelLeftShift)
     font-weight: normal;
     font-size: 10px;
     position: relative;
-    // display: table-row-group;
+    display: table-row-group;
     color: $light-grey;
     line-height: 1.5;
 
@@ -103,7 +103,6 @@ $: combinedLabelShift = Math.min(labelLeftShift, deptLabelLeftShift)
       color: $grey;
       padding-bottom: 2px;
       padding-top: 5px;
-
       line-height: 1;
     }
   }
