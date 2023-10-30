@@ -17,9 +17,9 @@ import Image from '../components/Image.svelte'
 let scrollY;
 let h;
 
-$: collapsed = scrollY !== 0;
+$: collapsed = scrollY && scrollY !== 0;
 
-// $: console.log($platform)
+$: console.log(scrollY, collapsed)
  
 </script>
 <svelte:window bind:scrollY={scrollY} />
