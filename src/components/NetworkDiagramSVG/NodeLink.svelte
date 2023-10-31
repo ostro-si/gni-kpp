@@ -13,7 +13,7 @@
  import Point from './Point.svelte';
 	import { getColor } from '../../utils';
 	import Link from './Link.svelte';
-  import { selected } from '../../stores'
+  import { hovered, selected } from '../../stores'
   import { locale, translate } from '$lib/translations';
 
 
@@ -129,7 +129,6 @@ const selectingForce = () => {
 
  let nodes = [];
  let links = []
- let hovered;
 
  const recenterSimulation = () => {
   if (simulation) {
@@ -169,7 +168,6 @@ const selectingForce = () => {
     setLinkVisibility()
     
     if ($selected.length) {
-      console.log('calling select item', $selected)
       
       let filteredLinks = links.filter(({ visible }) => !!visible)
       let filteredNodes = $data.nodes
@@ -191,6 +189,30 @@ const selectingForce = () => {
           return false;
         })
 
+        console.log('calling select item', $selected, filteredLinks, filteredNodes)
+
+
+        // to set inactive
+
+        // let filteredNodes = $data.nodes
+        // .map((d) => {
+        //   let inactive = true;
+        //   if ($selected.includes(d.id)) {
+        //     inactive = false;
+        //   }
+        //   if ($selected.length === 1) {
+        //     if (!!filteredLinks.find(({ source, target }) => source === d.id || target === d.id)) {
+        //       inactive = false;
+        //     }
+        //   } else {
+        //     const connectedToFirst = !!filteredLinks.find(({ source, target }) => (source === d.id || target === d.id) && (source === $selected[0] || target === $selected[0]))
+        //     const connectedToSecond = !!filteredLinks.find(({ source, target }) => (source === d.id || target === d.id) && (source === $selected[1] || target === $selected[1]))
+        //     inactive = !connectedToFirst || !connectedToSecond
+        //   }
+          
+        //   return ({...d, inactive})
+        // })
+
 
       filteredLinks = filteredLinks.filter(({ source, target }) => {
         return (
@@ -202,6 +224,7 @@ const selectingForce = () => {
         // .force('select', selectingForce())
         .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(3))
         .force('charge', forceManyBody().strength(-100))
+        // .force('charge', forceManyBody().strength(d => d.inactive ? 0 : -100))
         .force("link", forceLink(filteredLinks).id(d => d.id).strength(0.3).distance(({ source, target }) => { 
           if ($selected.includes(source.id) && $selected.includes(target.id)) {
             return 500;
@@ -231,10 +254,10 @@ const selectingForce = () => {
  }
 
  const setLinkVisibility = () => {
-  // console.log('setting link visibility', $selected)
-  if (hovered || $selected.length) {
+  console.log('setting link visibility', $selected)
+  if ($hovered || $selected.length) {
     links = initialLinks.map(({ source, target, visible, ...rest }) => ({ 
-      visible: (source === hovered || target === hovered || $selected.includes(source) || $selected.includes(target)),
+      visible: (source === $hovered || target === $hovered || $selected.includes(source) || $selected.includes(target)),
       showLabel: $selected.includes(source) || $selected.includes(target),
       source,
       target,
@@ -248,7 +271,7 @@ const selectingForce = () => {
 
  $: $width, $height, recenterSimulation()
  $: $selected, selectItem()
- $: hovered, setLinkVisibility()
+ $: $hovered, setLinkVisibility()
  $: visibleLinks = links.filter(({ visible }) => !!visible)
 
 //  $: console.log(visibleLinks)
@@ -284,11 +307,11 @@ const tick = () => {
 
 
  const onMouseover = id => {
-  hovered = id;
+  $hovered = id;
  }
 
  const onMouseout = () => {
-  hovered = null;
+  $hovered = null;
  }
 
  const onClick = id => {
@@ -338,8 +361,8 @@ const tick = () => {
  <Point
    class='node'
    r={$rGet(point)}
-   allActive={!hovered && !$selected.length}
-   hovered={hovered === point.id || !!visibleLinks.find(({ source, target }) => source === point.id || target === point.id)}
+   allActive={!$hovered && !$selected.length}
+   hovered={$hovered === point.id || !!visibleLinks.find(({ source, target }) => source === point.id || target === point.id)}
    selected={$selected.includes(point.id)}
    stroke={getColor(point.position)}
    x='{point.x}'

@@ -10,8 +10,9 @@
   import institutions from '$lib/data/institutions.json';
   import { slugify } from "../../utils";
 	import { goto } from '$app/navigation';
+  import { page } from '$app/stores';  
   import { base } from '$app/paths';
-  import { selected } from '../../stores'
+  import { hovered, selected } from '../../stores'
   import personIcon from '$lib/images/person.svg';
 	import institutionIcon from '$lib/images/institution.svg';
 
@@ -29,10 +30,24 @@
     if (value && (value.id || value.slug.length)) {
       if (value?.type === 'person') {
         if ($platform === 'mobile') {
+          searchOpen = false
           goto(`${base}/${$locale}/people/${value.id}`)
         } else {
+          $hovered = value.id
+          if ($selected.includes(value.id)) {
+            $selected = $selected.filter(sId => sId !== value.id)
+          } else {
+            if ($selected.length > 1) {
+              $selected.shift()
+            }
+            $selected = [...$selected, value.id]
+          }
+
+          // if ($page.url.pathname !== `${base}/${$locale}`) {
+            // console.log('navigating', $page.url.pathname, `${base}/${$locale}`)
           goto(`${base}/${$locale}#skip-intro`)
-          $selected = [value.id]
+          // }
+
         }
       }
       if (value?.type === 'institution') {
@@ -62,7 +77,7 @@
   </div>
 </Autocomplete>
 <div class="close-icon">
-  <IconButton class="material-icons" on:click={() =>{$selected = []; searchOpen = false}} size="button"
+  <IconButton class="material-icons" on:click={() =>{searchOpen = false}} size="button"
     >close</IconButton
   >
 </div>

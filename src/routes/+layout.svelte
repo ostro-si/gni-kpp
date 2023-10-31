@@ -17,9 +17,6 @@
 
 	setContext("images", images)
 
-	console.log('imported images', images)
-
-
 	let password = '';
 	const hash = (s) =>
 		s.split('').reduce((a, b) => {
