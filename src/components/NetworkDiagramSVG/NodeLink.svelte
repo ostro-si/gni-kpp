@@ -132,14 +132,11 @@ const selectingForce = () => {
  let hovered;
 
  const recenterSimulation = () => {
-  console.log('in recenter')
   if (simulation) {
-    console.log('recentering', $width, $height)
     simulation.force('center', forceCenter($width / 2, $height / 2).strength(1))
       .force("boundary", forceBoundary())
       .force('collide', forceCollide().radius(d => $rGet(d)+ 10).strength(2))
       .force('charge', forceManyBody().strength(-20))
-
 
     tick();
   } else if ($width > 100) {
@@ -148,6 +145,24 @@ const selectingForce = () => {
     tick();
   }
  }
+
+ const fixSelectedNodes = () => {
+  simulation.nodes().forEach((node) => {
+    if ($selected?.includes(node.id)) {
+      node.fy = $height/2;
+      if ($selected.length === 1) {
+        node.fx = $width/2;
+        return;
+      } else if ($selected[0] === node.id) {
+        node.fx = 50;
+      } else if ($selected[1] === node.id) {
+        node.fx = $width - 50;
+      }
+    }
+  })
+ }
+
+
 
  const selectItem = () => {
   if (simulation) {
@@ -203,7 +218,6 @@ const selectingForce = () => {
         // .restart()
 
       tick()
-
         // .alpha(0.8)
         // .restart()
           
@@ -258,7 +272,7 @@ const selectingForce = () => {
 // }
 
 const tick = () => {
-  console.log('ticking')
+  fixSelectedNodes();
   for ( let i = 0,
     n = Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay()));
     i < n;
