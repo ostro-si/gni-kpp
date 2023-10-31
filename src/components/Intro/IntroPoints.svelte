@@ -6,25 +6,22 @@
 
   const { ctx } = getContext('canvas');
 
-  export let r = 5;
-
-  export let fill = '#0cf';
-
-  export let stroke = '#000';
-
-  export let strokeWidth = 1;
-
   export let colorCounts = [];
 
+  export let h;
 
-  $: r = $width / 70
-  $: padding = r / 2
 
-  $: acrossCount = Math.floor($width / ((r + padding)*2))
-  $: downCount = Math.ceil($data.length / acrossCount);
+  let r, padding, acrossCount, downCount, unaccountedCount;
 
-  $: console.log(acrossCount, downCount)
   
+  $: {
+    r = $width > 600 ? 10 : 7;
+    padding = r / 2
+    acrossCount = Math.floor($width / ((r + padding)*2)) - 2
+    downCount = Math.floor($data.length / acrossCount);
+    unaccountedCount = $data.length - acrossCount*downCount
+    h = (downCount + 1)*(r + padding)*2
+  }
 
   $: {
      if ($ctx) {
@@ -32,12 +29,24 @@
        scaleCanvas($ctx, $width, $height);
        $ctx.clearRect(0, 0, $width, $height);
 
-       $data.forEach((d, i) => {
-         $ctx.beginPath();
-         $ctx.arc( Math.floor(i/downCount)*(r + padding)*2 + (r + padding), Math.floor(i%downCount)*(r + padding)*2 + (r + padding), r, 0, 2 * Math.PI, false);        
-         $ctx.fillStyle = colorCounts[i] || "#c3c3c3";
-         $ctx.fill();
-       });
+       let dataIndex = 0;
+
+       for (let column = 0; column < acrossCount; column++) {
+        for (let row = 0; row < (downCount + 1); row++) {
+          if (dataIndex < $data.length) {
+            if (row === downCount && column >= unaccountedCount) {
+              // do nothing
+            } else {
+              $ctx.beginPath();
+              $ctx.arc(column*(r + padding)*2 + (r + padding), row*(r + padding)*2 + (r + padding), r, 0, 2 * Math.PI, false);        
+              $ctx.fillStyle = colorCounts[dataIndex] || "#c3c3c3";
+              $ctx.fill();
+
+              dataIndex++;
+            }
+          }
+        }
+       }
      }
    }
 

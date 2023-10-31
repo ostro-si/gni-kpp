@@ -19,15 +19,17 @@ import { groupBy } from '../../utils';
 	<meta name="description" content="GNI KPP" />
 </svelte:head>
 
-<Intro {people} />
-
-{#if false && $platform}
-	{#if $platform === 'mobile'}
-		<Directory {people} />
-	{:else}
-			<NetworkDiagram {people} {connections} />
+<Intro {people}>
+	{#if $platform}
+		{#if $platform === 'mobile'}
+			<Directory {people} />
+		{:else}
+				<NetworkDiagram {people} {connections} />
+		{/if}
 	{/if}
-{/if}
+</Intro>
+
+
 
 <style>
 	
