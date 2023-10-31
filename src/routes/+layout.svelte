@@ -11,7 +11,7 @@
 	
 
 	const images = import.meta.glob('$lib/img/**.png', { 
-  query: { w: '100', h: '100', format: 'webp' },
+  query: { w: '100', h: '100', format: 'webp', grayscale: 'true' },
 		eager: true
 	});
 
