@@ -2,7 +2,6 @@
 	import { translate, setLocale, locale, setRoute } from '$lib/translations';
 	import { platform } from "./MediaQuerySsr.svelte";
 
-
 	import { goto } from '$app/navigation';
 	import { page, navigating } from '$app/stores';  
 	import { base } from '$app/paths';

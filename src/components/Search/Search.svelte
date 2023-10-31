@@ -31,7 +31,7 @@
         if ($platform === 'mobile') {
           goto(`${base}/${$locale}/people/${value.id}`)
         } else {
-          goto(`${base}/${$locale}`)
+          goto(`${base}/${$locale}#skip-intro`)
           $selected = [value.id]
         }
       }

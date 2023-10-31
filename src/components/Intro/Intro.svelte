@@ -2,12 +2,17 @@
   import { onMount } from 'svelte';
   import { LayerCake, Svg, Html, Canvas } from 'layercake';
   import { fade } from 'svelte/transition';
+  import { page, navigating } from '$app/stores';  
+  import { translate } from '$lib/translations';
+
+
   // import { scrollto } from "svelte-scrollto";
 
   import IntroPoints from './IntroPoints.svelte';
   import Scrolly from '../TimelineMobile/Scrolly.svelte';
   import { colors, groupBy } from '../../utils'
   import Typewriter from 'svelte-typewriter'
+  import { hideIntro } from '../../stores';
 
   import { scaleOrdinal } from 'd3-scale'
 
@@ -18,7 +23,6 @@
   let scrollSectionIndex = 0;
   let sectionProgress;
   let typing = false;
-  let hideIntro = false;
 
 
   const sections = [
@@ -49,15 +53,13 @@
   ]
 
   $: activeSection = sections[scrollSectionIndex] || sections[0]
-  $: showPoints = scrollSectionIndex < sections.length - 1;
+  $: showPoints = scrollSectionIndex < sections.length - 1 && !$hideIntro;
   $: scrollSectionIndex, typing = true;
   $: {
-    if (scrollSectionIndex > 0 && scrollSectionIndex === sections.length) {
-      hideIntro = true
+    if ($page.url.hash === '#skip-intro' || (scrollSectionIndex > 0 && scrollSectionIndex === sections.length)) {
+      $hideIntro = true
     }
   }
-  
-
 
   let colorCounts;
   let h;
@@ -74,15 +76,12 @@
 
  const skipAhead = () => {
   window.scrollTo({
-    top: 100,
+    top: 100000,
     behavior: 'smooth'
   })
  }
 
-
- $: console.log(scrollSectionIndex, sections.length, hideIntro)
- 
-
+ $: console.log($hideIntro)
 
 </script>
 
@@ -90,12 +89,12 @@
 <!-- <svelte:window use:wheel={{disableScroll}} /> -->
   <div class="scroll-tracker">
     <Scrolly bind:value={scrollSectionIndex} bind:progress={sectionProgress} >
-      {#if !hideIntro}
+      {#if !$hideIntro}
         {#each sections as section (section.id)}
           <div class="step" class:active={section.id === activeSection.id}>
             <div class="step__text">
                 {#if showPoints}
-                  <Typewriter disabled={section.id !== activeSection.id} cursor={false} interval={30} on:done={(i) => { console.log(i, 'finished'); typing = false }}>
+                  <Typewriter disabled={section.id !== activeSection.id} cursor={false} interval={30} on:done={(i) => { typing = false }}>
                     <h5>{section.text}</h5>
                   </Typewriter>
                 {:else}
@@ -121,10 +120,12 @@
           <Canvas>
             <IntroPoints {colorCounts} bind:h />
           </Canvas>
-        </LayerCake>
+      </LayerCake>
     </div>
 
-    <div class="skip-ahead" on:click={() => skipAhead()}>Skip</div>
+    <div class="skip-ahead" on:click={() => skipAhead()}>
+      <span class="skip-ahead__text">{$translate('Skip')}</span>
+    </div>
   {/if}
 
   <!-- <a use:scrollto={'#scroll-element'}> Scroll to element </a> -->
@@ -170,5 +171,23 @@
   z-index: 10;
   bottom: 10px;
   left: 10px;
+  color: #6E7382;
+  border-radius: 100px;
+  border: 1px solid #6E7382;
+  text-transform: uppercase;
+  padding: 35px;
+  cursor: pointer;
+
+
+  &:hover {
+    background: rgba(#6E7382, 0.1)
+  }
+
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
  }
 </style>
