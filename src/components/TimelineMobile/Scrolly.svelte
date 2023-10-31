@@ -17,6 +17,7 @@
  export let bottom = 0;
  export let increments = 100;
  export let value = undefined;
+ export let progress = undefined;
 
  const steps = [];
  const threshold = [];
@@ -41,6 +42,8 @@
        maxIndex = i;
      }
    }
+
+   progress = maxRatio
 
    if (maxRatio > 0) value = maxIndex;
   else value = undefined;
