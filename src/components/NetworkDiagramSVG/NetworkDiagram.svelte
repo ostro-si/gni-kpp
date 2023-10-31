@@ -9,6 +9,7 @@
 import NodeLink from './NodeLink.svelte';
 import { scaleOrdinal, scaleBand } from 'd3-scale';
 import { selected } from '../../stores'
+import Image from '../Image.svelte';
 
 
  export let people;
@@ -43,9 +44,13 @@ import { selected } from '../../stores'
 		<Svg>
 			<svelte:fragment slot="defs">
 				{#each people as { id, image_link }}
-					<pattern id={id} x="0" y="0" height = "100%" width = "100%" patternContentUnits = "objectBoundingBox" xmlns="http://www.w3.org/2000/svg">
-							<image x="0" y="0" preserveAspectRatio = "none" width = "1" height = "1" xlink:href={image_link}></image>
-					</pattern>
+					<Image imageLink={image_link} let:imageSrc>
+						{#if imageSrc}
+							<pattern id={id} x="0" y="0" height = "100%" width = "100%" patternContentUnits = "objectBoundingBox" xmlns="http://www.w3.org/2000/svg">
+									<image x="0" y="0" preserveAspectRatio = "none" width = "1" height = "1" xlink:href={imageSrc}></image>
+							</pattern>
+						{/if}
+					</Image>
 				{/each} 
 			</svelte:fragment>
 			<NodeLink />

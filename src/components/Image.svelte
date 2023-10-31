@@ -6,7 +6,6 @@
   
  export let imageLink;
 
-
 let imageSrc;
 
 $: {
