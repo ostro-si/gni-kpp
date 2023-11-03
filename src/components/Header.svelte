@@ -153,8 +153,8 @@
 	:global(.mdc-deprecated-list.mobile-menu) {
 			max-width: 1000px !important;
 			width: 100%;
-			transform: translateY(53px);
-			position: absolute !important;
+			transform: translateY(60px);
+			position: fixed !important;
 			height: calc(100vh - 70px);
 			background: $grey;
 			z-index: 1000;
