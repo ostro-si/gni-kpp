@@ -9,7 +9,7 @@
  export let data;
 
 //  $: console.log($translations)
- $: console.log($platform)
+ $: console.log(data)
 
 </script>
 
@@ -34,7 +34,7 @@
   },
   {
    label: $translate("Assets"),
-   component: data.asset_tracker_link && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${$translate('Link')}</a>`
+   component: data.asset_tracker_link?.includes('http') && `<a rel="external" target="_blank" href=${data.asset_tracker_link}>${$translate('Link')}</a>`
   }
  ]}
 

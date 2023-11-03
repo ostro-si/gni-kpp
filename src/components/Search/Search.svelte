@@ -8,13 +8,16 @@
 
   import people from '$lib/data/people.json';
   import institutions from '$lib/data/institutions.json';
-  import { slugify } from "../../utils";
+  import parties from '$lib/data/parties.json';
+  import { slugify, tField } from "../../utils";
 	import { goto } from '$app/navigation';
   import { page } from '$app/stores';  
   import { base } from '$app/paths';
   import { hovered, selected } from '../../stores'
   import personIcon from '$lib/images/person.svg';
 	import institutionIcon from '$lib/images/institution.svg';
+  import partyIcon from '$lib/images/party.svg';
+
 
 
   export let searchOpen = true;
@@ -23,7 +26,12 @@
 
   $: options = [
    ...people.map(({ name, ...rest }) => ({ type: 'person', label: name, name, ...rest })),
-   ...Object.entries(institutions).map(([slug, affiliations]) => ({ slug, type: 'institution', label: affiliations[0].institution_si }))
+
+   ...Object.entries(institutions).map(([slug, affiliations]) => ({ 
+    slug, 
+    type: !!parties.find(({ id }) => id === slug) ? 'party' : 'institution', 
+    label: tField(affiliations[0], 'institution', $locale),
+  }))
   ]
 
   $: {
@@ -50,7 +58,7 @@
 
         }
       }
-      if (value?.type === 'institution') {
+      if (value?.type === 'institution' || value?.type === 'party') {
         goto(`${base}/${$locale}/institutions/${value.slug}`)
         searchOpen = false;
       }
@@ -69,7 +77,7 @@
   bind:value
  >
   <div slot="match" let:match class="search-option">
-    <img src={match.type === 'person' ? personIcon : institutionIcon} alt="Home" />
+    <img src={match.type === 'person' ? personIcon : (match.type === 'party' ? partyIcon : institutionIcon)} alt="Home" />
     <span>{match.label}</span>
   </div>
   <div slot="no-matches">

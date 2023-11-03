@@ -174,6 +174,8 @@ async function main() {
   const cvByPerson = groupBy(cv_filtered, 'person_id');
   const cvByInstitution = groupBy(cv_filtered, 'institution_si');
 
+  // console.log(cvByPerson[23])
+
 
   const findConnections = ({ id, person_id, institution_si, institution_department_si, startCompareDate, endCompareDate }) => {
     const institutionConnections = cvByInstitution[institution_si];
@@ -205,6 +207,7 @@ async function main() {
   Object.entries(cvByPerson).map(([personId, cvItems]) => {
     let connectionCount = 0
     let allConnections = []
+
     
     allCV[personId] = cvItems.map((cvItem) => {
       // console.log(cvItem)
@@ -267,7 +270,7 @@ async function main() {
     // }
   })
 
-  console.log(allLinks)
+  // console.log(allLinks)
 
   people = people.map(({ position, connectionCount, ...rest }) => ({ position: position.trim(), connectionCount: connectionCount > 0 ? connectionCount : 0, ...rest }))
 

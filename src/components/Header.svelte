@@ -58,7 +58,9 @@
 		
 	</div>
 	{#if !searchOpen || $platform === 'desktop'}
-		<h3 class="header__title">{$translate('app_title')}</h3>
+		<LocalizedLink component="a" href="/">		
+			<h3 class="header__title">{$translate('app_title')}</h3>
+		</LocalizedLink>
 	{/if}
 	<div class="header__right mobile-hide">
 		<div>
@@ -130,6 +132,7 @@
 			position: absolute;
 			left: 50%;
 			transform: translateX(-50%);
+			color: white;
 		}
 	}
 
