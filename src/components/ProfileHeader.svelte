@@ -3,6 +3,7 @@ import { translate } from '$lib/translations';
 import { platform } from "./MediaQuerySsr.svelte";
 import NotesTooltip from './NotesTooltip.svelte';
 import Image from '../components/Image.svelte'
+import { hist } from '../stores';
 
 
  export let imageLink = undefined;
@@ -16,10 +17,17 @@ import Image from '../components/Image.svelte'
 
 let scrollY;
 let h;
+let prevLink;
 
 $: collapsed = scrollY && scrollY !== 0;
 
-$: console.log(scrollY, collapsed)
+$: {
+  if ($hist.length > 1) {
+    prevLink = $o
+  }
+}
+
+// $: console.log(scrollY, collapsed)
  
 </script>
 <svelte:window bind:scrollY={scrollY} />

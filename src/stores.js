@@ -5,3 +5,5 @@ export const selected = writable([]);
 export const hovered = writable(null);
 
 export const hideIntro = writable(false)
+
+export const hist = writable([])

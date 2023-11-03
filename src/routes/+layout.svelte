@@ -6,6 +6,7 @@
 	import './styles.css';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
+	import { hist } from '../stores'
 	import MediaQuery, { platform } from '../components/MediaQuerySsr.svelte';
 
 	
@@ -25,6 +26,10 @@
 		}, 0);
 
 	$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== -1258221729;
+
+	$: $page, $hist = [...$hist, $page]
+
+	$: console.log($hist)
 </script>
 
 <MediaQuery />
