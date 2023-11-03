@@ -100,7 +100,7 @@
                   id={item.person_id}
                   name={item.person_name}
                   image_link={item.image_link}
-                  small
+                  size="medium"
                   coloredText
                 />
               </div>

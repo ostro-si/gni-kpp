@@ -9,7 +9,6 @@
   export let title;
   export let subheading;
   export let border;
-  export let small;
   export let coloredText;
   export let size;
 
@@ -18,7 +17,16 @@
     easing: cubicOut,
 };
 
-$: calculatedSize = !!size ? size : (small ? 20 : 50)
+let calculatedSize;
+$: {
+  if (size === 'small') {
+    calculatedSize = 20;
+  } else if (size === 'medium') {
+    calculatedSize = 35;
+  } else {
+    calculatedSize = 50
+  }
+}
 
 const tSize = tweened(calculatedSize, tweenParameters);
 
@@ -27,7 +35,7 @@ $: $tSize = calculatedSize
 </script>
 
 
-<div class="container" class:small={small} style='--size:{$tSize}; --color:{border}'>
+<div class="container" class:small={size === 'small'} class:medium={size === 'medium'} style='--size:{$tSize}; --color:{border}'>
   <Image imageLink={imageLink} let:imageSrc>
     {#if imageSrc}
       <div class="image" style={`background-image: url('${imageSrc}')`}></div>
@@ -89,6 +97,10 @@ $: $tSize = calculatedSize
   margin: 15px 0;
   color: $grey;
 
+  .medium & {
+    margin: 7px 0;
+  }
+
   .small & {
     font-size: 12px;
     margin: 0;
@@ -98,6 +110,10 @@ $: $tSize = calculatedSize
    margin-top: 0;
    margin-bottom: 5px;
    white-space: nowrap;
+
+   .medium & {
+      margin: 0;
+    }
 
    .small & {
       margin: 0;

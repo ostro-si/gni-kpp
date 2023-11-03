@@ -32,7 +32,7 @@
         image_link={personData.image_link}
         imagePlaceholder={!personData.image_link ? getInitials(personData.person_name) : null}
         position={personData.position}
-        small
+        size="small"
         clickable
        />
       {/each}

@@ -38,7 +38,7 @@
    style:transform={`translateX(${startX - refX - labelWidth - 4}px)`}
   >
    <div class="label" bind:clientWidth={labelWidth}>
-    <PersonLabel name={personDetails.person_name} image_link={personDetails.image_link} position={personDetails.position} small />
+    <PersonLabel name={personDetails.person_name} image_link={personDetails.image_link} position={personDetails.position} size="small" />
     <!-- {items[0].start_year}
     {items[0].end_year} -->
    </div>

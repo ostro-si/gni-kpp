@@ -9,11 +9,10 @@
 	export let id = undefined;
  export let name = undefined;
 	export let subheading = undefined;
-	export let small = false;
 	export let clickable = false;
 	export let coloredText = false;
 	export let css = undefined;
-	export let size = undefined;
+	export let size;
  
 </script>
 
@@ -25,7 +24,6 @@
 			border={getColor(position)}
 			title={name}
 			{subheading}
-			{small}
 			{coloredText}
 			{size}
 		/>
@@ -37,7 +35,6 @@
 		border={getColor(position)}
 		title={name}
 		{subheading}
-		{small}
 		{coloredText}
 		{size}
 	/>

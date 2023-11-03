@@ -52,7 +52,7 @@ $: sorted = items
             <div class="connections">
               {#each arrayUniqueById(item.connections, 'person_id') as { image_link, person_id, person_name, position } (person_id)}
                 <div class="connection">
-                <PersonLabel clickable {position} id={person_id} {image_link} imagePlaceholder={!image_link ? getInitials(person_name) : null} small />
+                <PersonLabel clickable {position} id={person_id} {image_link} imagePlaceholder={!image_link ? getInitials(person_name) : null} size="small" />
                 </div>
               {/each}
             </div>

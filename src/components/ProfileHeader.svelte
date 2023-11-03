@@ -80,10 +80,6 @@ $: collapsed = scrollY && scrollY !== 0;
 <style lang="scss">
   $transition-duration: 50ms;
 
-  :global(a) {
-    text-decoration: underline;
-  }
-
  .ProfileHeader {
   background-color: var(--background-color);
   color: var(--text-color);
@@ -92,6 +88,10 @@ $: collapsed = scrollY && scrollY !== 0;
   width: calc(100% - 40px);
   transition: padding $transition-duration linear;
   z-index: 15;
+
+  :global(a) {
+    text-decoration: underline;
+  }
 
   &.collapsed {
     padding: 0 20px;

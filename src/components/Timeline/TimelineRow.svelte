@@ -110,9 +110,8 @@ $: minX = min(positions, d => d.startDisplayDate)
                 image_link={items[0].image_link}
                 imagePlaceholder={!items[0].image_link ? getInitials(items[0].person_name) : null}
                 position={items[0].position}
-                small
                 clickable
-                size={hoveredConnection === id ? 40 : 20}
+                size={hoveredConnection === id ? "medium" : "small"}
               />
             </div>
             <!-- <div 
