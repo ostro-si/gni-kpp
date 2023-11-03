@@ -11,7 +11,6 @@
 	import IconButton from '@smui/icon-button';
 	import List, { Item, Separator, Text } from '@smui/list';
 	
-	import HeaderAboutMenu from './HeaderAboutMenu.svelte';
 	import logo from '$lib/images/icon-network.svg';
 	import languageEn from '$lib/images/language-en.svg';
 	import languageSi from '$lib/images/language-si.svg';
@@ -31,7 +30,6 @@
 		<LocalizedLink href="/">
 			<img src={logo} alt="Home" />
 		</LocalizedLink>
-		<HeaderAboutMenu />
 		<div>
 			<LocalizedLink href="/about">{$translate('header.stories')}</LocalizedLink>
 		</div>
