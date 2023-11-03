@@ -2,28 +2,36 @@
  import { arrayUniqueById, groupBy } from "../utils";
 	import PersonLabel from "./PersonLabel.svelte";
  import { getInitials } from "../utils";
+ import { locale } from '$lib/translations';
 
  export let affiliations;
+ export let peopleLookup;
 
- $: byType = groupBy(affiliations, 'affiliation_type')
+ console.log(affiliations)
+
+ $: sortedAffiliations =  Object.entries(affiliations)
+  .map(([type, items]) => ({ type, items: arrayUniqueById(items, 'person_id')}))
+  .sort((a, b) => a.items.length > b.items.length ? -1 : 1)
 
 </script>
 
 <div class="institution-breakdown mobile-hide">
  <div class="outer-container">
-  {#each Object.entries(byType) as [type, items]}
+  {#each sortedAffiliations as {type, items}}
    {#if !!type}
+    {@const typeLabel = $locale !== 'si' && items[0].affiliation_type_en ? items[0].affiliation_type_en : type}
     <div class="container">
      <div class="left">
-      {type}
+      {typeLabel}
      </div>
      <div class="right">
-      {#each arrayUniqueById(items, 'person_id') as person (person.id)}
+      {#each items as { person_id }}
+       {@const personData = peopleLookup.find(({ id }) => id === person_id)}
        <PersonLabel 
-        id={person.person_id}
-        image_link={person.image_link}
-        imagePlaceholder={!person.image_link ? getInitials(person.person_name) : null}
-        position={person.curr_position}
+        id={person_id}
+        image_link={personData.image_link}
+        imagePlaceholder={!personData.image_link ? getInitials(personData.person_name) : null}
+        position={personData.position}
         small
         clickable
        />

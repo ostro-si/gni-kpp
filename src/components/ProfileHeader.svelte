@@ -17,15 +17,15 @@ import { hist } from '../stores';
 
 let scrollY;
 let h;
-let prevLink;
+// let prevLink;
 
 $: collapsed = scrollY && scrollY !== 0;
 
-$: {
-  if ($hist.length > 1) {
-    prevLink = $o
-  }
-}
+// $: {
+//   if ($hist.length > 1) {
+//     prevLink = $o
+//   }
+// }
 
 // $: console.log(scrollY, collapsed)
  

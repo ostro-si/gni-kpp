@@ -30,7 +30,9 @@ import ProfileHeader from '../../../../components/ProfileHeader.svelte';
   notes={notes}
   background='#E6E6EB'
  />
- <InstitutionBreakdown affiliations={data.affiliations} />
+  {#if data.partyData}
+    <InstitutionBreakdown affiliations={data.partyData.affiliations} peopleLookup={data.associatedPeople} />
+  {/if}
   {#if $platform}
     {#if $platform === 'mobile'}
       <TimelineMobile

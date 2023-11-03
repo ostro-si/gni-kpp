@@ -27,9 +27,9 @@
 
 	$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== -1258221729;
 
-	$: $page, $hist = [...$hist, $page]
+	// $: $page, $hist = [...$hist, $page]
 
-	$: console.log($hist)
+	// $: console.log($hist)
 </script>
 
 <MediaQuery />

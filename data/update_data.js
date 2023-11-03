@@ -144,6 +144,7 @@ const findEndCompareDate = ({end_day, end_month, end_year}) => {
 async function main() {
   let people = await processSpreadSheetValues('persons_live')
   const cv = await processSpreadSheetValues('cv_live')
+  let parties = await processSpreadSheetValues('parties_live')
 
   const cv_filtered = cv
     .filter(({ person_id }) => !!person_id)
@@ -295,10 +296,45 @@ async function main() {
     });
   })
 
+  // collect party affiliations
+
+  parties = parties.map(({ id, party_name_si, party_name_en }) => {
+    const affiliations = {}
+    const cvData = keyedInstitutions[id];
+
+    const personIds = [...new Set(cvData.map(({ person_id }) => person_id))]
+
+
+    personIds.forEach((person_id) => {
+      const personCV = allCV[person_id];
+
+      const personAffiliations = personCV.map(({ affiliation_type_si, affiliation_type_en }) => ({ affiliation_type_si, affiliation_type_en }))
+
+      personAffiliations.forEach(({ affiliation_type_si, affiliation_type_en }) => {
+        if (affiliation_type_si !== '') {
+          const item = { person_id, affiliation_type_si, affiliation_type_en };
+          if (affiliation_type_si in affiliations && !affiliations[affiliation_type_si].includes(item)) {
+            affiliations[affiliation_type_si].push(item);
+          } else {
+            affiliations[affiliation_type_si] = [item]
+          }
+        }
+      })
+    })
+
+    return ({
+      id,
+      party_name_en,
+      party_name_si,
+      affiliations
+    })
+  })
+
   writeFile('./src/lib/data/people.json', people);
   writeFile('./src/lib/data/links.json', allLinks);
   writeFile('./src/lib/data/institutions.json', keyedInstitutions);
   writeFile('./src/lib/data/cv.json', allCV);
+  writeFile('./src/lib/data/parties.json', parties);
 }
 
 main()
