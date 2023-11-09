@@ -20,6 +20,7 @@
 
  const { data, xGet, width, height, zGet, xScale, yRange, rGet, xDomain, xRange } = getContext('LayerCake');
 
+
  $: startX = $xScale(new Date(item.startDisplayDate))
  $: endX = $xScale(Math.min(new Date(item.endDisplayDate), new Date()))
 
@@ -58,16 +59,33 @@
 //     console.log(item.startDisplayDate, item.endDisplayDate)
 //   }
 // }
+let yearsWidth;
+let yearsTransformX = 0;
 
+$: barsWidth = endX - startX;
+$: {
+  if (yearsWidth > barsWidth) {
+    yearsTransformX = (barsWidth - yearsWidth)/2
+  }
+  if (startX + yearsWidth/2 > $width) {
+    yearsTransformX -= (startX + yearsWidth/2) - $width
+  }
+}
 </script>
 
 <div class="item" style:left={`${startX - refX}px`} bind:clientWidth={w}>
   <!-- <h6 class="position">{item.position_si}</h6> -->
-  <div class="bar-container" style:width={`${endX - startX}px`}>
+  <div class="bar-container" style:width={`${barsWidth}px`}>
     <div class="bar" style:background={getLinearGradient(item, "#272728")}></div>
     
   </div>
-  <div class="years" class:hidden={!hovered} style:transform={endX - startX < 33 && item.end_year !== item.start_year ? 'translateX(-9px)' : 'none'} in:fade>
+  <div 
+    class="years"
+    class:hidden={!hovered}
+    bind:clientWidth={yearsWidth}
+    style:transform={`translateX(${yearsTransformX}px)`}
+    in:fade
+  >
     {#if item.start_year}
     <div
         class="year"
@@ -75,7 +93,7 @@
       >
         <!-- <span>{item.start_year}</span> -->
         <span>{displayDate(item, 'start', locale)}</span>
-        {#if item.end_year === 2100}
+        {#if item.end_year === 2100 || yearsTransformX < 0}
           <span>-</span>
         {/if}
       </div>
