@@ -9,7 +9,7 @@
  export let data;
 
 //  $: console.log($translations)
- $: console.log(data)
+//  $: console.log(data)
 
 </script>
 

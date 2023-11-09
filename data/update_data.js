@@ -336,8 +336,12 @@ async function main() {
   writeFile('./src/lib/data/people.json', people);
   writeFile('./src/lib/data/links.json', allLinks);
   writeFile('./src/lib/data/institutions.json', keyedInstitutions);
-  writeFile('./src/lib/data/cv.json', allCV);
+  // writeFile('./src/lib/data/cv.json', allCV);
   writeFile('./src/lib/data/parties.json', parties);
+
+  Object.entries(allCV).forEach(([id, cvItems]) => {
+    writeFile(`./src/lib/data/cv/${id}.json`, cvItems);
+  })
 }
 
 main()
