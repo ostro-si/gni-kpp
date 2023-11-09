@@ -55,11 +55,14 @@ $: collapsed = scrollY && scrollY !== 0;
   </div>
  {#if details}
   <div class="ProfileHeader__secondary">
-   {#each details as { label, value, component }}
+   {#each details as { label, value, component, notes }}
    {#if value || component}
      <div class="ProfileHeader__detail">
       <div class="ProfileHeader__detail__label">
-       {label}
+        {label}
+        {#if notes}
+          <NotesTooltip {notes} />
+        {/if}
       </div>
       <div class="ProfileHeader__detail__value">
        {#if value}
@@ -192,6 +195,9 @@ $: collapsed = scrollY && scrollY !== 0;
    &__label {
     font-weight: 600;
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
    }
 
    &__value {

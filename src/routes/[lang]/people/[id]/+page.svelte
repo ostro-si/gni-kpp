@@ -30,7 +30,8 @@
   },
   {
    label: $translate("First time in office"),
-   value: getDate(data.time_in_office)
+   value: getDate(data.time_in_office),
+   notes: [$translate("help_text.time_in_office")],
   },
   {
    label: $translate("Assets"),
