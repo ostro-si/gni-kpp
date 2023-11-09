@@ -157,7 +157,7 @@ async function main() {
       // console.log(end)
       // console.log(endCompareDate)
 
-      return ({
+      const retObj = ({
         ...rest,
         ...start,
         ...end,
@@ -166,9 +166,19 @@ async function main() {
         institution_department_si: institution_department_si?.trim(),
         institution_si: institution_si?.trim(),
       })
+
+      delete retObj.institution_standardized_si
+      delete retObj.institution_standardized_en
+      delete retObj.other
+      delete retObj.source
+
+      // Object.keys(retObj).forEach(k => (!retObj[k] && retObj[k] !== undefined) && delete retObj[k]);
+
+
+      return retObj
     })
     .filter(({ start_year, end_year, endDisplayDate, startDisplayDate, institution_si }) => !!start_year && !!end_year && endDisplayDate >= startDisplayDate && !!institution_si)
-
+  
   console.log(`Found ${cv_filtered.length} cv entries with person_id and start and end years`)
 
   const cvByPerson = groupBy(cv_filtered, 'person_id');

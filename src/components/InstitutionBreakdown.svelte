@@ -30,7 +30,7 @@
        <PersonLabel 
         id={person_id}
         image_link={personData.image_link}
-        imagePlaceholder={!personData.image_link ? getInitials(personData.person_name) : null}
+        imagePlaceholder={getInitials(personData.person_name)}
         position={personData.position}
         size="small"
         clickable
