@@ -7,7 +7,7 @@
 
 </script>
 
-<span title={notes} use:tooltip>
+<span title={notes.join('<br><br>')} use:tooltip>
  <IconButton class="material-icons" disabled size="mini">
   info
  </IconButton>
