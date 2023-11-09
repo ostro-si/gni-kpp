@@ -7,6 +7,8 @@ export function tooltip(element) {
 		title = element.getAttribute('title');
 		element.removeAttribute('title');
 		
+		const rightAlign = event.pageX > 500
+		
 		div = document.createElement('div');
 		div.innerHTML = title;
 		div.style = `
@@ -19,7 +21,9 @@ export function tooltip(element) {
    max-width: 300px;
    font-size: 11px;
 			top: ${event.pageX + 5}px;
-			left: ${event.pageY + 5}px;
+			left: ${event.pageY}px;
+			transform: translateX(${rightAlign ? -150 : 0}px);
+			width: ${rightAlign ? '150px' : 'auto'};
    z-index: 1000;
 		`;
 		document.body.appendChild(div);
