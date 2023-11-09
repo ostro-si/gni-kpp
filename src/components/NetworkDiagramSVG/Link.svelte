@@ -18,7 +18,7 @@
     const flip = sourceNode.x > targetNode.x;
     const start = flip ? targetNode : sourceNode;
     const end = flip ? sourceNode : targetNode;
-    path = `M${start.x} ${start.y}, L${end.x} ${end.y}`
+    path = `M${start.x} ${start.y} L${end.x} ${end.y}`
    }
   }
 
