@@ -15,6 +15,9 @@
 	import languageEn from '$lib/images/language-en.svg';
 	import languageSi from '$lib/images/language-si.svg';
 	import LocalizedLink from './LocalizedLink.svelte';
+	import NotesTooltip from './NotesTooltip.svelte';
+	import { tooltip } from './tooltip';
+
 
 	let searchOpen = false;
 	let mobileMenuOpen = false;
@@ -65,7 +68,9 @@
 	{/if}
 	<div class="header__right mobile-hide">
 		<div>
-			<LocalizedLink href="/about">{$translate('header.asset_tracker')}</LocalizedLink>
+			<span title={[$translate('header.asset_tracker_help_text')]} use:tooltip>
+				<LocalizedLink component="a" href="/">{$translate('header.asset_tracker')}</LocalizedLink>
+			</span>
 		</div>
 		{#if $locale === 'en'}
 			<Button on:click={() => { setLocale('si'); goto(`${base}/si${$page.data.route}`) }}>
@@ -177,5 +182,12 @@
 					padding-top: 10px;
 				}
 			}
+	}
+
+	:global(a) {
+		color: white !important;
+		font-size: 14px;
+	font-weight: normal;
+	text-decoration: none !important;
 	}
 </style>
