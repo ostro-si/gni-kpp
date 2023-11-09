@@ -49,7 +49,7 @@
 		<main>
 			<slot />
 		</main>
-		<footer />
+		<!-- <footer /> -->
 	</div>
 {/if}
 

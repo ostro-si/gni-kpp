@@ -31,6 +31,9 @@
 			<img src={logo} alt="Home" />
 		</LocalizedLink>
 		<div>
+			<LocalizedLink href="/about">{$translate('header.about')}</LocalizedLink>
+		</div>
+		<div>
 			<LocalizedLink href="/about">{$translate('header.stories')}</LocalizedLink>
 		</div>
 		<div>
