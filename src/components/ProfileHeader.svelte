@@ -3,8 +3,7 @@ import { translate } from '$lib/translations';
 import { platform } from "./MediaQuerySsr.svelte";
 import NotesTooltip from './NotesTooltip.svelte';
 import Image from '../components/Image.svelte'
-import { hist } from '../stores';
-
+import BackButton from './BackButton.svelte';
 
  export let imageLink = undefined;
  export let title = undefined;
@@ -33,25 +32,31 @@ $: collapsed = scrollY && scrollY !== 0;
 <svelte:window bind:scrollY={scrollY} />
 
 <div class="ProfileHeader" style="--background-color: {background}; --text-color: {textColor}" class:collapsed={collapsed} class:mobile={$platform === 'mobile'} bind:clientHeight={h}>
- <div class="inner-container">
+  <div class="ProfileHeader__back-button">
+    <BackButton />
+  </div>
+  <div class="inner-container">
+ 
+
   <div class="ProfileHeader__main">
-    <Image {imageLink} let:imageSrc>
-      {#if imageSrc}
-        <div class="ProfileHeader__image" style={`background-image: url('${imageSrc}')`}></div>
-      {/if}
-    </Image>
-   <div class="ProfileHeader__title">
-    <h5 class="ProfileHeader__title__heading">
-      <span>{title}</span>
-      {#if notes?.length}
-        <NotesTooltip {notes} />
-      {/if}
-    </h5>
-    {#if subheading}
-     <h5 class="ProfileHeader__title__subheading">{$translate(subheading)}</h5>
-    {/if}
+    <div class="ProfileHeader__main__inner">
+      <Image {imageLink} let:imageSrc>
+        {#if imageSrc}
+          <div class="ProfileHeader__image" style={`background-image: url('${imageSrc}')`}></div>
+        {/if}
+      </Image>
+      <div class="ProfileHeader__title">
+        <h5 class="ProfileHeader__title__heading">
+          <span>{title}</span>
+          {#if notes?.length}
+            <NotesTooltip {notes} />
+          {/if}
+        </h5>
+        {#if subheading}
+          <h5 class="ProfileHeader__title__subheading">{$translate(subheading)}</h5>
+        {/if}
+      </div>
    </div>
-   
   </div>
  {#if details}
   <div class="ProfileHeader__secondary">
@@ -113,9 +118,8 @@ $: collapsed = scrollY && scrollY !== 0;
   }
   }
 
-  &__main, &__secondary {
+  &__main__inner, &__secondary {
    display: flex;
-   justify-content: space-between;
    align-items: center;
 
    @media (max-width: $mobile) {
@@ -123,10 +127,19 @@ $: collapsed = scrollY && scrollY !== 0;
     }
   }
 
+
+  &__back-button {
+    .collapsed & {
+      display: none;
+    }
+  }
+
   &__secondary {
    gap: 15px;
    align-items: normal;
    align-self: center;
+   justify-content: space-between;
+
    
    @media (max-width: $mobile) {
       flex-wrap: wrap;

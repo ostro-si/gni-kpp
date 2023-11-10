@@ -40,6 +40,7 @@
 		"sass": "^1.63.6",
 		"smui-theme": "^7.0.0-beta.14",
 		"svelte": "^4.0.0",
+		"svelte-previous": "^2.1.4",
 		"vite": "^4.3.6",
 		"vite-imagetools": "^6.2.1"
 	},

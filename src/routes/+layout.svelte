@@ -6,10 +6,8 @@
 	import './styles.css';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import { hist } from '../stores'
+	import { currentPage, previousPage } from '../stores'
 	import MediaQuery, { platform } from '../components/MediaQuerySsr.svelte';
-
-	
 
 	const images = import.meta.glob('$lib/img/**.png', { 
   query: { w: '100', h: '100', format: 'webp', grayscale: 'true' },
@@ -27,9 +25,13 @@
 
 	$: passwordProtected = process.env.NODE_ENV === 'production' && hash(password) !== -1258221729;
 
-	// $: $page, $hist = [...$hist, $page]
+	$: {
+		if ($currentPage?.data?.route !== $page.data.route) {
+			$currentPage = $page
+		}
+	}
 
-	$: console.log($page)
+	$: console.log($currentPage, $previousPage)
 </script>
 
 <MediaQuery />

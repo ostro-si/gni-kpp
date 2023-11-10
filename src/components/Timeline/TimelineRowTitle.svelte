@@ -40,8 +40,8 @@
 <style lang="scss">
   .outer-container {
     display: flex;
-    align-items: start;
-    justify-content: space-between;
+    // align-items: start;
+    // justify-content: space-between;
   }
   
   .container {

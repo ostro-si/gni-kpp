@@ -13,7 +13,6 @@ export async function load({ params }) {
 
  const partyData = parties.find(({ id:partyId }) => id === partyId)
 
-
  return ({ affiliations, associatedPeople, partyData });
 }
 
