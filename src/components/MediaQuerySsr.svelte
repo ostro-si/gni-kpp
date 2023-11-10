@@ -26,8 +26,8 @@
 
 	// Constants for various mobile and tablet breakpoints
 	export const mobileS = 360;
-	export const mobileM = 410;
-	export const mobileL = 544;
+	export const mobileM = 500;
+	export const mobileL = 640;
 	export const tabletS = 655;
 	export const tabletL = 915;
 

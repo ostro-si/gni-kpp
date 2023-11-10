@@ -13,6 +13,7 @@
  export let rowGroupingVar;
  export let getItemLink;
  export let getItemLabel;
+ export let color;
 
  $: sections = groupBy(items, sectionGroupingVar)
  $: flattened = items
@@ -26,13 +27,16 @@ $: xScale = scaleTime()
 // $: console.log(xScale.domain())
  
 </script>
-<div class="timeline-container" in:fade>
+<div class="timeline-container" style="--theme-color: {color};" in:fade>
   {#if sectionGroupingVar}
     {#each Object.entries(sections) as [title, sectionItems]}
-      <h5 class="section-title">{$translate(title)}</h5>
+      <div class="section-title">
+        <h5 class="section-title__content">{$translate(title)}</h5>
+      </div>
       <TimelineSection {xScale} data={flattened} items={sectionItems} {rowGroupingVar} {getItemLink} {getItemLabel} />
     {/each}
   {:else}
+    <div class="section-title"></div>
     <TimelineSection {xScale} data={flattened} {items} {rowGroupingVar} {getItemLink} {getItemLabel} />
   {/if}
 </div>
@@ -42,12 +46,28 @@ $: xScale = scaleTime()
     max-width: $max-width;
     width: calc(100% - 40px);
     margin: 0 auto;
-    padding: 20px;
+    padding: 0 20px 20px;
   }
   .section-title {
-    margin: 20px 0;
-    font-size: 12px;
-    text-transform: uppercase;
-    color: grey;
+    margin: 0 0 20px;
+    padding-top: 28px;
+    border-top: 1px solid var(--theme-color);
+    color: var(--theme-color);
+
+    &__content {
+      max-width: $timeline-title-width;
+      white-space: normal;
+      text-transform: uppercase;
+      font-family: Noe Display;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      margin: 0;
+    }
+
+    &:first-child {
+      border: none;
+    }
   }
 </style>

@@ -69,7 +69,7 @@
 	<div class="header__right mobile-hide">
 		<div>
 			<span title={[$translate('header.asset_tracker_help_text')]} use:tooltip>
-				<LocalizedLink component="a" href="/">{$translate('header.asset_tracker')}</LocalizedLink>
+				<a href="//detektorpremozenja.si/">{$translate('header.asset_tracker')}</a>
 			</span>
 		</div>
 		{#if $locale === 'en'}
@@ -98,7 +98,7 @@
 		</Item>
 		<Separator />
 		<Item>
-				<LocalizedLink href="/about">{$translate('header.asset_tracker')}</LocalizedLink>
+				<a href="//detektorpremozenja.si/">{$translate('header.asset_tracker')}</a>
 		</Item>
 		<Separator />
 		<Item>
@@ -139,6 +139,12 @@
 			left: 50%;
 			transform: translateX(-50%);
 			color: white;
+			text-align: center;
+			font-family: Noe Display;
+			font-size: 20px;
+			font-style: normal;
+			// font-weight: 700;
+			line-height: normal;
 		}
 	}
 

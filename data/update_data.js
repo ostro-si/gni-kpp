@@ -315,25 +315,28 @@ async function main() {
     const affiliations = {}
     const cvData = keyedInstitutions[id];
 
-    const personIds = [...new Set(cvData.map(({ person_id }) => person_id))]
+    if (cvData) {
+      const personIds = [...new Set(cvData.map(({ person_id }) => person_id))]
 
-
-    personIds.forEach((person_id) => {
-      const personCV = allCV[person_id];
-
-      const personAffiliations = personCV.map(({ affiliation_type_si, affiliation_type_en }) => ({ affiliation_type_si, affiliation_type_en }))
-
-      personAffiliations.forEach(({ affiliation_type_si, affiliation_type_en }) => {
-        if (affiliation_type_si !== '') {
-          const item = { person_id, affiliation_type_si, affiliation_type_en };
-          if (affiliation_type_si in affiliations && !affiliations[affiliation_type_si].includes(item)) {
-            affiliations[affiliation_type_si].push(item);
-          } else {
-            affiliations[affiliation_type_si] = [item]
+      personIds.forEach((person_id) => {
+        const personCV = allCV[person_id];
+  
+        const personAffiliations = personCV.map(({ affiliation_type_si, affiliation_type_en }) => ({ affiliation_type_si, affiliation_type_en }))
+  
+        personAffiliations.forEach(({ affiliation_type_si, affiliation_type_en }) => {
+          if (affiliation_type_si !== '') {
+            const item = { person_id, affiliation_type_si, affiliation_type_en };
+            if (affiliation_type_si in affiliations && !affiliations[affiliation_type_si].includes(item)) {
+              affiliations[affiliation_type_si].push(item);
+            } else {
+              affiliations[affiliation_type_si] = [item]
+            }
           }
-        }
+        })
       })
-    })
+    }
+
+    
 
     return ({
       id,

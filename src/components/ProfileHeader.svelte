@@ -107,7 +107,7 @@ $: collapsed = scrollY && scrollY !== 0;
    margin: 0 auto;
    width: 100%;
 
-   @media (max-width: 550px) {
+   @media (max-width: $mobile) {
     flex-direction: column;
     gap: 20px;
   }
@@ -118,7 +118,7 @@ $: collapsed = scrollY && scrollY !== 0;
    justify-content: space-between;
    align-items: center;
 
-   @media (max-width: 550px) {
+   @media (max-width: $mobile) {
       justify-content: flex-start;
     }
   }
@@ -128,7 +128,7 @@ $: collapsed = scrollY && scrollY !== 0;
    align-items: normal;
    align-self: center;
    
-   @media (max-width: 550px) {
+   @media (max-width: $mobile) {
       flex-wrap: wrap;
       justify-content: space-between;
       width: 100%;

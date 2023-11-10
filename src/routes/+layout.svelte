@@ -29,7 +29,7 @@
 
 	// $: $page, $hist = [...$hist, $page]
 
-	// $: console.log($hist)
+	$: console.log($page)
 </script>
 
 <MediaQuery />

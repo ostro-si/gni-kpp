@@ -27,11 +27,11 @@
   export let xTick = 0;
 
   /** @type {Number} [yTick=16] - The distance from the baseline to place each tick value. */
-  export let yTick = 16;
+  // export let yTick = 30;
 
   $: isBandwidth = typeof $xScale.bandwidth === 'function';
 
-  $: tickVals = $xScale.ticks()
+  $: tickVals = $xScale.ticks(5)
 
   $: yearsExtent = moment($xScale.domain()[1]).diff($xScale.domain()[0], "years")
   $: format = yearsExtent < 4 ? 'M.YYYY' : 'YYYY'
@@ -69,7 +69,7 @@
           x={isBandwidth ? ($xScale.bandwidth() / 2 + xTick) : xTick}
           y={-$height}
           dx=""
-          dy=""
+          dy={-25}
           text-anchor={textAnchor(i)}>{formatTick(tick)}</text
         >
       </g>
@@ -88,14 +88,17 @@
   line,
   .tick line {
     stroke: #EEE;
-    stroke-dasharray: 2;
+    /* stroke-dasharray: 2; */
   }
 
   .tick text {
-    fill: #808080;
+    fill: #6E7382;
+    text-align: center;
     font-family: Noe Display;
-    font-weight: 700;
     font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
   }
 
   .tick .tick-mark,

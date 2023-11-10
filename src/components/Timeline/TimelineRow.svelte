@@ -108,7 +108,7 @@ $: minX = min(positions, d => d.startDisplayDate)
               <PersonLabel
                 {id}
                 image_link={items[0].image_link}
-                imagePlaceholder={!items[0].image_link ? getInitials(items[0].person_name) : null}
+                imagePlaceholder={getInitials(items[0].person_name)}
                 position={items[0].position}
                 clickable
                 size={hoveredConnection === id ? "medium" : "small"}
@@ -153,6 +153,14 @@ $: minX = min(positions, d => d.startDisplayDate)
     display: flex;
     width: calc(100% + #{$timeline-title-width});
     transform: translateX(-$timeline-title-width);
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &:last-of-type {
+      border-bottom: none;
+    }
   }
 
   .left, .right {
@@ -167,7 +175,7 @@ $: minX = min(positions, d => d.startDisplayDate)
     padding-right: 15px;
     padding-top: 7px;
     padding-bottom: 7px;
-    border-right: 0.5px solid #E6E6EB;
+    // border-right: 0.5px solid #E6E6EB;
   }
 
   .right {
@@ -228,9 +236,10 @@ $: minX = min(positions, d => d.startDisplayDate)
   display: flex;
   flex-wrap: wrap;
   min-height: 26px;
-  padding: 5px 0;
+  padding: 7px 0;
   overflow: hidden;
-  gap: 2px;
+  gap: 3px;
+  max-width: 175px;
  }
 
  .connection {

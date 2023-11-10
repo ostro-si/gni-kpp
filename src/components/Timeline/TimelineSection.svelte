@@ -50,14 +50,14 @@ import { locale } from '$lib/translations';
 <style lang="scss">
 .chart-container {
   width: calc(100% - #{$timeline-title-width});
-  margin: 5px 0;
+  margin: 5px 0 0;
   height: 200px;
   transform: translateX($timeline-title-width);
  }
 
  .data-container {
-  padding-top: 5px;
-  margin-top: 5px;
+  // padding-top: 5px;
+  // margin-top: 5px;
   /* overflow: hidden; */
 
   /* border-top: 1px solid #E6E6EB; */

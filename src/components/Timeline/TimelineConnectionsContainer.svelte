@@ -15,7 +15,7 @@
  $: minXTransform = Math.min(...xTransforms);
  $: maxXEnds = Math.max(...xEnds);
 
- console.log(connection)
+//  console.log(connection)
 //  $: console.log(connection.map(({ startDisplayDate, endDisplayDate }) => ({ startDisplayDate, endDisplayDate })))
 
 

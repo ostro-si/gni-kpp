@@ -51,6 +51,7 @@
     {:else}
       <Timeline 
         items={data.cv}
+        color={getColor(data.position)}
         sectionGroupingVar="part_of_cv"
         rowGroupingVar="institution_si"
         getItemLink={({ institution_si }) => `/institutions/${slugify(institution_si)}`}
