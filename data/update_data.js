@@ -62,13 +62,13 @@ const cleanDates = (prefix, day, month, year) => {
   let cleanedMonth
 
   // Temporary fix to handle date inconsistencies in the sheet
-  if (!month && splitDay?.length && +splitDay[0] > 12) {
+  // if (!month && splitDay?.length && +splitDay[0] > 12) {
     cleanedDay = splitDay[0]
     cleanedMonth = splitDay[1]
-  } else {
-    cleanedDay = splitDay[1] && splitDay[1].length > 0 ? +splitDay[1] : undefined
-    cleanedMonth = month || splitDay?.[0]
-  }
+  // } else {
+  //   cleanedDay = splitDay[1] && splitDay[1].length > 0 ? +splitDay[1] : undefined
+  //   cleanedMonth = month || splitDay?.[0]
+  // }
 
   
   const cleanedYear = year || splitDay?.[2]

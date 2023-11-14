@@ -17,6 +17,7 @@ export async function load({ params }) {
 
  const bio = people.find(d => d.id === id);
 	const path = '$lib/data/cv.json'
+
 	// const url = `/src/data/posts/${slug}.json`
     // const cv = await readJsonFile(path) 
 
@@ -57,7 +58,7 @@ export async function load({ params }) {
 		(id === '33' && (await import('$lib/data/cv/33.json')).default) ||
 		(id === '34' && (await import('$lib/data/cv/34.json')).default) ||
 		(id === '35' && (await import('$lib/data/cv/35.json')).default) ||
-		// (id === '36' && (await import('$lib/data/cv/36.json')).default) ||
+		(id === '36' && (await import('$lib/data/cv/36.json')).default) ||
 		(id === '37' && (await import('$lib/data/cv/37.json')).default) ||
 		(id === '38' && (await import('$lib/data/cv/38.json')).default) ||
 		(id === '39' && (await import('$lib/data/cv/39.json')).default) ||
@@ -68,7 +69,7 @@ export async function load({ params }) {
 		(id === '44' && (await import('$lib/data/cv/44.json')).default) ||
 		(id === '45' && (await import('$lib/data/cv/45.json')).default) ||
 		(id === '46' && (await import('$lib/data/cv/46.json')).default) ||
-		// (id === '47' && (await import('$lib/data/cv/47.json')).default) ||
+		(id === '47' && (await import('$lib/data/cv/47.json')).default) ||
 		(id === '48' && (await import('$lib/data/cv/48.json')).default) ||
 		(id === '49' && (await import('$lib/data/cv/49.json')).default) ||
 		(id === '50' && (await import('$lib/data/cv/50.json')).default) ||
@@ -101,7 +102,7 @@ export async function load({ params }) {
 		(id === '77' && (await import('$lib/data/cv/77.json')).default) ||
 		(id === '78' && (await import('$lib/data/cv/78.json')).default) ||
 		(id === '79' && (await import('$lib/data/cv/79.json')).default) ||
-		// (id === '80' && (await import('$lib/data/cv/80.json')).default) ||
+		(id === '80' && (await import('$lib/data/cv/80.json')).default) ||
 		(id === '81' && (await import('$lib/data/cv/81.json')).default) ||
 		(id === '82' && (await import('$lib/data/cv/82.json')).default) ||
 		(id === '83' && (await import('$lib/data/cv/83.json')).default) ||
@@ -119,7 +120,7 @@ export async function load({ params }) {
 		(id === '95' && (await import('$lib/data/cv/95.json')).default) ||
 		(id === '96' && (await import('$lib/data/cv/96.json')).default) ||
 		// (id === '97' && (await import('$lib/data/cv/97.json')).default) ||
-		// (id === '98' && (await import('$lib/data/cv/98.json')).default) ||
+		(id === '98' && (await import('$lib/data/cv/98.json')).default) ||
 		(id === '99' && (await import('$lib/data/cv/99.json')).default) ||
 		(id === '100' && (await import('$lib/data/cv/100.json')).default) ||
 		(id === '101' && (await import('$lib/data/cv/101.json')).default) ||
@@ -151,29 +152,46 @@ export async function load({ params }) {
 		(id === '127' && (await import('$lib/data/cv/127.json')).default) ||
 		(id === '128' && (await import('$lib/data/cv/128.json')).default) ||
 		(id === '129' && (await import('$lib/data/cv/129.json')).default) ||
-		(id === '130' && (await import('$lib/data/cv/130.json')).default)
-		// (id === '131' && (await import('$lib/data/cv/131.json')).default) ||
-		// (id === '132' && (await import('$lib/data/cv/132.json')).default) ||
-		// (id === '133' && (await import('$lib/data/cv/133.json')).default) ||
-		// (id === '134' && (await import('$lib/data/cv/134.json')).default) ||
-		// (id === '135' && (await import('$lib/data/cv/135.json')).default) ||
-		// (id === '136' && (await import('$lib/data/cv/136.json')).default) ||
-		// (id === '137' && (await import('$lib/data/cv/137.json')).default) ||
-		// (id === '138' && (await import('$lib/data/cv/138.json')).default) ||
-		// (id === '139' && (await import('$lib/data/cv/139.json')).default) ||
-		// (id === '140' && (await import('$lib/data/cv/140.json')).default) ||
-		// (id === '141' && (await import('$lib/data/cv/141.json')).default) ||
-		// (id === '142' && (await import('$lib/data/cv/142.json')).default) ||
-		// (id === '143' && (await import('$lib/data/cv/143.json')).default) ||
-		// (id === '144' && (await import('$lib/data/cv/144.json')).default) ||
-		// (id === '145' && (await import('$lib/data/cv/145.json')).default)
+		(id === '130' && (await import('$lib/data/cv/130.json')).default) ||
+		(id === '131' && (await import('$lib/data/cv/131.json')).default) ||
+		(id === '132' && (await import('$lib/data/cv/132.json')).default) ||
+		(id === '133' && (await import('$lib/data/cv/133.json')).default) ||
+		(id === '134' && (await import('$lib/data/cv/134.json')).default) ||
+		(id === '135' && (await import('$lib/data/cv/135.json')).default) ||
+		(id === '136' && (await import('$lib/data/cv/136.json')).default) ||
+		(id === '137' && (await import('$lib/data/cv/137.json')).default) ||
+		(id === '138' && (await import('$lib/data/cv/138.json')).default) ||
+		(id === '139' && (await import('$lib/data/cv/139.json')).default) ||
+		(id === '140' && (await import('$lib/data/cv/140.json')).default) ||
+		(id === '141' && (await import('$lib/data/cv/141.json')).default) ||
+		(id === '142' && (await import('$lib/data/cv/142.json')).default) ||
+		(id === '143' && (await import('$lib/data/cv/143.json')).default) ||
+		(id === '144' && (await import('$lib/data/cv/144.json')).default) ||
+		(id === '145' && (await import('$lib/data/cv/145.json')).default) ||
+		(id === '146' && (await import('$lib/data/cv/146.json')).default) ||
+		(id === '147' && (await import('$lib/data/cv/147.json')).default) ||
+		(id === '148' && (await import('$lib/data/cv/148.json')).default) ||
+		(id === '149' && (await import('$lib/data/cv/149.json')).default) ||
+		(id === '150' && (await import('$lib/data/cv/150.json')).default) ||
+		(id === '151' && (await import('$lib/data/cv/151.json')).default) ||
+		(id === '152' && (await import('$lib/data/cv/152.json')).default) ||
+		(id === '153' && (await import('$lib/data/cv/153.json')).default) ||
+		(id === '154' && (await import('$lib/data/cv/154.json')).default) ||
+		(id === '155' && (await import('$lib/data/cv/155.json')).default) ||
+		(id === '156' && (await import('$lib/data/cv/156.json')).default) ||
+		(id === '157' && (await import('$lib/data/cv/157.json')).default) ||
+		(id === '158' && (await import('$lib/data/cv/158.json')).default) ||
+		(id === '159' && (await import('$lib/data/cv/159.json')).default) ||
+		(id === '160' && (await import('$lib/data/cv/160.json')).default)
 
- // if (!bio) {
-	// 	throw redirect(302, `/${lang}`);
-	// }
+ if (!bio) {
+		throw redirect(302, `/${lang}`);
+	}
+
+	const title = bio.name
 
  // console.log(cv[id], bio)
- return ({ ...bio, cv })
+ return ({ ...bio, cv, title  })
 }
 
 // export function entries() {
