@@ -185,7 +185,7 @@ export async function load({ params }) {
 		(id === '160' && (await import('$lib/data/cv/160.json')).default)
 
  if (!bio) {
-		throw redirect(302, `/${lang}`);
+		// throw redirect(302, `/${lang}`);
 	}
 
 	const title = bio.name

@@ -8,6 +8,6 @@ export function load({ params }) {
  const { lang } = params;
 
  if (lang !== 'si' && lang !== 'en') {
-  throw redirect(302, '/si');
+  // throw redirect(302, '/si');
  }
 }
